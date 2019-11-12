@@ -5,36 +5,70 @@
 ## user
 
     - id (num)
-    - name
-    - picture
-    - statement_of_intent (status)
-    - last_active
-    - followers
+    - name (string)
+    - picture (string)
+    - statement_of_intent (status - string)
+    - posts (num)
+    - stars (likes)
+    - threads (num)
 
-## question
-
-    - id (num)
-    - subject
-    - details (hmtl? RTE?)
-    - creator (user.id)
-    - tags
-    - points
-    - timestamp
-
-## answer
+## post
 
     - id (num)
-    - parent {parent, answer} # differece between comment and answer on SO
-    - details (hmtl? RTE?)
+    - subject (string)
+    - details (string)
     - creator (user.id)
-    - points
-    - is_correct_answer (NULL if parent is another answer, as a comment cant be an answer)
+    - tags (string)
+    - replies (num)
     - timestamp
 
-# message
+## reply
 
-    - id
-    - sender
-    - reciever
+    - id (num)
+    - parent (post.id)
+    - details (string)
+    - creator (user.id)
+    - timestamp
+
+## message
+
+    - id (num)
+    - sender (user.id)
     - details
     - timestamp
+
+## thread
+
+    - id (num)
+    - user1 (user.id)
+    - user2 (user.id)
+
+## thread-messages (index)
+
+    - thread (thread.id)
+    - message (message.id)
+
+## post-replies (index)
+
+    - post (post.id)
+    - reply (reply.id)
+
+## user-posts (index)
+
+    - user (user.id)
+    - post (post.id)
+
+## user-threads (index)
+
+    - user (user.id)
+    - thread (thread.id)
+
+# Pages
+
+- Login
+- Signup
+- Home '/'
+- Profile
+- Search
+- Post
+- Messages
