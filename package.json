@@ -1,0 +1,34 @@
+{
+  "name": "comp4711_project",
+  "version": "1.0.0",
+  "description": "COMP4711 Project - Knowledge Base with MVC architecture, Express-handlebars, Node.js with mySQL",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GauravMinhas/comp4711_project.git"
+  },
+  "author": "Gaurav Minhas, Louis Liu, Bob Wang, Peter Kim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GauravMinhas/comp4711_project/issues"
+  },
+  "homepage": "https://github.com/GauravMinhas/comp4711_project#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mysql2": "^2.0.0",
+    "nodemon": "^1.19.4"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}
