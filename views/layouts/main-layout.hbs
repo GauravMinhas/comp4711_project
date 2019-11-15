@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
-
+    <title>{{ pageTitle }}</title>
+    {{#if loginCSS}}
+        <link href='/css/login.css' rel='stylesheet'/>
+    {{/if}}
 </head>
 
 <body>
-    <div>
-        This is the main layout.
-    </div>
     {{{ body }}}
 </body>
 
