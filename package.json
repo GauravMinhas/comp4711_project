@@ -2,7 +2,7 @@
   "name": "comp4711_project",
   "version": "1.0.0",
   "description": "COMP4711 Project - Knowledge Base with MVC architecture, Express-handlebars, Node.js with mySQL",
-  "main": "index.js",
+  "main": "index2.js",
   "directories": {
     "doc": "docs"
   },
@@ -20,7 +20,10 @@
   },
   "homepage": "https://github.com/GauravMinhas/comp4711_project#readme",
   "dependencies": {
+    "balanced-match": "^1.0.0",
     "body-parser": "^1.19.0",
+    "brace-expansion": "^1.1.11",
+    "concat-map": "0.0.1",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "mysql2": "^2.0.0",
