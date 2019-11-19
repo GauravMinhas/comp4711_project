@@ -1,4 +1,5 @@
 const express = require('express');
+const userAuthController = require('../controllers/userAuthController');
 
 const router = express.Router();
 
@@ -11,12 +12,10 @@ router.get('/', (req, res) => {
   });
 });
 
-/* Registration Page */
-router.get('/register', (req, res) => {
-  res.render('registration', {
-    pageTitle: 'Knowledge Base - Register',
-    registrationCSS: true,
-  });
-});
+router.post('/main', userAuthController.login);
+
+router.post('/register', userAuthController.signup);
+
+router.post('/', userAuthController.register);
 
 module.exports = router;
