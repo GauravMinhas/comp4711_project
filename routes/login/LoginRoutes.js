@@ -11,4 +11,12 @@ router.get('/', (req, res) => {
   });
 });
 
+/* Registration Page */
+router.get('/register', (req, res) => {
+  res.render('registration', {
+    pageTitle: 'Knowledge Base - Register',
+    registrationCSS: true,
+  });
+});
+
 module.exports = router;
