@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS userauth (
 	id int auto_increment NOT NULL,
     password varchar(20) NOT NULL,
     email varchar(30) NOT NULL,
-    PRIMARY KEY(id, email)
+    PRIMARY KEY(id),
+    UNIQUE(email)
     );
 
 CREATE TABLE IF NOT EXISTS userinfo (
