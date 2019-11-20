@@ -49,7 +49,9 @@ exports.register = (req, res) => {
 
   userAuth.registerAuth(userAuthData).then(
     () => userAuth.registerInfo(userInfoData),
-  ).catch(
+  ).then(() => {
+    res.redirect('/main');
+  }).catch(
     (reason) => console.log(reason),
   );
 };
