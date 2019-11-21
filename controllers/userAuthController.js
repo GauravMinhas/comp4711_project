@@ -36,16 +36,16 @@ exports.register = (req, res) => {
     birthday: `${req.body.birthday}`,
   };
   // backend data validation. only checks empty value for now.
-  userAuthData.foreach((elem) => {
-    if (elem === undefined || elem === '' || elem == null) {
-      throw new Error('Invalid authentication input');
-    }
-  });
-  userInfoData.foreach((elem) => {
-    if (elem === undefined || elem === '' || elem == null) {
-      throw new Error('Invalid information input');
-    }
-  });
+  // userAuthData.foreach((elem) => {
+  //   if (elem === undefined || elem === '' || elem == null) {
+  //     throw new Error('Invalid authentication input');
+  //   }
+  // });
+  // userInfoData.foreach((elem) => {
+  //   if (elem === undefined || elem === '' || elem == null) {
+  //     throw new Error('Invalid information input');
+  //   }
+  // });
 
   userAuth.registerAuth(userAuthData).then(
     () => userAuth.registerInfo(userInfoData),
@@ -57,16 +57,17 @@ exports.register = (req, res) => {
 };
 
 // handles the login
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   const userAuthData = {
     email: `${req.body.email}`,
     password: `${req.body.password}`,
   };
-  // this function returns the user id if success, -1 if fail to login
-  const loginCheck = userAuth.login(userAuthData);
-  if (loginCheck === -1) {
-    res.render('login', { loginFailed: true });
-  } else {
-    res.render('main', { userId: loginCheck });
-  }
+  userAuth.login(userAuthData).then((result) => {
+    const userId = result[0][0].id;
+    console.log(`----------------Logged in as: ${userId}----------------`);
+    res.render('main', { userId });
+  }).catch(() => {
+    console.log('Log in failed');
+    res.render('login');
+  });
 };

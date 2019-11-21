@@ -19,23 +19,38 @@ exports.addPost = (req, res) => {
     tags: `${req.body.tags}`,
   };
 
-  // for (elem in postData) {
-  //   if (elem === undefined || elem === '' || elem == null) {
-  //     throw new Error('Post needs a title and contents');
-  //   }
-  // }
-
   post.addPost(postData).then(() => {
+    post.newUserPost(postData);
+  }).then(() => {
+    post.incrementPostCount(postData);
+  }).then(() => {
     res.redirect('/main');
-  }).catch((error) => {
-    console.log(error);
-  });
+  })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
-// load the newest [5]-hardcoded for now- posts.
-exports.getLatestPost = (req, res) => {
-  const topFivePost = post.latestPost(5).then(() => {
-    res.render('latestPostPartial', { latestPosts: topFivePost });
+// load all of the posts
+exports.getAllPost = (req, res) => {
+  post.getAllPost().then((data) => {
+    const rawPostData = data[0];
+    const postData = [];
+    let index = 0;
+    rawPostData.forEach((elem) => {
+      const p = {
+        id: elem.id,
+        title: elem.title,
+        details: elem.details,
+        tags: elem.tags,
+        replycount: elem.replycount,
+        timeposted: elem.timeposted,
+      };
+      postData[index] = p;
+      index += 1;
+    });
+    console.log(postData);
+    res.render('postPartial', { postData });
   }).catch((error) => {
     console.log(error);
   });

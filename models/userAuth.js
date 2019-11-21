@@ -21,21 +21,21 @@ function getUserId(u) {
 
 /* check if the password matches with the email,
   if yes, return the id of the user,
-  if not, return -1
+  if not, return error message
   */
 function userLogin(u) {
   const passwordInput = u.password;
   const emailInput = u.email;
-  const data = db.execute(`SELECT password, id FROM userauth WHERE email LIKE '${emailInput}';`);
-  const user = {
-    // TODO: check if this is actually how to parse
-    password: data[0].password,
-    id: data[0].id,
-  };
-  if (user.password === passwordInput) {
-    return user.id;
-  }
-  return -1;
+  return new Promise((resolve, reject) => {
+    db.execute(`SELECT * FROM userauth WHERE email LIKE '${emailInput}';`).then((data) => {
+      if (data[0][0].password === passwordInput) {
+        return resolve(data);
+      }
+      return reject(new Error('Wrong email and password combination'));
+    }).catch((error) => {
+      console.log(error);
+    });
+  });
 }
 
 module.exports = {

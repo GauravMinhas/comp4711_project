@@ -21,16 +21,8 @@ function getPost(id) {
 }
 
 // get N latest post from newest to oldest.
-function getNLatestPost(n) {
-  const data = db.execute(`SELECT * FROM post ORDER BY timeposted DESC LIMIT ${n};`);
-  const list = [];
-  let index = 0;
-  data.forEach((elem) => {
-    const post = getPost(elem.id);
-    list[index] = post;
-    index += 1;
-  });
-  return list;
+function getAllPost() {
+  return db.execute('SELECT * FROM post ORDER BY timeposted DESC;');
 }
 
 /*
@@ -39,8 +31,7 @@ What if the user accidentally made the same post (same title, details, creator, 
 This is mostly used for reply.
 */
 function getPostId(post) {
-  const id = db.execute(`SELECT id FROM post WHERE title LIKE '${post.title}' AND details LIKE '${post.details}' AND creator LIKE '${post.creator}' AND tags LIKE '${post.tags}';`);
-  return id[0];
+  return db.execute(`SELECT id FROM post WHERE title LIKE '${post.title}' AND details LIKE '${post.details}' AND creator LIKE '${post.creator}' AND tags LIKE '${post.tags}';`);
 }
 
 
@@ -52,52 +43,42 @@ function addPost(post) {
     creator: post.creator,
     tags: post.tags,
   };
-  console.log(p.creator);
   const sql = `INSERT INTO post (title, details, creator, tags) VALUES ('${p.title}', '${p.details}', '${p.creator}', '${p.tags}');`;
-  return db.execute(sql).then(() => {
-    db.execute(`INSERT INTO user_post (id, post) VALUES ('${p.creator}', '${getPostId(p)}');`);
-  }).then(() => {
-    db.execute(`UPDATE TABLE user SET postcount = postcount + 1 WHERE id == '${p.creator}';`);
-  });
+  return db.execute(sql);
+}
+
+// update user_post table with new post
+async function newUserPost(p) {
+  let postId = -1;
+  getPostId(p).then((data) => {
+    postId = data[0][0].id;
+  }).then(() => db.execute(`INSERT INTO user_post (id, post) VALUES ('${p.creator}', '${postId}');`));
+}
+
+// increment posts in userinfo
+function incrementPostCount(p) {
+  return db.execute(`UPDATE userinfo SET posts = posts + 1 WHERE id LIKE '${p.creator}';`);
 }
 
 // search post by tag
 function searchTag(tag) {
   const sql = `SELECT * FROM post WHERE tags LIKE '${tag}';`;
-  const data = db.execute(sql);
-  if (data === undefined || data == null) {
-    return [];
-  }
-  const list = [];
-  let index = 0;
-  data.forEach((p) => {
-    list[index] = getPost(p.id);
-    index += 1;
-  });
-  return list;
+  return db.execute(sql);
 }
 
 // search post by title
 function searchTitle(title) {
   const sql = `SELECT * FROM post WHERE tags LIKE '%${title}%';`;
-  const data = db.execute(sql);
-  if (data === undefined || data == null) {
-    return [];
-  }
-  const list = [];
-  let index = 0;
-  data.forEach((p) => {
-    list[index] = getPost(p.id);
-    index += 1;
-  });
-  return list;
+  return db.execute(sql);
 }
 
 module.exports = {
   getPost,
   getPostId,
   addPost,
-  latestPost: getNLatestPost,
+  getAllPost,
   searchTag,
   searchTitle,
+  newUserPost,
+  incrementPostCount,
 };
