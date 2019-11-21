@@ -3,7 +3,7 @@ const hbs = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-const loginRoutes = require('./routes/login/LoginRoutes');
+const loginRoutes = require('./routes/login/userAuthRouter');
 const config = require('./config/config');
 
 

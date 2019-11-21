@@ -14,12 +14,15 @@ app.use(bodyParser.json());
 // where actual registration happens
 exports.signup = (req, res) => {
   const userAuthData = {
-    name: `${req.body.firstName} ${req.body.lastName}`,
+    name: `${req.body.firstname} ${req.body.lastname}`,
     password: `${req.body.password}`,
     email: `${req.body.email}`,
   };
-
-  res.render('register', { data: userAuthData });
+  console.log(userAuthData);
+  res.render('registration', {
+    data: userAuthData,
+    registrationCSS: true,
+  });
 };
 
 // calls the api functions for registration, insert the data into userauth and userinfo
