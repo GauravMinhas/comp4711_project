@@ -50,10 +50,15 @@ function addPost(post) {
 // update user_post table with new post
 async function newUserPost(p) {
   let postId = -1;
-  getPostId(p).then((data) => {
-    postId = data[0][0].id;
-  }).then(() => db.execute(`INSERT INTO user_post (id, post) VALUES ('${p.creator}', '${postId}');`));
+  return new Promise((resolve, reject) => {
+    getPostId(p).then((data) => {
+      postId = data[0][0].id;
+    }).then(() => {
+      resolve(db.execute(`INSERT INTO user_post (id, post) VALUES ('${p.creator}', '${postId}');`));
+    });
+  });
 }
+
 
 // increment posts in userinfo
 function incrementPostCount(p) {
