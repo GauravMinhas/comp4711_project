@@ -14,19 +14,19 @@
             <input class='btn' type='submit' value='login'>
         </form>
         <p id="mainBody">Join the world's largest community for knowledge sharing</p>
-        <form>
+        <form action='/register' method='POST'>
             <div>
-                <input type='text' class='mid' placeholder='firstname' />
-                <input type='text' class='mid' placeholder='lastname' />
+                <input type='text' class='mid' name='firstname' placeholder='firstname' required />
+                <input type='text' class='mid' name='lastname' placeholder='lastname' required />
             </div>
             <div>
-                <input type='email' class='lg' placeholder='email' />
+                <input type='email' class='lg' name='email' placeholder='email' required />
             </div>
             <div>
-                <input type='password' class='lg' placeholder='password' />
+                <input type='password' class='lg' name='password' placeholder='password' required />
             </div>
             <div>
-                <input type='password' class='lg' placeholder='confirm password' />
+                <input type='password' class='lg' name='passwordconfirm' placeholder='confirm password' required />
             </div>
             <input type='submit' class='lg' id='btn' value='signup' />
         </form>

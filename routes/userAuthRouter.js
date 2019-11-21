@@ -1,8 +1,12 @@
 const express = require('express');
+<<<<<<< HEAD:routes/userAuthRouter.js
 const userAuthController = require('../controllers/userAuthController');
 // testing
 const test = require('../controllers/PostController');
 
+=======
+const userAuthController = require('../../controllers/userAuthController');
+>>>>>>> 86edcddefc37806c164429d208e0e779c888cd1a:routes/login/userAuthRouter.js
 
 const router = express.Router();
 
