@@ -11,26 +11,32 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // make a new post
-exports.newPost = (req, res) => {
+exports.addPost = (req, res) => {
   const postData = {
-    title: `${req.body.postTitle}`,
-    details: `${req.body.postDetails}`,
-    creator: `${req.body.postCreator}`,
+    title: `${req.body.title}`,
+    details: `${req.body.details}`,
+    creator: `${req.body.creator}`,
     tags: `${req.body.tags}`,
   };
-  postData.forEach((elem) => {
-    if (elem === undefined || elem === '' || elem == null) {
-      throw new Error('Post needs a title and contents');
-    }
-  });
-  post.newPost(postData).then(() => {
+
+  // for (elem in postData) {
+  //   if (elem === undefined || elem === '' || elem == null) {
+  //     throw new Error('Post needs a title and contents');
+  //   }
+  // }
+
+  post.addPost(postData).then(() => {
     res.redirect('/main');
   }).catch((error) => {
-    console.WriteLine(error);
+    console.log(error);
   });
 };
 
 // load the newest [5]-hardcoded for now- posts.
 exports.getLatestPost = (req, res) => {
-  const topFivePost = post.latestPost(5).then(() => res.render('latestPostPartial', { latestPosts: topFivePost }));
+  const topFivePost = post.latestPost(5).then(() => {
+    res.render('latestPostPartial', { latestPosts: topFivePost });
+  }).catch((error) => {
+    console.log(error);
+  });
 };

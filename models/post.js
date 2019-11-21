@@ -1,17 +1,6 @@
 const db = require('../database/db.js');
 const replyModel = require('./reply');
 
-// get a list of all of the reply in a post
-function getReplyList(post) {
-  const data = db.execute(`SELECT * FROM post_reply WHERE post == '${post.id}' ORDER BY timeposted DESC;`);
-  const list = [];
-  let index = 0;
-  data.forEach((elem) => {
-    list[index] = replyModel.getReply(elem.reply);
-    index += 1;
-  });
-  return list;
-}
 
 // get everything about a post from id
 // used in conjunction with the user-post table.
@@ -25,7 +14,7 @@ function getPost(id) {
     tags: data[0].tags,
     replycount: data[0].replycount,
     timeposted: data[0].timeposted,
-    replyIDList: getReplyList(this),
+    replyList: replyModel.getReplyList(this),
   };
 
   return post;
@@ -33,7 +22,7 @@ function getPost(id) {
 
 // get N latest post from newest to oldest.
 function getNLatestPost(n) {
-  const data = db.execute(`SELECT * FROM post ORDER BY timeposted ASC LIMIT ${n};`);
+  const data = db.execute(`SELECT * FROM post ORDER BY timeposted DESC LIMIT ${n};`);
   const list = [];
   let index = 0;
   data.forEach((elem) => {
@@ -50,29 +39,65 @@ What if the user accidentally made the same post (same title, details, creator, 
 This is mostly used for reply.
 */
 function getPostId(post) {
-  const id = db.execute(`SELECT id FROM post WHERE title == '${post.title}' AND details == '${post.details}' AND creator == '${post.creator}' AND tags == '${post.tags}';`);
+  const id = db.execute(`SELECT id FROM post WHERE title LIKE '${post.title}' AND details LIKE '${post.details}' AND creator LIKE '${post.creator}' AND tags LIKE '${post.tags}';`);
   return id[0];
 }
 
 
 // make a new post
-function newPost(post, user) {
+function addPost(post) {
   const p = {
     title: post.title,
     details: post.details,
-    creator: user.id,
+    creator: post.creator,
     tags: post.tags,
   };
+  console.log(p.creator);
   const sql = `INSERT INTO post (title, details, creator, tags) VALUES ('${p.title}', '${p.details}', '${p.creator}', '${p.tags}');`;
-  db.execute(sql).then(() => {
+  return db.execute(sql).then(() => {
+    db.execute(`INSERT INTO user_post (id, post) VALUES ('${p.creator}', '${getPostId(p)}');`);
+  }).then(() => {
     db.execute(`UPDATE TABLE user SET postcount = postcount + 1 WHERE id == '${p.creator}';`);
   });
+}
+
+// search post by tag
+function searchTag(tag) {
+  const sql = `SELECT * FROM post WHERE tags LIKE '${tag}';`;
+  const data = db.execute(sql);
+  if (data === undefined || data == null) {
+    return [];
+  }
+  const list = [];
+  let index = 0;
+  data.forEach((p) => {
+    list[index] = getPost(p.id);
+    index += 1;
+  });
+  return list;
+}
+
+// search post by title
+function searchTitle(title) {
+  const sql = `SELECT * FROM post WHERE tags LIKE '%${title}%';`;
+  const data = db.execute(sql);
+  if (data === undefined || data == null) {
+    return [];
+  }
+  const list = [];
+  let index = 0;
+  data.forEach((p) => {
+    list[index] = getPost(p.id);
+    index += 1;
+  });
+  return list;
 }
 
 module.exports = {
   getPost,
   getPostId,
-  getPostReply: getReplyList,
-  newPost,
+  addPost,
   latestPost: getNLatestPost,
+  searchTag,
+  searchTitle,
 };

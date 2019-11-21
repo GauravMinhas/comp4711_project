@@ -3,7 +3,7 @@ const hbs = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-const loginRoutes = require('./routes/login/LoginRoutes');
+const userAuthRoutes = require('./routes/userAuthRouter');
 const config = require('./config/config');
 
 
@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(loginRoutes);
+app.use(userAuthRoutes);
 app.listen(config.port, () => {
   // eslint-disable-next-line no-console
   console.log(`Server running at http://${config.hostname}:${config.port}/`);
