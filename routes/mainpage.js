@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     res.render('mainpage', {
         pageTitle: 'Knowledge Base - Main Page',
         // loginImageLink: 'images/vector-knowledge.jpg',
-        // loginCSS: true,
+        mainpageCSS: true,
     });
 });
 

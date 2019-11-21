@@ -1,1 +1,59 @@
-{{>searchbar}}
+<div>
+    {{>searchbar}}
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="profile">
+    <form>
+        <div>
+            <img src='p' />
+            <p id="profilename">Bob Wang</p>
+            <p id="profiledescribtion">Student of BCIT</p>
+        </div>
+        <br>
+        <div>
+            <p>Posts</p>
+            <p>Messages</p>
+            <p>Likes</p>
+        </div>
+        <br>
+        <div>
+            <button class="btn default">Edit Profile</button>
+        </div>
+    </form>
+
+</div>
+
+<div class="question">
+    <h1>whats you question today?</h1>
+    <form>
+        <div>
+            <input class='subj' type='subj' placeholder='subject' />
+        </div>
+        <br>
+        <div>
+            <input class='detail' type='detail' placeholder='explain in detail .....' />
+        </div>
+        <select class="topic">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <input class='btn' type='submit' value='post to timeline'>
+        <p id="searchbytopic">search by topic</p>
+
+        <select class="php">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <input class='btn' type='submit' value='go'>
+    </form>
+</div>
+
+{{>posts}}
