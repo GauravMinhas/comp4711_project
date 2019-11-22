@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 /* pass the form inputs: (email, name, and password)
    into registration page where registration happens. */
-exports.register = (req, res) => {
+exports.signup = (req, res) => {
   const userAuthData = {
     name: `${req.body.firstname} ${req.body.lastname}`,
     password: req.body.password,
@@ -27,7 +27,7 @@ exports.register = (req, res) => {
 
 /* calls the api functions for registration, insert the data into userauth and userinfo
    we should probably block invalid input in front-end, which is easier to handle */
-exports.signup = (req, res) => {
+exports.register = (req, res) => {
   const userAuthData = {
     password: req.body.password,
     email: req.body.email,
@@ -43,7 +43,11 @@ exports.signup = (req, res) => {
   /* Inserts the user into userAuth, then into userInfo table. */
   userAuth.registerAuth(userAuthData).then(() => userAuth.registerInfo(userInfoData)).then(() => {
     res.render('/main');
-  }).catch((err) => console.log(err));
+  }).catch((error) => {
+    console.log(error);
+    userAuth.dropUserAuth(userAuthData);
+    res.redirect(304, '/register');
+  });
 };
 
 // handles the login
@@ -54,6 +58,7 @@ exports.login = async (req, res) => {
   };
   const checkUser = userAuth.login(userAuthData);
   checkUser.then(([rows]) => {
+    console.log(rows[0]);
     const loginUserId = rows[0].id;
     if (rows[0].password === userAuthData.password) {
       console.log(`----------------Logged in as: ${loginUserId}----------------`);
@@ -62,5 +67,7 @@ exports.login = async (req, res) => {
       console.log('Password Mismatch!');
       res.redirect(304, '/');
     }
+  }).catch((error) => {
+    console.log(error);
   });
 };

@@ -9,12 +9,12 @@ CREATE TABLE IF NOT EXISTS userauth (
 CREATE TABLE IF NOT EXISTS userinfo (
 	id int auto_increment NOT NULL,
     name varchar(20) NOT NULL,
-    picture varchar(150),
+    profileurl varchar(150),
     statement_of_intent varchar(150) DEFAULT " ",
     posts int DEFAULT 0,
     stars int DEFAULT 0,
     threads int DEFAULT 0,
-    birthday date NOT NULL,
+    dateofbirth varchar(10) NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(id) REFERENCES userauth(id)
     );

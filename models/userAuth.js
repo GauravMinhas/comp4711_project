@@ -9,7 +9,7 @@ function registerUserAuth(userData) {
 
 // put user's information into userinfo table
 function registerUserInfo(userData) {
-  const sql = `INSERT INTO userinfo (id, name, picture, statement_of_intent, birthday) VALUES ('${userData.id}', '${userData.name}', '${userData.profileurl}', '${userData.statement_of_intent}', '${userData.dateofbirth}');`;
+  const sql = `INSERT INTO userinfo (id, name, profileurl, statement_of_intent, dateofbirth) VALUES (last_insert_id(), '${userData.name}', '${userData.profileurl}', '${userData.statement_of_intent}', '${userData.dateofbirth}');`;
   return db.execute(sql);
 }
 
@@ -20,8 +20,6 @@ function getUserId(userData) {
 }
 
 /* check if the password matches with the email,
-  if yes, return the id of the user,
-  if not, return error message
   */
 function userLogin(userData) {
   const data = {
@@ -31,9 +29,19 @@ function userLogin(userData) {
   return db.execute(`SELECT * FROM userauth WHERE email LIKE '${data.email}';`);
 }
 
+// just in case
+function dropUserAuth(userData) {
+  const data = {
+    email: userData.email,
+    password: userData.password,
+  };
+  db.execute(`DELETE FROM userauth WHERE email LIKE '${data.email}' AND password LIKE '${data.password}';`);
+}
+
 module.exports = {
   registerAuth: registerUserAuth,
   registerInfo: registerUserInfo,
   getId: getUserId,
   login: userLogin,
+  dropUserAuth,
 };
