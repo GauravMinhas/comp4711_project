@@ -55,6 +55,8 @@ async function newUserPost(p) {
       postId = data[0][0].id;
     }).then(() => {
       resolve(db.execute(`INSERT INTO user_post (id, post) VALUES ('${p.creator}', '${postId}');`));
+    }).catch(() => {
+      reject(new Error('user_post table update failure.'));
     });
   });
 }

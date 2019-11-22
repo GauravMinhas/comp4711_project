@@ -45,6 +45,7 @@ exports.getAllPost = (req, res) => {
         tags: elem.tags,
         replycount: elem.replycount,
         timeposted: elem.timeposted,
+        replyList: elem.replyList,
       };
       postData[index] = p;
       index += 1;
