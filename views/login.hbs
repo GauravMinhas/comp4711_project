@@ -7,10 +7,10 @@
             <img src={{ loginImageLink }} alt="MainLoginLink">
         </div>
     </div>
-    <div class='formDiv' action="POST">
-        <form>
-            <input class='mid' type='email' placeholder='email' />
-            <input class='mid' type='password' placeholder='password' />
+    <div class='formDiv'>
+        <form action='/login' method='POST'>
+            <input class='mid' type='email' name='email' placeholder='email' required />
+            <input class='mid' type='password' name='password' placeholder='password' required />
             <input class='btn' type='submit' value='login'>
         </form>
         <p id="mainBody">Join the world's largest community for knowledge sharing</p>

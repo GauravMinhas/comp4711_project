@@ -1,12 +1,8 @@
 const express = require('express');
-<<<<<<< HEAD:routes/userAuthRouter.js
 const userAuthController = require('../controllers/userAuthController');
 // testing
 const test = require('../controllers/PostController');
 
-=======
-const userAuthController = require('../../controllers/userAuthController');
->>>>>>> 86edcddefc37806c164429d208e0e779c888cd1a:routes/login/userAuthRouter.js
 
 const router = express.Router();
 
@@ -18,12 +14,14 @@ router.get('/', (req, res) => {
     loginCSS: true,
   });
 });
+/* Route for existing users to directly log in to the main page. */
+router.post('/login', userAuthController.login);
 
-router.post('/main', userAuthController.login);
+/* After initial information, routes the user to registration page for more data capture. */
+router.post('/register', userAuthController.register);
 
-router.post('/register', userAuthController.signup);
-
-router.post('/', userAuthController.register);
+/* After all data capturing is complete, leads the user to the main page. */
+router.post('/main', userAuthController.signup);
 
 router.post('/test', test.addPost);
 router.get('/test', test.getAllPost);
