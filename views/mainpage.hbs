@@ -1,0 +1,106 @@
+<div class="body">
+    <div>
+        {{>searchbar}}
+    </div>
+    <div id="leftOfmain" class="main row">
+        <div class="col-6 col-md-4">
+
+            <div class="row" id="profileUser">
+                <form>
+                    <div class="col">
+                        <img id="profileImg"
+                            src="https://www.ctvnews.ca/polopoly_fs/1.4037876!/httpImage/image.jpg_gen/derivatives/landscape_1020/image.jpg" />
+                        <p class="font-weight-bold" id="profileName">Bob Wang</p>
+                        <p class="font-weight-light" id="profileDescribtion">Student of BCIT</p>
+                    </div>
+
+                    <div class="col" id="profileInfo">
+
+                        <ul class="list-inline">
+                            <li class="list-inline-item">Posts</li>
+                            <li class="list-inline-item">1</li>
+                        </ul>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">Messagea</li>
+                            <li class="list-inline-item">1</li>
+                        </ul>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">Likes</li>
+                            <li class="list-inline-item">1</li>
+                        </ul>
+                    </div>
+                    <br>
+                    <div class="col" id="profileButton">
+
+                        <button type="button" class="btn btn-link">Edit Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="rightOfmain" class="col-12 col-md-8">
+            <div class="col">
+                <h3 class="font-weight-bold">whats you question today?</h3>
+                <form class="formStyle">
+                    <div class="form-group row">
+                        <input class="subj" type="subj" placeholder="subject" />
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="form-group row">
+                        <textarea class="detail" type="detail" style="resize:none;"
+                            placeholder="explain in detail ....."></textarea>
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="form-group row" id="">
+                        <select class="topic">
+                            <option value="1">topic</option>
+                            <option value="2">topic</option>
+                            <option value="3">topic</option>
+                            <option value="4">topic</option>
+                        </select>
+                        <div class="col-sm-5">
+                            <button type="button" class="btn btn-outline-primary">post to timeline</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {{!-- <div id="searchTopic">
+                <p id="searchbytopic">Search by topic</p>
+
+                <select class="php">
+                    <option value="1">php</option>
+                    <option value="2">php</option>
+                    <option value="3">php</option>
+                    <option value="4">php</option>
+                </select>
+                <button type="button" class="btn btn-primary">GO -></button>
+            </div> --}}
+
+            <div class="searchTopic">
+                <form class="form-inline formStyle">
+                    <div class="form-group">
+                        <label id="searchbytopic">Search by topic </label>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <select class="php">
+                            <option value="1">php</option>
+                            <option value="2">php</option>
+                            <option value="3">php</option>
+                            <option value="4">php</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary">GO -></button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="w-100"></div>
+            <div style="padding-left: 20px;">
+                <p>Latest discussions</p>
+            </div>
+            {{>posts}}
+            {{>next}}
+        </div>
+    </div>
+</div>

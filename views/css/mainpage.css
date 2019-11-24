@@ -1,0 +1,18 @@
+
+.profile{width: 30%;}
+
+.question{
+
+    text-align: center;
+    display: inline;}
+    
+
+input[type=detail]{
+    height:30%
+}
+select{
+    width:130;
+}
+#searchbytopic{
+    padding: 20;
+}
