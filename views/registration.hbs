@@ -11,13 +11,13 @@
     </div>
     <div class='formDiv'>
         <form id='registrationForm' method='POST' action='/main'>
-            <input type='url' class='lg' name='profileurl' placeholder='imageurl' />
-            <textarea class='multilinetext' name='statement_of_intent' placeholder='a few lines about yourself..' rows='8' cols='45'></textarea>
-            <input type='text' name='country' class='lg' placeholder='country' />
-            <input type='date' name='dateofbirth' class='lg' />
+            <input type='url' class='lg' name='profileurl' placeholder='imageurl' required />
+            <textarea class='multilinetext' name='statement_of_intent' placeholder='a few lines about yourself..' rows='8' cols='44' required ></textarea>
+            <input type='text' name='country' class='lg' placeholder='country' required />
+            <input type='date' name='dateofbirth' class='lg' required />
             <input type='hidden' name='name' value='{{ data.name }}'/>
             <input type='hidden' name='email' value='{{ data.email }}'/>
-            <input type='hidden' name='password' value=' {{ data.password }}'/>
+            <input type='hidden' name='password' value='{{ data.password }}'/>
             <input type='submit' class='lg' id='btn' value='complete registration' />
         </form>
     </div>
