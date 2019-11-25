@@ -1,18 +1,86 @@
+h1, p, div, input {
+    font-family: Tahoma, sans-serif;
+}
 
-.profile{width: 30%;}
-
-.question{
-
+.question {
     text-align: center;
-    display: inline;}
-    
+    display: inline;
+}
 
-input[type=detail]{
-    height:30%
+input[type=detail] {
+    height: 30%
 }
-select{
-    width:130;
+
+#color {
+    color: skyblue;
 }
-#searchbytopic{
-    padding: 20;
+
+#logo {
+    font-size: 3em;
+}
+/* Profile Image CSS Section */
+#profileImg {
+    border-radius: 50%;
+    width: 10em;
+    border: 1px solid;
+    margin-bottom: 2em;
+}
+
+#profileUser {
+    text-align: center;
+}
+
+#profileName {
+    font-size: 2em;
+}
+
+#profileMainDiv {
+    width: 30em;
+    padding: 2.5em;
+}
+
+#rightOfmain {
+    padding: 1em;
+    margin-left: 10em;
+}
+
+#mainText {
+    font-size: 2em;
+}
+
+#formStyle {
+    width: 10em;
+}
+
+.postSubject, .postDetail {
+    width: 100%;
+    margin: 0.5em;
+}
+.topicList {
+    width: 50%;
+    margin: 0.5em;
+}
+
+#btn, .btn {
+    color: white;
+    background-color:dodgerblue;
+    border-style: none;
+    padding: 0.5em;
+}
+
+input, textarea, select {
+    -webkit-appearance: none; 
+    appearance: none;
+    font-family: inherit;
+    font-size: 100%;
+    border-style: solid;
+    border-color: lightgrey;
+    padding: 0.5em;
+}
+#btn {
+    margin-left: 4.5em;
+}
+
+#searchTopicSelect {
+    width: 70%;
 }

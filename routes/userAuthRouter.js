@@ -1,8 +1,5 @@
 const express = require('express');
 const userAuthController = require('../controllers/userAuthController');
-// testing
-const test = require('../controllers/PostController');
-
 
 const router = express.Router();
 
@@ -22,9 +19,6 @@ router.post('/register', userAuthController.register);
 
 /* After all data capturing is complete, leads the user to the main page. */
 router.post('/main', userAuthController.signup);
-
-router.post('/test', test.addPost);
-router.get('/test', test.getAllPost);
 
 
 module.exports = router;

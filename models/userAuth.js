@@ -31,9 +31,14 @@ function userLogin(userData) {
   return db.execute(`SELECT * FROM userauth WHERE email LIKE '${data.email}';`);
 }
 
+/* retrieves user information from userInfo table. */
+function getUserInfo(id) {
+  return db.execute(`SELECT * FROM userInfo WHERE id LIKE '${id}';`);
+}
 module.exports = {
   registerAuth: registerUserAuth,
   registerInfo: registerUserInfo,
   getId: getUserId,
   login: userLogin,
+  retrieveUserInfo: getUserInfo,
 };

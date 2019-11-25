@@ -40,14 +40,16 @@ exports.signup = (req, res) => {
     dateofbirth: req.body.dateofbirth,
   };
 
-  /* Inserts the user into userAuth, then into userInfo table. */
+  /* Inserts the user into userAuth, then into userInfo table.
+     After successful database insertions, redirects the user to
+     the login page. */
   userAuth.registerAuth(userAuthData).then(() => userAuth.registerInfo(userInfoData)).then(() => {
-    res.render('/main');
+    res.redirect(301, '/');
   }).catch((err) => console.log(err));
 };
 
 // handles the login
-exports.login = async (req, res) => {
+exports.login = (req, res) => {
   const userAuthData = {
     email: req.body.email,
     password: req.body.password,
@@ -56,11 +58,25 @@ exports.login = async (req, res) => {
   checkUser.then(([rows]) => {
     const loginUserId = rows[0].id;
     if (rows[0].password === userAuthData.password) {
-      console.log(`----------------Logged in as: ${loginUserId}----------------`);
-      res.render('main', { userId: loginUserId });
+      const userInfo = userAuth.retrieveUserInfo(loginUserId);
+      userInfo.then(([data]) => {
+        res.render('main', {
+          userInfo: data[0],
+          pageTitle: 'Knowledge Base - Main Page',
+          mainpageCSS: true,
+          topicList: [
+            'php',
+            'nodejs',
+            'java',
+            'sql',
+            'zend',
+          ],
+        });
+      });
     } else {
-      console.log('Password Mismatch!');
-      res.redirect(304, '/');
+      /* When we have session set up, we should actually re-render this page
+         with appropriate warning message on the front-end. */
+      res.redirect(301, '/');
     }
   });
 };
