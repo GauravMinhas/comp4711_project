@@ -1,0 +1,80 @@
+<div class="jumbotron">
+    <h1 class="text-center">Update Personal Profile</h1>
+    {{!-- <p class="text-center"><em>Update Personal Profile</em></p> --}}
+
+</div>
+<div class="container">
+    <div class="row">
+        {{!-- <div class="col-md-12 col-md-offset-3" style="background-color: #ffffff;box-shadow: 
+        inset 1px -1px 1px #444, inset -1px 1px 1px #444;"> --}}
+        <div class="card" style="width: 75rem;">
+            <div class="card-body">
+                <img style="margin-bottom :5%" id="profileImg"
+                    src="https://www.ctvnews.ca/polopoly_fs/1.4037876!/httpImage/image.jpg_gen/derivatives/landscape_1020/image.jpg" />
+                {{!-- </div>
+            <div class="card-body"> --}}
+
+                <h5 class="card-title">Jastin Biber</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="form-group">
+                        <label for="name">FIRST NAME*</label>
+                        <input type="text" class="form-control" id="name"
+                            placeholder="Changes to your first name will be reflected across your account">
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="form-group">
+                        <label for="name">LAST NAME*</label>
+                        <input type="text" class="form-control" id="name"
+                            placeholder="Changes to your last name will be reflected across your account">
+                    </div>
+                </li>
+
+                <li class="list-group-item">
+                    <div class="form-group">
+                        <label for="photo">PHOTO URL*</label>
+                        <input type="text" class="form-control" id="photo"
+                            placeholder="Changes to your URL will be reflected across your photo">
+                    </div>
+                </li>
+
+                <li class="list-group-item">
+                    <div class="form-group">
+                        <label for="country">COUNTRY</label>
+                        <input type="text" class="form-control" id="name"
+                            placeholder="Changes to your country will be reflected across your account">
+                    </div>
+                </li>
+
+                <li class="list-group-item">
+                    <div class="form-group">
+                        <label for="about">ABOUT</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            placeholder="Changes to your about me will be reflected across your account"></textarea></textarea>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <form action="/action_page.php">
+                        BIRTHDAY* <input type="date" name="bday">
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <button type="submit" class="btn btn-success mx-auto"
+            style=" width: 350px;margin-bottom: 100px; margin-top: 20px;">Update My
+            Profile
+        </button>
+
+
+
+
+        </form>
+    </div>
+
+</div>
