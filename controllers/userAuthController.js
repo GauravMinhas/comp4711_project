@@ -39,13 +39,18 @@ exports.signup = (req, res) => {
     country: req.body.country,
     dateofbirth: req.body.dateofbirth,
   };
-
   /* Inserts the user into userAuth, then into userInfo table.
      After successful database insertions, redirects the user to
      the login page. */
-  userAuth.registerAuth(userAuthData).then(() => userAuth.registerInfo(userInfoData)).then(() => {
-    res.redirect(301, '/');
-  }).catch((err) => console.log(err));
+  userAuth.registerAuth(userAuthData).then(() => {
+    userAuth.getId(userAuthData).then(([rows]) => {
+      console.log(userInfoData);
+      const { userAuthID } = rows[0];
+      userAuth.registerInfo(userAuthID, userInfoData).then(() => {
+        res.redirect(301, '/');
+      });
+    });
+  });
 };
 
 // handles the login
@@ -56,23 +61,12 @@ exports.login = (req, res) => {
   };
   const checkUser = userAuth.login(userAuthData);
   checkUser.then(([rows]) => {
-    const loginUserId = rows[0].id;
-    if (rows[0].password === userAuthData.password) {
-      const userInfo = userAuth.retrieveUserInfo(loginUserId);
-      userInfo.then(([data]) => {
-        res.render('main', {
-          userInfo: data[0],
-          pageTitle: 'Knowledge Base - Main Page',
-          mainpageCSS: true,
-          topicList: [
-            'php',
-            'nodejs',
-            'java',
-            'sql',
-            'zend',
-          ],
-        });
-      });
+    /* Set the session info here, with userAuth table rows. */
+    // eslint-disable-next-line prefer-destructuring
+    req.session.userAuth = rows[0];
+
+    if (rows[0].userPassword === userAuthData.password) {
+      res.redirect(301, '/main');
     } else {
       /* When we have session set up, we should actually re-render this page
          with appropriate warning message on the front-end. */

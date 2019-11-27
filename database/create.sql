@@ -1,96 +1,95 @@
 CREATE TABLE IF NOT EXISTS userauth (
-	id int auto_increment NOT NULL,
-    password varchar(20) NOT NULL,
+	userAuthID int auto_increment NOT NULL,
+    userPassword varchar(20) NOT NULL,
     email varchar(30) NOT NULL,
-    PRIMARY KEY(id),
+    PRIMARY KEY(userAuthID),
     UNIQUE(email)
     );
 
 CREATE TABLE IF NOT EXISTS userinfo (
-	id int auto_increment NOT NULL,
-    name varchar(20) NOT NULL,
-    picture varchar(150),
-    statement_of_intent varchar(150) DEFAULT " ",
+	userInfoID int auto_increment NOT NULL,
+    userAuthID int NOT NULL UNIQUE,
+    userName varchar(20),
+    profileUrl varchar(150),
+    statementOfIntent varchar(150) DEFAULT " ",
     posts int DEFAULT 0,
     stars int DEFAULT 0,
     threads int DEFAULT 0,
-    birthday date NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY(id) REFERENCES userauth(id)
+    dateOfBirth varchar(10) NOT NULL,
+    PRIMARY KEY(userInfoID),
+    FOREIGN KEY(userAuthID) REFERENCES userauth(userAuthID)
     );
     
 CREATE TABLE IF NOT EXISTS post (
-	id int auto_increment NOT NULL,
+	postID int auto_increment NOT NULL,
     title varchar(150) NOT NULL,
     details varchar(60000) NOT NULL,
-    creator int NOT NULL,
+    creatorID int NOT NULL,
+    creatorProfileUrl varchar(150),
     tags varchar(150) DEFAULT "none",
-    replycount int DEFAULT 0,
-    timeposted timestamp DEFAULT current_timestamp,
-    PRIMARY KEY(id),
-    FOREIGN KEY(creator) REFERENCES userinfo(id)
+    replyCount int DEFAULT 0,
+    timePosted timestamp DEFAULT current_timestamp,
+    PRIMARY KEY(postID),
+    FOREIGN KEY(creatorID) REFERENCES userinfo(userInfoID)
     );
 
 CREATE TABLE IF NOT EXISTS reply (
-	id int auto_increment NOT NULL,
+	replyID int auto_increment NOT NULL,
     parent int NOT NULL,
     details varchar(60000) NOT NULL,
-    creator int NOT NULL,
-    timeposted timestamp DEFAULT current_timestamp,
-    PRIMARY KEY(id, parent),
-    FOREIGN KEY(parent) REFERENCES post(id),
-    FOREIGN KEY(creator) REFERENCES userinfo(id)
+    creatorID int NOT NULL,
+    timePosted timestamp DEFAULT current_timestamp,
+    PRIMARY KEY(replyID),
+    FOREIGN KEY(parent) REFERENCES post(postID),
+    FOREIGN KEY(creatorID) REFERENCES userinfo(userInfoID)
     );
     
 CREATE TABLE IF NOT EXISTS message (
-	id int auto_increment NOT NULL,
-    sender int NOT NULL,
+	messageID int auto_increment NOT NULL,
+    senderID int NOT NULL,
     details varchar(60000) NOT NULL,
-    timeposted timestamp DEFAULT current_timestamp,
-    PRIMARY KEY(id),
-    FOREIGN KEY(sender) REFERENCES userinfo(id)
+    timePosted timestamp DEFAULT current_timestamp,
+    PRIMARY KEY(messageID),
+    FOREIGN KEY(senderID) REFERENCES userinfo(userInfoID)
     );
     
 CREATE TABLE IF NOT EXISTS thread (
-	id int auto_increment NOT NULL,
-    user1 int NOT NULL,
-    user2 int NOT NULL,
-    PRIMARY KEY(id, user1, user2),
-    FOREIGN KEY(user1) REFERENCES userinfo(id),
-    FOREIGN KEY(user2) REFERENCES userinfo(id)
+	threadID int auto_increment NOT NULL,
+    user1ID int NOT NULL,
+    user2ID int NOT NULL,
+    PRIMARY KEY(threadID, user1ID, user2ID),
+    FOREIGN KEY(user1ID) REFERENCES userinfo(userInfoID),
+    FOREIGN KEY(user2ID) REFERENCES userinfo(userInfoID)
     );
     
 CREATE TABLE IF NOT EXISTS thread_message (
-    thread int NOT NULL,
-    message int NOT NULL,
-    PRIMARY KEY(thread, message),
-    FOREIGN KEY(thread) REFERENCES thread(id),
-    FOREIGN KEY(message) REFERENCES message(id)
+    threadID int NOT NULL,
+    messageID int NOT NULL,
+    PRIMARY KEY(threadID, messageID),
+    FOREIGN KEY(threadID) REFERENCES thread(threadID),
+    FOREIGN KEY(messageID) REFERENCES message(messageID)
     );
     
 CREATE TABLE IF NOT EXISTS post_reply (
-	post int NOT NULL,
-    reply int NOT NULL,
-    PRIMARY KEY(post, reply),
-    FOREIGN KEY(post) REFERENCES post(id),
-    FOREIGN KEY(reply) REFERENCES reply(id)
+	postID int NOT NULL,
+    replyID int NOT NULL,
+    PRIMARY KEY(postID, replyID),
+    FOREIGN KEY(postID) REFERENCES post(postID),
+    FOREIGN KEY(replyID) REFERENCES reply(replyID)
     );
     
 CREATE TABLE IF NOT EXISTS user_post (
-	id int NOT NULL,
-    post int NOT NULL,
-    PRIMARY KEY(id, post),
-    FOREIGN KEY(id) REFERENCES userinfo(id),
-    FOREIGN KEY(post) REFERENCES post(id)
+	userID int NOT NULL,
+    postID int NOT NULL,
+    PRIMARY KEY(userID, postID),
+    FOREIGN KEY(userID) REFERENCES userinfo(userInfoID),
+    FOREIGN KEY(postID) REFERENCES post(postID)
     );
     
 CREATE TABLE IF NOT EXISTS user_thread (
-    id int NOT NULL,
-    thread int NOT NULL,
-    PRIMARY KEY(id, thread),
-    FOREIGN KEY(id) REFERENCES userinfo(id),
-    FOREIGN KEY(thread) REFERENCES thread(id)
+    userID int NOT NULL,
+    threadID int NOT NULL,
+    PRIMARY KEY(userID, threadID),
+    FOREIGN KEY(userID) REFERENCES userinfo(userInfoID),
+    FOREIGN KEY(threadID) REFERENCES thread(threadID)
     );
-    
-
-

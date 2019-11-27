@@ -2,23 +2,8 @@ const db = require('../database/db.js');
 const postModel = require('./post');
 
 // get user information with id.
-function getUserInfo(u) {
-  const data = db.execute(`SELECT * FROM userinfo WHERE id == '${u.id}';`);
-  if (data == null) {
-    return -1;
-  }
-
-  const user = {
-    id: data[0].id,
-    name: data[0].name,
-    picture: data[0].picture,
-    statement_of_intent: data[0].statement_of_intent,
-    posts: data[0].posts,
-    stars: data[0].stars,
-    threads: data[0].threads,
-    birthday: data[0].birthday,
-  };
-  return user;
+function getUserInfoWithAuth(userAuthID) {
+  return db.execute(`SELECT * FROM userinfo WHERE userAuthID LIKE '${userAuthID}';`);
 }
 
 // get a list of all the posts from the user.
@@ -33,6 +18,6 @@ function getPostList(u) {
 }
 
 module.exports = {
-  getInfo: getUserInfo,
+  retrieveUserInfo: getUserInfoWithAuth,
   getUserPost: getPostList,
 };

@@ -21,7 +21,7 @@ function getPost(id) {
 }
 
 // get N latest post from newest to oldest.
-function getAllPost() {
+function getAllPosts() {
   return db.execute('SELECT * FROM post ORDER BY timeposted DESC;');
 }
 
@@ -31,7 +31,7 @@ What if the user accidentally made the same post (same title, details, creator, 
 This is mostly used for reply.
 */
 function getPostId(post) {
-  return db.execute(`SELECT id FROM post WHERE title LIKE '${post.title}' AND details LIKE '${post.details}' AND creator LIKE '${post.creator}' AND tags LIKE '${post.tags}';`);
+  return db.execute(`SELECT postID FROM post WHERE title LIKE '${post.title}' AND details LIKE '${post.details}' AND creatorID LIKE '${post.creator}' AND tags LIKE '${post.tags}';`);
 }
 
 
@@ -40,29 +40,28 @@ function addPost(post) {
   const p = {
     title: post.title,
     details: post.details,
-    creator: post.creator,
+    creator: post.creatorID,
+    creatorProfileUrl: post.creatorProfileUrl,
     tags: post.tags,
   };
-  const sql = `INSERT INTO post (title, details, creator, tags) VALUES ('${p.title}', '${p.details}', '${p.creator}', '${p.tags}');`;
+  const sql = `INSERT INTO post (title, details, creatorID, creatorProfileUrl, tags) VALUES ('${p.title}', '${p.details}', '${p.creator}', '${p.creatorProfileUrl}', '${p.tags}');`;
   return db.execute(sql);
 }
 
 // update user_post table with new post
-async function newUserPost(p) {
-  let postId = -1;
+async function addUserPost(postData) {
   return new Promise((resolve, reject) => {
-    getPostId(p).then((data) => {
-      postId = data[0][0].id;
-    }).then(() => {
-      resolve(db.execute(`INSERT INTO user_post (id, post) VALUES ('${p.creator}', '${postId}');`));
-    });
+    resolve(db.execute(`INSERT INTO user_post (userID, postID) VALUES ('${postData.creatorID}', last_insert_id());`))
+      .catch(() => {
+        reject(new Error('user_post table update failure.'));
+      });
   });
 }
 
 
 // increment posts in userinfo
-function incrementPostCount(p) {
-  return db.execute(`UPDATE userinfo SET posts = posts + 1 WHERE id LIKE '${p.creator}';`);
+function updateUserPostCount(postData) {
+  return db.execute(`UPDATE userinfo SET posts = posts + 1 WHERE userInfoID LIKE '${postData.creatorID}';`);
 }
 
 // search post by tag
@@ -81,9 +80,9 @@ module.exports = {
   getPost,
   getPostId,
   addPost,
-  getAllPost,
+  getAllPosts,
   searchTag,
   searchTitle,
-  newUserPost,
-  incrementPostCount,
+  addUserPost,
+  updateUserPostCount,
 };

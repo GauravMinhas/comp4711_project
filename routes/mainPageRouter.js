@@ -1,4 +1,5 @@
 const express = require('express');
+const mainPageController = require('../controllers/mainPageController');
 
 const router = express.Router();
 /* Logs the user out, and redirects to the login page. */
@@ -7,6 +8,6 @@ router.get('/logout', (req, res) => {
 });
 
 /* Working in progress */
-router.get('/main', (req, res) => {
-  res.render('main');
-});
+router.get('/main', mainPageController.getMain);
+
+module.exports = router;

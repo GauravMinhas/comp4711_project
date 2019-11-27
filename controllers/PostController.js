@@ -10,31 +10,30 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-// make a new post
+/* Inserts a new post into the post table, and also inserts a row into user-post table.
+   User post count is incremented by 1, and the user is redirected to the main page. */
 exports.addPost = (req, res) => {
   const postData = {
-    title: `${req.body.title}`,
-    details: `${req.body.details}`,
-    creator: `${req.body.creator}`,
-    tags: `${req.body.tags}`,
+    title: `${req.body.postSubject}`,
+    details: `${req.body.postDetail}`,
+    creatorID: `${req.body.creatorID}`,
+    creatorProfileUrl: `${req.body.creatorProfileUrl}`,
+    tags: `${req.body.postTag}`,
   };
-
   post.addPost(postData).then(() => {
-    post.newUserPost(postData);
-  }).then(() => {
-    post.incrementPostCount(postData);
-  }).then(() => {
-    res.redirect('/main');
-  })
-    .catch((error) => {
-      console.log(error);
+    post.addUserPost(postData).then(() => {
+      post.updateUserPostCount(postData).then(() => {
+        res.redirect(301, '/main');
+      });
     });
+  });
 };
 
 // load all of the posts
 exports.getAllPost = (req, res) => {
-  post.getAllPost().then((data) => {
+  post.getAllPosts().then((data) => {
     const rawPostData = data[0];
+    console.log(data[0]);
     const postData = [];
     let index = 0;
     rawPostData.forEach((elem) => {

@@ -6,9 +6,9 @@
         <div id='profileMainDiv'>
             <div id="profileUser">
                 <div>
-                    <img id="profileImg" src="{{ userInfo.picture }}" alt="{{ userInfo.name }}" />
-                    <p class="font-weight-light" id="profileName">{{ userInfo.name }}</p>
-                    <p class="font-weight-light" id="profileDescribtion">{{ userInfo.statement_of_intent }}</p>
+                    <img id="profileImg" src="{{ userInfo.profileUrl }}" alt="{{ userInfo.userName }}" />
+                    <p class="font-weight-light" id="profileName">{{ userInfo.userName }}</p>
+                    <p class="font-weight-light" id="profileDescribtion">{{ userInfo.statementOfIntent }}</p>
                 </div>
 
                 <div id="profileInfo">
@@ -36,16 +36,18 @@
         <div id="rightOfmain">
             <div>
                 <p id='mainText'>What's your question today?</p>
-                <form class="formStyle">
+                <form method='POST' action='/addPost'>
                     <div>
-                        <input class="postSubject" type="text" name='postSubject' placeholder="subject" />
+                        <input class="postSubject" type="text" name='postSubject' placeholder="subject" required />
                     </div>
                     <div>
                         <textarea class="postDetail" placeholder="explain in detail ....." rows='6'
-                            name='postDetail'></textarea>
+                            name='postDetail' required></textarea>
+                        <input type='hidden' name='creatorID' value='{{ userInfo.userInfoID }}'/>
+                        <input type='hidden' name='creatorProfileUrl' value='{{ userInfo.profileUrl }}'
                     </div>
                     <div>
-                        <select class="topicList">
+                        <select class="topicList" name='postTag' required>
                             {{#each topicList}}
                             <option value="{{ this }}">{{ this }}</option>
                             {{/each}}
@@ -55,9 +57,9 @@
                 </form>
             </div>
             <div class="searchTopic">
-                <form>
+                <form method='POST' action='/searchByTopic'>
                     <div>
-                        <label id="searchbytopic">Search by topic </label>
+                        <label id="searchByTopic">Search by topic </label>
                     </div>
                     <div>
                         <select class="php" id='searchTopicSelect'>
@@ -70,9 +72,13 @@
                 </form>
             </div>
             <div>
-                <label>Latest discussions</label>
+                <label id='latestDiscussion'>Latest discussions</label>
             </div>
-            {{>posts}}
+            <div>
+              {{#each posts}}
+                {{>post}}
+              {{/each}}
+            </div>
             {{>next}}
         </div>
     </div>

@@ -12,13 +12,13 @@ router.get('/', (req, res) => {
   });
 });
 /* Route for existing users to directly log in to the main page. */
-router.post('/login', userAuthController.login);
+router.post('/main', userAuthController.login);
 
 /* After initial information, routes the user to registration page for more data capture. */
 router.post('/register', userAuthController.register);
 
 /* After all data capturing is complete, leads the user to the main page. */
-router.post('/main', userAuthController.signup);
+router.post('/signup', userAuthController.signup);
 
 
 module.exports = router;

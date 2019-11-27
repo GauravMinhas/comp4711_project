@@ -2,10 +2,11 @@ const express = require('express');
 const hbs = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
-
+const session = require('express-session');
 const userAuthRoutes = require('./routes/userAuthRouter');
+const postRoutes = require('./routes/postRouter');
+const mainPageRoutes = require('./routes/mainPageRouter');
 const config = require('./config/config');
-
 
 const app = express();
 
@@ -18,6 +19,15 @@ app.engine(
 );
 app.set('view engine', 'hbs');
 
+app.use(
+  session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 },
+  }),
+);
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
   extended: false,
@@ -27,6 +37,9 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(userAuthRoutes);
+app.use(postRoutes);
+app.use(mainPageRoutes);
+
 app.listen(config.port, () => {
   // eslint-disable-next-line no-console
   console.log(`Server running at http://${config.hostname}:${config.port}/`);

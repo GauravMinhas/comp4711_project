@@ -1,0 +1,21 @@
+<posts>
+    <div class="postMainDiv">
+        <div class="row">
+            <div class="col-md-3" id="postProfileDiv">
+                <img src="{{ this.creatorProfileUrl }}" id="postProfileImg">
+            </div>
+            <div class="col-md-9">
+                <div>
+                    <div class='postHeaderDiv'>
+                        <h5 class="card-title">{{ this.title }}</h5>
+                        <p class='tags'>{{ this.tags }}</p>
+                    </div>
+                    <p class="card-text">{{ this.details }}</p>
+                    <a class="card-link"><small class="text-muted">{{ this.timePosted }}</small></a>
+                    <a class="card-link" href="#" style="float:right"><small class="text-muted">{{ this.replyCount }}
+                            replies</small></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</posts>
