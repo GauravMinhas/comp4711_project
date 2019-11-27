@@ -59,10 +59,10 @@
             <div class="searchTopic">
                 <form method='POST' action='/searchByTopic'>
                     <div>
-                        <label id="searchByTopic">Search by topic </label>
+                        <label id="searchByTopic">Search by topic</label>
                     </div>
                     <div>
-                        <select class="php" id='searchTopicSelect'>
+                        <select class="php" id='searchTopicSelect' name='searchTopic'>
                             {{#each topicList}}
                             <option value="{{ this }}">{{ this }}</option>
                             {{/each}}

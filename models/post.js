@@ -66,13 +66,13 @@ function updateUserPostCount(postData) {
 
 // search post by tag
 function searchTag(tag) {
-  const sql = `SELECT * FROM post WHERE tags LIKE '${tag}';`;
+  const sql = `SELECT * FROM post WHERE tags LIKE '${tag}' ORDER BY timeposted DESC;`;
   return db.execute(sql);
 }
 
 // search post by title
 function searchTitle(title) {
-  const sql = `SELECT * FROM post WHERE tags LIKE '%${title}%';`;
+  const sql = `SELECT * FROM post WHERE title LIKE '%${title}%' ORDER BY timeposted DESC;`;
   return db.execute(sql);
 }
 
@@ -81,8 +81,8 @@ module.exports = {
   getPostId,
   addPost,
   getAllPosts,
-  searchTag,
-  searchTitle,
+  searchByTopic: searchTag,
+  searchByTitle: searchTitle,
   addUserPost,
   updateUserPostCount,
 };

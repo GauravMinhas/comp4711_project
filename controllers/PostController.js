@@ -29,6 +29,24 @@ exports.addPost = (req, res) => {
   });
 };
 
+exports.getPostsByTopic = (req, res) => {
+  post.searchByTopic(req.body.searchTopic).then(([postResult]) => {
+    res.render('searchoutput', {
+      posts: postResult,
+      searchoutputCSS: true,
+    });
+  });
+};
+
+exports.getPostsByTitle = (req, res) => {
+  post.searchByTitle(req.body.searchTitle).then(([postResult]) => {
+    res.render('searchoutput', {
+      posts: postResult,
+      searchoutputCSS: true,
+    });
+  });
+};
+
 // load all of the posts
 exports.getAllPost = (req, res) => {
   post.getAllPosts().then((data) => {

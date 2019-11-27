@@ -1,11 +1,12 @@
 <searchbar>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <nav class="navbar navbar-light">
-        <form class="form-inline">
+        <form class="form-inline" method='POST' action='/searchByTitle'>
             <a class="navbar-brand" href="/main">
                 <p id='logo'>k<span id='color'>b</span></p>
             </a>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name='searchTitle'>
+            <input type='submit' hidden/>
         </form>
         <form method="GET" action='/'>
             <input type="submit" id="btn" value='Logout'/>
