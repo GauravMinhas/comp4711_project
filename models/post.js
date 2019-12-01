@@ -5,7 +5,7 @@ const replyModel = require('./reply');
 // get everything about a post from id
 // used in conjunction with the user-post table.
 function getPost(id) {
-  const data = db.execute(`SELECT * FROM post WHERE id == '${id}`);
+  const data = db.execute(`SELECT * FROM post WHERE id == '${id}'`);
   const post = {
     id: data[0].id,
     title: data[0].title,
@@ -76,6 +76,12 @@ function searchTitle(title) {
   return db.execute(sql);
 }
 
+// get all the posts made by the user 
+function getPostsByUser(id) {
+  const sql = `SELECT * FROM user_post WHERE userID == '${id}';`;
+  console.log(db.execute(sql));
+}
+
 module.exports = {
   getPost,
   getPostId,
@@ -85,4 +91,5 @@ module.exports = {
   searchByTitle: searchTitle,
   addUserPost,
   updateUserPostCount,
+  getPostsByUser,
 };

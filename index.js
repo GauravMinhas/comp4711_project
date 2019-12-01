@@ -6,6 +6,7 @@ const session = require('express-session');
 const userAuthRoutes = require('./routes/userAuthRouter');
 const postRoutes = require('./routes/postRouter');
 const mainPageRoutes = require('./routes/mainPageRouter');
+const userProfileRoutes = require('./routes/userProfileRouter')
 const config = require('./config/config');
 
 const app = express();
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(userAuthRoutes);
 app.use(postRoutes);
 app.use(mainPageRoutes);
+app.use(userProfileRoutes);
 
 app.listen(config.port, () => {
   // eslint-disable-next-line no-console

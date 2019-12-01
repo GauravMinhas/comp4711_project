@@ -7,17 +7,20 @@ function getUserInfoWithAuth(userAuthID) {
 }
 
 // get a list of all the posts from the user.
-function getPostList(u) {
-  const data = db.execute(`SELECT * FROM user_post WHERE user == '${u.id}';`);
+function getPostList(id) {
+  const data = db.execute(`SELECT * FROM user_post WHERE user == '${id}';`);
   const list = [];
   let index = 0;
-  data.forEach((elem) => {
-    list[index] = postModel.getPost(elem.post);
-    index += 1;
+  data.then(([resp]) => {
+    resp.forEach(async (elem) => {
+      list[index] = await postModel.getPost(elem.post);
+      index += 1;
+    });
+    return list;
   });
 }
 
 module.exports = {
   retrieveUserInfo: getUserInfoWithAuth,
-  getUserPost: getPostList,
+  getUserPosts: getPostList,
 };

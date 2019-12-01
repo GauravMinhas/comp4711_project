@@ -39,11 +39,16 @@ textarea {
     width: 80%;
 }
 #btn, .btn {
-    color: white;
-    background-color:dodgerblue;
-    border-style: none;
+    color:dodgerblue;
+    background-color: white;
+    border: 2px solid dodgerblue;
     padding: 0.5em;
 }
 #btn {
-    width: 23.5em;
+    width: 22.5em;
+}
+
+#registrationForm {
+    display: flex;
+    flex-direction: column;
 }

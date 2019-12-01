@@ -12,7 +12,7 @@
     <div class='formDiv'>
         <form id='registrationForm' method='POST' action='/signup'>
             <input type='url' class='lg' name='profileurl' placeholder='imageurl' required />
-            <textarea class='multilinetext' name='statement_of_intent' placeholder='a few lines about yourself..' rows='8' cols='44' required ></textarea>
+            <textarea class='multilinetext lg' name='statement_of_intent' placeholder='a few lines about yourself..' rows='8' cols='44' required ></textarea>
             <input type='text' name='country' class='lg' placeholder='country' required />
             <input type='date' name='dateofbirth' class='lg' required />
             <input type='hidden' name='name' value='{{ data.name }}'/>
