@@ -14,7 +14,10 @@ function insertThread(user1ID, user2ID) {
         .then((resp) => {
             const threadID = resp[0].insertId;
             return db.execute(`INSERT INTO user_thread (userID, threadID) VALUES ('${user1ID}', '${threadID}'), ('${user2ID}', '${threadID}');`)
-                .then(() => threadID);
+                .then(() => {
+                    db.execute(`INSERT INTO userinfo (userInfoID, userAuthID) VALUES ('${user1ID}', ${user1ID}), ('${user2ID}', ${user2ID}) ON DUPLICATE KEY UPDATE threads = threads + 1;`)
+                    return threadID
+                });
         })
 }
 

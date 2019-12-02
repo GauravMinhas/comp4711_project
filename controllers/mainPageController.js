@@ -12,7 +12,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 exports.getMain = (req, res) => {
-  userProfile.retrieveUserInfo(req.session.userAuth.userAuthID).then(([data]) => {
+  userAuthID = req.cookies.userID;
+  userProfile.retrieveUserInfo(userAuthID).then(([data]) => {
     /* Sets userInfo data here. */
     // eslint-disable-next-line prefer-destructuring
     req.session.userInfo = data[0];
