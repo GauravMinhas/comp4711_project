@@ -1,0 +1,70 @@
+h1, p, div {
+    font-family: Tahoma, sans-serif;
+}
+
+input, textarea {
+    -webkit-appearance: none; 
+    appearance: none;
+    font-family: inherit;
+    font-size: 100%;
+    border-style: solid;
+    border-color: lightgrey;
+    padding: 0.5em;
+}
+textarea {
+    margin: 0.5em;
+}
+.lg {
+    width: 22.5em;
+    margin: 0.5em;
+}
+
+.main {
+    display: flex;
+    padding: 4em;
+    width: 50%;
+    margin: auto;
+}
+.formDiv {
+    width: 50%;
+    padding: 0 2em;
+}
+
+#logoBase {
+    color: skyblue;
+}
+
+#mainTitle, #mainBody {
+    font-size: 3em;
+}
+#mainBody {
+    width: 80%;
+}
+#btn, .btn {
+    color:white;
+    background-color: dodgerblue;
+    padding: 0.5em;
+}
+.btn {
+    width: 22.5em;
+}
+
+#directMessageForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#color {
+    color: skyblue;
+}
+
+#logo {
+    font-size: 3em;
+}
+
+#profileImg {
+    border-radius: 50%;
+    width: 6em;
+    height: 6em;
+    border: 1px solid;
+}

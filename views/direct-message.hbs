@@ -1,0 +1,15 @@
+<div class="body">
+    <div>
+        {{>searchbar}}
+    </div>
+    <div class="main">
+        <img id="profileImg" src="{{ userInfo.profileUrl }}" alt="{{ userInfo.userName }}" />
+        <div class='formDiv'>
+            <form id='directMessageForm' method='POST' action='/direct-message/{{userInfo.userInfoID}}'>
+                <input type='text' class='lg' name='subject' placeholder='subject' required />
+                <textarea class='multilinetext lg' name='message' placeholder='message details' rows='8' cols='44' required ></textarea>
+                <input type='submit' class='lg' id='btn' value='Message' />
+            </form>
+        </div>
+    </div>
+</div>

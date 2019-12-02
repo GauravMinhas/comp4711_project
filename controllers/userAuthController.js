@@ -64,7 +64,7 @@ exports.login = (req, res) => {
     /* Set the session info here, with userAuth table rows. */
     // eslint-disable-next-line prefer-destructuring
     req.session.userAuth = rows[0];
-
+    res.cookie('userID', rows[0].userAuthID);
     if (rows[0].userPassword === userAuthData.password) {
       res.redirect(301, '/main');
     } else {
