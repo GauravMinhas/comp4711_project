@@ -18,7 +18,6 @@ exports.getMain = (req, res) => {
     req.session.userInfo = data[0];
     const userData = data[0];
     postModel.getAllPosts().then(([postResult]) => {
-      console.log(postResult);
       res.render('main', {
         pageTitle: 'Knowledge Base - Main Page',
         mainpageCSS: true,

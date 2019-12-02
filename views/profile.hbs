@@ -1,0 +1,49 @@
+<div class="body">
+    <div>
+        {{>searchbar}}
+    </div>
+    <div id="main" class="main col">
+        <div class="main-actions">
+            <div id='profileMainDiv'>
+                <div id="profileUser">
+                    <div>
+                        <img id="profileImg" src="{{ userInfo.profileUrl }}" alt="{{ userInfo.userName }}" />
+                        <p class="font-weight-light" id="profileName">{{ userInfo.userName }}</p>
+                        <p class="font-weight-light" id="profileDescribtion">{{ userInfo.statementOfIntent }}</p>
+                        <p class="font-weight-light" id="profileDescribtion">{{ userInfo.country }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rightOfmain">
+                <form method="GET" action='/direct-message/{{userInfo.userInfoID}}'>
+                    <input type="submit" class="like-btn" value='Message'/>
+                </form>
+                <div class="one-line">
+                    <li class="list-inline-item">{{ userInfo.stars }}</li>
+                    <li class="list-inline-item">Likes</li>
+                    <form method="GET" class="list-inline-item" action='/like/{{userInfo.userInfoID}}'>
+                        <input type="submit"  class="plus like-btn" value='+'/>
+                    </form>
+                </div>
+                <ul class="list-inline">
+                    <li class="list-inline-item">{{userInfo.posts}}</li>
+                    <li class="list-inline-item">Posts</li>
+                </ul>
+            </div> 
+        </div>
+        <div class="posts">
+            <div>
+                <label id='latestDiscussion'>Posts by {{userInfo.userName}}</label>
+            </div>
+            <div class="post-list" >
+              {{#each posts}}
+                {{>post}}
+              {{/each}}
+            </div>
+            {{#if userInfo.posts}}
+                {{>next}}  
+            {{/if}}
+        </div>
+    </div>
+</div>

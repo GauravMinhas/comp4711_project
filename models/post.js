@@ -5,19 +5,21 @@ const replyModel = require('./reply');
 // get everything about a post from id
 // used in conjunction with the user-post table.
 function getPost(id) {
-  const data = db.execute(`SELECT * FROM post WHERE id == '${id}'`);
-  const post = {
-    id: data[0].id,
-    title: data[0].title,
-    details: data[0].details,
-    creator: data[0].creator,
-    tags: data[0].tags,
-    replycount: data[0].replycount,
-    timeposted: data[0].timeposted,
-    replyList: replyModel.getReplyList(this),
-  };
-
-  return post;
+  return db.execute(`SELECT * FROM post WHERE postID = '${id}'`)
+    .then(([data]) => {
+      const post = {
+        id: data[0].postID,
+        title: data[0].title,
+        details: data[0].details,
+        creator: data[0].creatorID,
+        creatorProfileUrl: data[0].creatorProfileUrl,
+        tags: data[0].tags,
+        replyCount: data[0].replyCount,
+        timeposted: data[0].timePosted,
+        // replyList: replyModel.getReplyList(this),
+      };
+      return post;
+    });
 }
 
 // get N latest post from newest to oldest.
@@ -78,8 +80,16 @@ function searchTitle(title) {
 
 // get all the posts made by the user 
 function getPostsByUser(id) {
-  const sql = `SELECT * FROM user_post WHERE userID == '${id}';`;
-  console.log(db.execute(sql));
+  const sql = `SELECT * FROM user_post WHERE userID = '${id}';`;
+  const list = [];
+  let index = 0;
+  return db.execute(sql).then(([resp]) => {
+    resp.forEach((elem) => {
+      list[index] = getPost(elem.postID);
+      index += 1;
+    });
+    return list;
+  });
 }
 
 module.exports = {
