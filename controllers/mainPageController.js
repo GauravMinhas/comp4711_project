@@ -12,13 +12,14 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 exports.getMain = (req, res) => {
-  userAuthID = req.cookies.userID;
+  const userAuthID = req.cookies.userID;
   userProfile.retrieveUserInfo(userAuthID).then(([data]) => {
     /* Sets userInfo data here. */
     // eslint-disable-next-line prefer-destructuring
     req.session.userInfo = data[0];
     const userData = data[0];
     postModel.getAllPosts().then(([postResult]) => {
+      console.log(userData);
       res.render('main', {
         pageTitle: 'Knowledge Base - Main Page',
         mainpageCSS: true,

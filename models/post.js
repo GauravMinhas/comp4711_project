@@ -1,5 +1,5 @@
 const db = require('../database/db.js');
-const replyModel = require('./reply');
+// const replyModel = require('./reply');
 
 
 // get everything about a post from id
@@ -78,7 +78,7 @@ function searchTitle(title) {
   return db.execute(sql);
 }
 
-// get all the posts made by the user 
+// get all the posts made by the user
 function getPostsByUser(id) {
   const sql = `SELECT * FROM user_post WHERE userID = '${id}';`;
   const list = [];

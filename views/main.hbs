@@ -15,6 +15,8 @@
                     <ul class="list-inline">
                         <li class="list-inline-item">Posts</li>
                         <li class="list-inline-item">{{ userInfo.posts }}</li>
+                        {{!-- <script>console.log({{userInfo.posts}})</script>
+                        <script>console.log({{userInfo.userInfoID}})</script> --}}
                     </ul>
                     <ul class="list-inline">
                         <a href="/threads">
@@ -64,7 +66,7 @@
                         <label id="searchByTopic">Search by topic</label>
                     </div>
                     <div>
-                        <select class="php" id='searchTopicSelect' name='searchTopic'>
+                         <select class="php" id='searchTopicSelect' name='searchTopic'>
                             {{#each topicList}}
                             <option value="{{ this }}">{{ this }}</option>
                             {{/each}}
@@ -77,8 +79,14 @@
                 <label id='latestDiscussion'>Latest discussions</label>
             </div>
             <div>
+
+{{!-- We dont have access to userInfo within the for loop lol --}}
+
               {{#each posts}}
-                {{>post}}
+                          <script>
+                console.log("userID:", {{userInfo.userInfoID}});
+              </script>
+                {{>post currentUserID=userInfo.userInfoID}}
               {{/each}}
             </div>
             {{>next}}

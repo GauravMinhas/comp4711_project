@@ -46,29 +46,3 @@ exports.getPostsByTitle = (req, res) => {
     });
   });
 };
-
-// load all of the posts
-exports.getAllPost = (req, res) => {
-  post.getAllPosts().then((data) => {
-    const rawPostData = data[0];
-    console.log(data[0]);
-    const postData = [];
-    let index = 0;
-    rawPostData.forEach((elem) => {
-      const p = {
-        id: elem.id,
-        title: elem.title,
-        details: elem.details,
-        tags: elem.tags,
-        replycount: elem.replycount,
-        timeposted: elem.timeposted,
-      };
-      postData[index] = p;
-      index += 1;
-    });
-    console.log(postData);
-    res.render('postPartial', { postData });
-  }).catch((error) => {
-    console.log(error);
-  });
-};

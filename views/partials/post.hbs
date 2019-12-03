@@ -2,21 +2,35 @@
     <div class="postMainDiv">
         <div class="row">
             <div class="col-md-3" id="postProfileDiv">
-                <a href="/user/{{creatorID}}">
+                <a href="/user/{{ this.creatorID }}">
                     <img src="{{ this.creatorProfileUrl }}" id="postProfileImg">
                 </a>
             </div>
             <div class="col-md-9">
                 <div>
                     <div class='postHeaderDiv'>
+                        {{!-- <script>
+                            console.log({{this.postID}});
+                        </script> --}}
                         <h5 class="card-title">{{ this.title }}</h5>
                         <p class='tags'>{{ this.tags }}</p>
                     </div>
                     <p class="card-text">{{ this.details }}</p>
                     <a class="card-link"><small class="text-muted">{{ this.timePosted }}</small></a>
-                    <a class="card-link" href="#" style="float:right"><small class="text-muted">{{ this.replyCount }}
-                            replies</small></a>
+                    <a class="card-link" href="../reply.hbs" style="float:right"><small class="text-muted">{{ this.replyCount }} replies</small></a>
                 </div>
+                <form method='POST' action='/addReply'>
+                    <div>
+                        <textarea class="replyDetail" placeholder="explain in detail ....." rows='6'
+                            name='replyDetail' required></textarea>
+                        <input type='hidden' name='replyParent' value='{{ this.postID }}' />
+                        <input type='hidden' name='replyCreatorID' value= '{{ user.userInfoID }}' />
+                        <script>console.log("Within post partial:", {{userInfo.userInfoID}});</script>
+                    </div>
+                    <div>
+                        <input type="submit" id='btn' value='reply' />
+                    </div>
+                </form>
             </div>
         </div>
     </div>

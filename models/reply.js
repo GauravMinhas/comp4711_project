@@ -1,5 +1,5 @@
 const db = require('../database/db.js');
-const postModel = require('./post');
+// const postModel = require('./post');
 
 // get everything about a reply from id
 // used in conjunction with the post-reply table
@@ -16,24 +16,34 @@ function getReply(id) {
 }
 
 // get reply ID
-function getReplyId(reply) {
-  const data = db.execute(`SELECT id FROM reply WHERE parent == '${reply.parent}' AND details LIKE '${reply.details}' AND creator == '${reply.creator}';`);
-  return data[0];
-}
+// UNUSED
+// function getReplyId(reply) {
+//   const data = db.execute(`SELECT id FROM reply WHERE parent == '${reply.parent}'
+// AND details LIKE '${reply.details}' AND creator == '${reply.creator}';`);
+//   return data[0];
+// }
 
 // make a new reply to the post
-function addReply(reply, post, user) {
+function addReply(reply) {
   const r = {
-    parent: postModel.getPostId(post),
+    parent: reply.parent,
     details: reply.details,
-    creator: user.id,
+    creator: reply.creatorID,
   };
-  const sql = `INSERT INTO reply (parent, details, creator) VALUES ('${r.parent}', '${r.details}', '${r.creator}');`;
-  db.execute(sql).then(() => {
-    db.execute(`INSERT INTO post_reply (post, reply) VALUES ('${r.parent}', '${getReplyId(r)}');`);
-  }).then(() => {
-    db.execute(`ALTER TABLE post SET replycount = replycount + 1 WHERE id == '${r.parent}'`);
+  return db.execute(`INSERT INTO reply (parent, details, creatorID) VALUES ('${r.parent}', '${r.details}', '${r.creator}');`);
+}
+
+function addPostReply(reply) {
+  return new Promise((resolve, reject) => {
+    resolve(db.execute(`INSERT INTO post_reply (postID, replyID) VALUES ('${reply.parent}', last_insert_id());`))
+      .catch(() => {
+        reject(new Error('post_reply table update failure.'));
+      });
   });
+}
+
+function updatePostReplyCount(reply) {
+  return db.execute(`UPDATE post SET replyCount = replyCount + 1 WHERE postID LIKE '${reply.parent}';`);
 }
 
 
@@ -53,4 +63,6 @@ module.exports = {
   getReply,
   addReply,
   getReplyList,
+  addPostReply,
+  updatePostReplyCount,
 };

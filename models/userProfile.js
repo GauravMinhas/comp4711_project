@@ -8,7 +8,7 @@ function getUserInfoWithAuth(userAuthID) {
 
 // get a list of all the posts from the user.
 function getPostList(id) {
-  return (postModel.getPostsByUser(id)).then(res => {
+  return (postModel.getPostsByUser(id)).then((res) => {
     return Promise.all(res);
   });
 }
@@ -20,5 +20,5 @@ function getNameAndPhoto(userAuthID) {
 module.exports = {
   retrieveUserInfo: getUserInfoWithAuth,
   getUserPosts: getPostList,
-  getNameAndPhoto
+  getNameAndPhoto,
 };

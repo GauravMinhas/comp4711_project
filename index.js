@@ -7,8 +7,9 @@ var cookieParser = require('cookie-parser')
 const userAuthRoutes = require('./routes/userAuthRouter');
 const postRoutes = require('./routes/postRouter');
 const mainPageRoutes = require('./routes/mainPageRouter');
-const userProfileRoutes = require('./routes/userProfileRouter')
-const messagesRoutes = require('./routes/messagesRouter')
+const userProfileRoutes = require('./routes/userProfileRouter');
+const messagesRoutes = require('./routes/messagesRouter');
+const replyRoutes = require('./routes/replyRouter');
 const config = require('./config/config');
 
 const app = express();
@@ -44,6 +45,7 @@ app.use(postRoutes);
 app.use(mainPageRoutes);
 app.use(userProfileRoutes);
 app.use(messagesRoutes);
+app.use(replyRoutes);
 
 app.listen(config.port, () => {
   // eslint-disable-next-line no-console
