@@ -1,0 +1,54 @@
+h1, p, div {
+  font-family: Tahoma, sans-serif;
+}
+img {
+  width: 25em;
+}
+input, textarea {
+  -webkit-appearance: none; 
+  appearance: none;
+  font-family: inherit;
+  font-size: 100%;
+  border-style: solid;
+  border-color: lightgrey;
+  padding: 0.5em;
+}
+textarea {
+  margin: 0.5em;
+}
+.lg {
+  width: 22.5em;
+  margin: 0.5em;
+}
+.main {
+  display: flex;
+  padding: 2em;
+}
+.formDiv {
+  width: 50%;
+}
+
+#logoBase {
+  color: skyblue;
+}
+
+#mainTitle, #mainBody {
+  font-size: 3em;
+}
+#mainBody {
+  width: 80%;
+}
+#btn, .btn {
+  color:dodgerblue;
+  background-color: white;
+  border: 2px solid dodgerblue;
+  padding: 0.5em;
+}
+#btn {
+  width: 22.5em;
+}
+
+#registrationForm {
+  display: flex;
+  flex-direction: column;
+}

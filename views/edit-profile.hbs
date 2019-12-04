@@ -1,0 +1,17 @@
+<div class='main'>
+    <div>
+        {{>searchbar}}
+    </div>
+    <div class='formDiv'>
+        <form id='registrationForm' method='POST' action='/edit-profile'>
+            <input type='text' name='name' value='{{ data.userName }}'/>
+            <input type='url' class='lg' name='profileurl' placeholder='imageurl' value='{{ data.profileUrl }}' required />
+            <textarea class='multilinetext lg' name='statement_of_intent' placeholder='a few lines about yourself..' rows='8' cols='44' required  >
+                {{data.statementOfIntent}}
+              </textarea>
+            <input type='text' name='country' class='lg' placeholder='country' value = '{{ data.country }}' required />
+            <input type='date' name='dateofbirth' value = {{ data.dateOfBirth }} class='lg' required />
+            <input type='submit' class='lg' id='btn' value='Save Changes' />
+        </form>
+    </div>
+</div>

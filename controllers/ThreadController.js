@@ -10,36 +10,132 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-exports.getThreads = (req, res) => {
-  userID = req.cookies.userID;
-  const list = [];
-  threads.getThreads(userID)
+function getMessagesForThreads(threadID) {
+  if (!threadID) {
+    // maybe an empty Promise ??
+    return Promise.resolve(null);
+  }
+  let list = [];
+  return messages.getMessages(threadID)
+    .then(([data]) => {
+      data.forEach(({ messageID }, index) => {
+        list[index] = messages.getMessage(messageID)
+          .then(([row]) => {
+
+            const message = { senderID: row[0].senderID, text: row[0].details, timePosted: row[0].timePosted };
+            return message;
+          });
+      });
+      return Promise.all(list)
+    });
+
+}
+
+function getThreadsForUser(id) {
+  let list = [];
+  return threads.getThreads(id)
     .then(([data]) => {
       data.forEach(({ threadID }, index) => {
         list[index] = threads.getThread(threadID)
           .then(([row]) => {
-            const other = (row[0].user1ID == userID ? row[0].user2ID : row[0].user1ID);
-            return { other, threadID };
+            const other = (row[0].user1ID == id ? row[0].user2ID : row[0].user1ID);
+            return { userID: other, threadID };
           });
-
       });
-      Promise.all(list).then(userList => {
+      list = [{ userID: id, threadID: 0 }, ...list];
+      return Promise.all(list).then(userList => {
         const nameAndPhoto = []
         userList.forEach((user, index) => {
-          nameAndPhoto[index] = userProfile.getNameAndPhoto(user.other).then(([data]) => {
-            return { userName: data[0].userName, profileURL: data[0].profileURL, threadID: user.threadID };
+          nameAndPhoto[index] = userProfile.getNameAndPhoto(user.userID).then(([data]) => {
+            const person = { userName: data[0].userName, profileURL: data[0].profileURL, threadID: user.threadID, userID: user.userID };
+            return getMessagesForThreads(user.threadID)
+              .then(messages => {
+                person.messages = messages;
+                return person;
+              })
           });
         });
-        Promise.all(nameAndPhoto).then(finalList => {
-          console.table(finalList);
-          res.render('threads', {
-            pageTitle: 'Threads',
-            threadpageCSS: true,
-            usersInfo: finalList,
-          });
-        });
+        return Promise.all(nameAndPhoto);
       });
     });
+}
+
+exports.getThreads = (req, res) => {
+  userID = req.cookies.userID;
+
+  getThreadsForUser(userID)
+    .then(finalList => {
+      const [currentUser, ...users] = finalList;
+      users.forEach(user => {
+        // sort by latest
+        user.messages.sort((a, b) => ((new Date(b.timePosted)) - (new Date(a.timePosted))));
+        const latest = new Date(user.messages[0].timePosted);
+        user.latestMessageTime = `${latest.toLocaleString('default', { month: 'short' })} ${latest.getDate()}`;
+      })
+      res.render('threads', {
+        pageTitle: 'Threads',
+        threadpageCSS: true,
+        threads: users,
+        hasMessages: false
+      });
+    });
+};
+
+function hhmmxm(time) {
+  return (new Date(time)).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+}
+
+function makeGroups(messages) {
+  const object = messages.reduce((groups, message) => {
+    let date = new Date(message.timePosted);
+    date = `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    message.timePosted = hhmmxm(message.timePosted);
+    groups[date].push(message);
+    return groups;
+  }, {});
+  return Object.entries(object).map(([key, value]) => ({ date: key, messages: value }));
+}
+
+exports.getThread = (req, res) => {
+  const senderID = req.cookies.userID;
+  const { id: threadID } = req.params;
+  getThreadsForUser(senderID)
+    .then(finalList => {
+      const [currentUser, ...users] = finalList;
+      users.forEach(user => {
+        // sort by latest
+        // user.messages.sort((a, b) => ((new Date(b.timePosted)) - (new Date(a.timePosted))));
+        const latest = new Date(user.messages[user.messages.length - 1].timePosted);
+        user.latestMessageTime = `${latest.toLocaleString('default', { month: 'short' })} ${latest.getDate()}`;
+        user.latestMessageSubject = user.messages[user.messages.length - 1].text.split('\n')[0];
+      });
+      const other = users.find(user => user.threadID == threadID);
+      const messages = other.messages;
+      messages.forEach(message => {
+        if (message.senderID == senderID) {
+          message.senderURL = currentUser.profileURL;
+          message.userName = currentUser.userName;
+        } else {
+          message.senderURL = other.profileURL;
+          message.userName = other.userName;
+        }
+      })
+
+      const groups = makeGroups(messages);
+      res.render('threads', {
+        pageTitle: 'Threads',
+        threadpageCSS: true,
+        threads: users,
+        senderID,
+        groups,
+        hasMessages: true,
+        recieverID: other.userID
+      });
+    });
+
   // const { id: recieverID } = req.params;
   // senderID = req.cookies.userID;
   // userProfile.retrieveUserInfo(recieverID).then(([data]) => {
@@ -51,6 +147,8 @@ exports.getThreads = (req, res) => {
   //     });
   // });
 };
+
+
 
 
 exports.postdirectMessage = (req, res) => {
@@ -68,6 +166,5 @@ exports.postdirectMessage = (req, res) => {
       messages.insertMessage(data[0].threadID, senderID, message)
         .then(() => res.redirect(301, `/user/${recieverID}`))
     }
-
   })
 };

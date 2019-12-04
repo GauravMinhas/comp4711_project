@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userProfile = require('../models/userProfile');
+const userAuth = require('../models/userAuth');
 
 const app = express();
 
@@ -31,5 +32,30 @@ to the userProfile controller method. */
       });
     });
   });
+};
 
+exports.editProfile = (req, res) => {
+  const userID = req.cookies.userID;
+  userProfile.retrieveUserInfo(userID).then(([data]) => {
+    const userData = data[0];
+    console.table(userData);
+    res.render('edit-profile', {
+      data: userData,
+      editProfileCSS: true,
+    });
+  });
+};
+
+exports.saveEdit = (req, res) => {
+  const userID = req.cookies.userID;
+
+  const userInfoData = {
+    userID,
+    name: req.body.name,
+    profileurl: req.body.profileurl,
+    statement_of_intent: req.body.statement_of_intent,
+    country: req.body.country,
+    dateofbirth: req.body.dateofbirth,
+  };
+  userAuth.updateUserInfo(userInfoData).then(() => res.redirect(301, '/main'));
 };

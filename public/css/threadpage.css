@@ -1,0 +1,92 @@
+.user-list {
+  display: inline-table;
+  width: 100%;
+  max-width: 500px;
+}
+
+.image {
+  margin: 1em;
+}
+
+.image-small {
+  height: 60px;
+  width: 60px;
+}
+
+
+img {
+  border-radius: 50%;
+}
+
+.info {
+  margin-right: 1em;
+  width: 100%;
+  text-align: left;
+}
+
+.user {
+  display: flex;
+  margin: 0 auto 0 auto;
+  border: 1px solid lightgray;
+}
+
+.user-name p {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.user:hover {
+  background-color: lightgray;
+}
+
+a, a:hover, a:active {
+  text-decoration: none;
+}
+
+.latest-message-time {
+  display: inline-block;
+  color: darkgray;
+}
+
+.message-list {
+  width: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  max-width: 500px;
+  overflow: auto;
+  border: 1px solid darkgray;
+  padding: 1em;
+  margin: 1em;
+  max-height: 400px;
+}
+
+.message-block {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+}
+
+textarea {
+  max-width: 500px;
+  width:90%;
+  margin:1em;
+}
+
+.message-group-header{
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid darkgray;
+  margin-bottom: 1em;
+}
+
+.message {
+    width: 100%;
+    display: flex;
+    margin: 0 auto 0 auto;
+}
+
+.message-content p {
+  margin-bottom: 0;
+  font-weight: bold;
+}
