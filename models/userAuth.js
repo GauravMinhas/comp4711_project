@@ -13,6 +13,13 @@ function registerUserInfo(userData) {
   return db.execute(sql);
 }
 
+// put updated user's information into userinfo table
+function updateUserInfo(userData) {
+  const sql = `UPDATE  userinfo SET userName = '${userData.name}', profileUrl = '${userData.profileurl}',statementOfIntent = '${userData.statement_of_intent}', dateOfBirth ='${userData.dateofbirth}' WHERE userInfoID = '${userData.userID}';`;
+  console.log(sql)
+  return db.execute(sql);
+}
+
 // get a user's id from userauth table with email
 function getUserId(userData) {
   const sql = `SELECT userAuthID FROM userauth WHERE email LIKE '${userData.email}';`;
@@ -47,4 +54,5 @@ module.exports = {
   getId: getUserId,
   login: userLogin,
   dropUserAuth,
+  updateUserInfo
 };

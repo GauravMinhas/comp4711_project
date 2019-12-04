@@ -45,7 +45,7 @@ exports.postdirectMessage = (req, res) => {
 
 exports.postThreadMessage = (req, res) => {
   const { id: recieverID } = req.params;
-  senderID = req.cookies.userID;
+  const senderID = req.cookies.userID;
   const message = req.body.message;
   threads.getThreadIDFromUsersID(senderID, recieverID).then(([data]) => {
     if (!data.length) {
