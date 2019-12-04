@@ -27,17 +27,17 @@ exports.getdirectMessage = (req, res) => {
 exports.postdirectMessage = (req, res) => {
   const { id: recieverID } = req.params;
   const senderID = req.cookies.userID;
-  const message = req.body.subject + "\n" + req.body.message;
+  const message = `${req.body.subject}\n${req.body.message}`;
   threads.getThreadIDFromUsersID(senderID, recieverID).then(([data]) => {
     if (!data.length) {
       threads.insertThread(senderID, recieverID)
-        .then(threadID => {
+        .then((threadID) => {
           messages.insertMessage(threadID, senderID, message)
-            .then(() => res.redirect(301, `/user/${recieverID}`))
+            .then(() => res.redirect(301, `/user/${recieverID}`));
         });
     } else {
       messages.insertMessage(data[0].threadID, senderID, message)
-        .then(() => res.redirect(301, `/user/${recieverID}`))
+        .then(() => res.redirect(301, `/user/${recieverID}`));
     }
 
   })
@@ -46,18 +46,18 @@ exports.postdirectMessage = (req, res) => {
 exports.postThreadMessage = (req, res) => {
   const { id: recieverID } = req.params;
   const senderID = req.cookies.userID;
-  const message = req.body.message;
+  const { message } = req.body;
   threads.getThreadIDFromUsersID(senderID, recieverID).then(([data]) => {
     if (!data.length) {
       threads.insertThread(senderID, recieverID)
-        .then(threadID => {
+        .then((threadID) => {
           messages.insertMessage(threadID, senderID, message)
-            .then(() => res.redirect(301, `/user/${recieverID}`))
+            .then(() => res.redirect(301, `/user/${recieverID}`));
         });
     } else {
       const { threadID } = data[0]
       messages.insertMessage(threadID, senderID, message)
-        .then(() => res.redirect(301, `/threads/${threadID}`))
+        .then(() => res.redirect(301, `/threads/${threadID}`));
     }
   })
 };

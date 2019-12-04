@@ -15,7 +15,7 @@ function getMessagesForThreads(threadID) {
     // maybe an empty Promise ??
     return Promise.resolve(null);
   }
-  let list = [];
+  const list = [];
   return messages.getMessages(threadID)
     .then(([data]) => {
       data.forEach(({ messageID }, index) => {

@@ -35,7 +35,7 @@ to the userProfile controller method. */
 };
 
 exports.editProfile = (req, res) => {
-  const userID = req.cookies.userID;
+  const { userID } = req.cookies;
   userProfile.retrieveUserInfo(userID).then(([data]) => {
     const userData = data[0];
     console.table(userData);
@@ -47,8 +47,7 @@ exports.editProfile = (req, res) => {
 };
 
 exports.saveEdit = (req, res) => {
-  const userID = req.cookies.userID;
-
+  const { userID } = req.cookies;
   const userInfoData = {
     userID,
     name: req.body.name,
