@@ -9,14 +9,14 @@ function registerUserAuth(userData) {
 
 // put user's information into userinfo table
 function registerUserInfo(userData) {
-  const sql = `INSERT INTO userinfo (userAuthID, userName, profileUrl, statementOfIntent, dateOfBirth) VALUES (last_insert_id(), '${userData.name}', '${userData.profileurl}',? , '${userData.dateofbirth}');`;
+  const sql = `INSERT INTO userinfo (userAuthID, userName, profileUrl, statementOfIntent, country, dateOfBirth) VALUES (last_insert_id(), '${userData.name}', '${userData.profileurl}',?, ?, '${userData.dateofbirth}');`;
   /* User's statement of intent is taken out as a query parameter to allow apostrophe inputs. */
-  return db.query(sql, userData.statement_of_intent);
+  return db.query(sql, userData.statement_of_intent, userData.country);
 }
 
 // put updated user's information into userinfo table
 function updateUserInfo(userData) {
-  const sql = `UPDATE  userinfo SET userName = '${userData.name}', profileUrl = '${userData.profileurl}',statementOfIntent = '${userData.statement_of_intent}', dateOfBirth ='${userData.dateofbirth}' WHERE userInfoID = '${userData.userID}';`;
+  const sql = `UPDATE  userinfo SET userName = '${userData.name}', profileUrl = '${userData.profileurl}',statementOfIntent = '${userData.statement_of_intent}', country = '${userData.country}', dateOfBirth ='${userData.dateofbirth}' WHERE userInfoID = '${userData.userID}';`;
   console.log(sql)
   return db.execute(sql);
 }

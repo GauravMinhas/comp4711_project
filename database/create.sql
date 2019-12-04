@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS userinfo (
     userName varchar(20),
     profileUrl varchar(150),
     statementOfIntent varchar(150) DEFAULT " ",
+    country varchar(30) DEFAULT "Canada",
     posts int DEFAULT 0,
     stars int DEFAULT 0,
     threads int DEFAULT 0,
