@@ -2,11 +2,11 @@ const db = require('../database/db.js');
 const postModel = require('./post');
 
 function getMessages(threadID) {
-    return db.execute(`SELECT messageID FROM thread_message WHERE userID = '${threadID}';`);
+    return db.execute(`SELECT messageID FROM thread_message WHERE threadID = '${threadID}';`);
 }
 
 function getMessage(messageID) {
-    return db.execute(`SELECT * FROM message WHERE messageID = '${threadID}';`);
+    return db.execute(`SELECT * FROM message WHERE messageID = '${messageID}';`);
 }
 
 function insertMessage(threadID, senderID, details) {
