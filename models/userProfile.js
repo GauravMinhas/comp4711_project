@@ -6,6 +6,10 @@ function getUserInfoWithAuth(userAuthID) {
   return db.execute(`SELECT * FROM userinfo WHERE userAuthID = '${userAuthID}';`);
 }
 
+function getUserInfoWithInfo(userInfoID) {
+  return db.execute(`SELECT * FROM userinfo WHERE userInfoID = '${userInfoID}';`);
+}
+
 // get a list of all the posts from the user.
 function getPostList(id) {
   return (postModel.getPostsByUser(id)).then((res) => {
@@ -19,6 +23,7 @@ function getNameAndPhoto(userAuthID) {
 
 module.exports = {
   retrieveUserInfo: getUserInfoWithAuth,
+  retrieveUserInfoWithInfoID: getUserInfoWithInfo,
   getUserPosts: getPostList,
   getNameAndPhoto,
 };

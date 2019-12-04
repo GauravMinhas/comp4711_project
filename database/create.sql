@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS reply (
     parent int NOT NULL,
     details varchar(60000) NOT NULL,
     creatorID int NOT NULL,
+    creatorProfileUrl varchar(150),
     timePosted timestamp DEFAULT current_timestamp,
     PRIMARY KEY(replyID),
     FOREIGN KEY(parent) REFERENCES post(postID),

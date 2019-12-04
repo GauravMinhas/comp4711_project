@@ -9,8 +9,9 @@ function registerUserAuth(userData) {
 
 // put user's information into userinfo table
 function registerUserInfo(userData) {
-  const sql = `INSERT INTO userinfo (userAuthID, userName, profileUrl, statementOfIntent, dateOfBirth) VALUES (last_insert_id(), '${userData.name}', '${userData.profileurl}', '${userData.statement_of_intent}', '${userData.dateofbirth}');`;
-  return db.execute(sql);
+  const sql = `INSERT INTO userinfo (userAuthID, userName, profileUrl, statementOfIntent, dateOfBirth) VALUES (last_insert_id(), '${userData.name}', '${userData.profileurl}',? , '${userData.dateofbirth}');`;
+  /* User's statement of intent is taken out as a query parameter to allow apostrophe inputs. */
+  return db.query(sql, userData.statement_of_intent);
 }
 
 // get a user's id from userauth table with email

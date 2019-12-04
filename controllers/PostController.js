@@ -14,11 +14,11 @@ app.use(bodyParser.json());
    User post count is incremented by 1, and the user is redirected to the main page. */
 exports.addPost = (req, res) => {
   const postData = {
-    title: `${req.body.postSubject}`,
-    details: `${req.body.postDetail}`,
-    creatorID: `${req.body.creatorID}`,
-    creatorProfileUrl: `${req.body.creatorProfileUrl}`,
-    tags: `${req.body.postTag}`,
+    title: req.body.postSubject,
+    details: req.body.postDetail,
+    creatorID: req.body.creatorID,
+    creatorProfileUrl: req.body.creatorProfileUrl,
+    tags: req.body.postTag,
   };
   post.addPost(postData).then(() => {
     post.addUserPost(postData).then(() => {

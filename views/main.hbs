@@ -79,14 +79,8 @@
                 <label id='latestDiscussion'>Latest discussions</label>
             </div>
             <div>
-
-{{!-- We dont have access to userInfo within the for loop lol --}}
-
               {{#each posts}}
-                          <script>
-                console.log("userID:", {{userInfo.userInfoID}});
-              </script>
-                {{>post currentUserID=userInfo.userInfoID}}
+                {{>post id = @index }}
               {{/each}}
             </div>
             {{>next}}

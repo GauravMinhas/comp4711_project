@@ -39,15 +39,10 @@ function getPostId(post) {
 
 // make a new post
 function addPost(post) {
-  const p = {
-    title: post.title,
-    details: post.details,
-    creator: post.creatorID,
-    creatorProfileUrl: post.creatorProfileUrl,
-    tags: post.tags,
-  };
-  const sql = `INSERT INTO post (title, details, creatorID, creatorProfileUrl, tags) VALUES ('${p.title}', '${p.details}', '${p.creator}', '${p.creatorProfileUrl}', '${p.tags}');`;
-  return db.execute(sql);
+  const sql = 'INSERT INTO post (title, details, creatorID, creatorProfileUrl, tags) VALUES (?, ?, ?, ?, ?);';
+  /* Replaced to db.query, to allow apostrophe input. */
+  // eslint-disable-next-line max-len
+  return db.query(sql, [post.title, post.details, post.creatorID, post.creatorProfileUrl, post.tags]);
 }
 
 // update user_post table with new post
@@ -82,11 +77,9 @@ function searchTitle(title) {
 function getPostsByUser(id) {
   const sql = `SELECT * FROM user_post WHERE userID = '${id}';`;
   const list = [];
-  let index = 0;
   return db.execute(sql).then(([resp]) => {
     resp.forEach((elem) => {
-      list[index] = getPost(elem.postID);
-      index += 1;
+      list.push(getPost(elem.postID));
     });
     return list;
   });

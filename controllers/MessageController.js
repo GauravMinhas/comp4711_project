@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 
 exports.getdirectMessage = (req, res) => {
   const { id: recieverID } = req.params;
-  senderID = req.cookies.userID;
-  userProfile.retrieveUserInfo(recieverID).then(([data]) => {
+  const senderID = req.cookies.userID;
+  userProfile.retrieveUserInfoWithInfoID(recieverID).then(([data]) => {
     const userData = data[0];
     res.render('direct-message', {
       pageTitle: `Message ${userData.userName}`,
@@ -26,7 +26,7 @@ exports.getdirectMessage = (req, res) => {
 
 exports.postdirectMessage = (req, res) => {
   const { id: recieverID } = req.params;
-  senderID = req.cookies.userID;
+  const senderID = req.cookies.userID;
   const message = req.body.subject + "\n" + req.body.message;
   threads.getThreadIDFromUsersID(senderID, recieverID).then(([data]) => {
     if (!data.length) {

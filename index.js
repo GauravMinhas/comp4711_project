@@ -3,7 +3,7 @@ const hbs = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const userAuthRoutes = require('./routes/userAuthRouter');
 const postRoutes = require('./routes/postRouter');
 const mainPageRoutes = require('./routes/mainPageRouter');
@@ -31,7 +31,7 @@ app.use(
     cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 },
   }),
 );
-app.use(cookieParser())
+app.use(cookieParser());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
   extended: false,

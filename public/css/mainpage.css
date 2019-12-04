@@ -101,7 +101,6 @@ select {
 /* Post partial css section */
 .postMainDiv {
     width: 30em;
-    max-height: 510px;
     border: none;
     padding: 1em;
 }
@@ -141,4 +140,52 @@ select {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Reply Partial CSS */
+
+#replyProfileImg {
+    border-radius: 50%;
+    width: 4em;
+    height: 4em;
+    border: 1px solid;
+    margin: 1em;
+}
+
+#replyMainDiv {
+    width: 15em;
+    border: none;
+    padding: 2em;
+}
+
+#replyProfileDiv {
+    vertical-align: middle;
+    margin: auto;
+}
+
+#replyText {
+    margin: auto;
+}
+
+/* Add Reply post.hbs CSS */
+
+#addReplyDiv {
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+#replybtn {
+    color: white;
+    background-color: dodgerblue;
+    border-style: none;
+    padding: 0.5em;
+    float: right;
+}
+/* A static js function has been created to handle toggling. */
+.postReplyMainDiv {
+    display: none;
+}
+
+#replyTriggerButton {
+    cursor: pointer;
 }

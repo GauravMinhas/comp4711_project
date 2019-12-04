@@ -39,18 +39,6 @@ exports.signup = (req, res) => {
     country: req.body.country,
     dateofbirth: req.body.dateofbirth,
   };
-  /* Inserts the user into userAuth, then into userInfo table.
-     After successful database insertions, redirects the user to
-     the login page. */
-  // userAuth.registerAuth(userAuthData).then(() => {
-  //   userAuth.getId(userAuthData).then(([rows]) => {
-  //     console.log(userInfoData);
-  //     const { userAuthID } = rows[0];
-  //     userAuth.registerInfo(userAuthID, userInfoData).then(() => {
-  //       res.redirect(301, '/');
-  //     });
-  //   });
-  // });
 
   userAuth.registerAuth(userAuthData).then(() => userAuth.registerInfo(userInfoData)).then(() => {
     res.redirect('/');

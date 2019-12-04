@@ -15,22 +15,18 @@ function getReply(id) {
   return reply;
 }
 
-// get reply ID
-// UNUSED
-// function getReplyId(reply) {
-//   const data = db.execute(`SELECT id FROM reply WHERE parent == '${reply.parent}'
-// AND details LIKE '${reply.details}' AND creator == '${reply.creator}';`);
-//   return data[0];
-// }
-
 // make a new reply to the post
+/* Reply details need to allow apostrophe inputs, therefore
+   switched from db.execute to db.query. */
 function addReply(reply) {
   const r = {
     parent: reply.parent,
     details: reply.details,
     creator: reply.creatorID,
+    creatorProfileUrl: reply.creatorProfileUrl,
   };
-  return db.execute(`INSERT INTO reply (parent, details, creatorID) VALUES ('${r.parent}', '${r.details}', '${r.creator}');`);
+  const sql = 'INSERT INTO reply (parent, details, creatorID, creatorProfileUrl) VALUES (?, ?, ?, ?);';
+  return db.query(sql, [r.parent, r.details, r.creator, r.creatorProfileUrl]);
 }
 
 function addPostReply(reply) {
@@ -48,21 +44,20 @@ function updatePostReplyCount(reply) {
 
 
 // get a list of all of the reply in a post
-function getReplyList(post) {
-  const data = db.execute(`SELECT * FROM post_reply WHERE post == '${post.id}' ORDER BY timeposted DESC;`);
-  const list = [];
-  let index = 0;
-  data.forEach((elem) => {
-    list[index] = getReply(elem.reply);
-    index += 1;
-  });
-  return list;
+function getPostReplies(post) {
+  return db.execute(`SELECT * FROM post_reply WHERE post == '${post.id}' ORDER BY timeposted DESC;`);
+}
+
+function getAllReplies() {
+  const sql = 'SELECT * FROM reply';
+  return db.execute(sql);
 }
 
 module.exports = {
   getReply,
   addReply,
-  getReplyList,
+  getPostReplies,
   addPostReply,
   updatePostReplyCount,
+  getAllReplies,
 };

@@ -10,16 +10,16 @@ app.use(bodyParser.urlencoded({
 
 exports.addReply = (req, res) => {
   const replyData = {
-    details: `${req.body.replyDetail}`,
-    parent: `${req.body.replyParent}`,
-    creatorID: `${req.body.replyCreatorID}`,
+    details: req.body.replyDetail,
+    parent: req.body.replyParent,
+    creatorID: req.body.replyCreatorID,
+    creatorProfileUrl: req.body.creatorProfileUrl,
   };
-  console.log(replyData);
   reply.addReply(replyData).then(() => {
     reply.addPostReply(replyData).then(() => {
-      reply.updatePostReplyCount(replyData);
-    }).then(
-      res.redirect(304, '/main'),
-    );
+      reply.updatePostReplyCount(replyData).then(() => {
+        res.redirect(301, '/main');
+      });
+    });
   });
 };
