@@ -19,6 +19,7 @@ exports.getProfile = (req, res) => {
   /* Id from the param is the userInfoID, therefore made an update
   to the userProfile controller method. */
   const { id } = req.params;
+  const showDMButton = req.cookies.userID != id;
   userProfile.retrieveUserInfoWithInfoID(id).then(([data]) => {
     const userData = data[0];
     userProfile.getUserPosts(id).then((posts) => {
@@ -32,11 +33,11 @@ exports.getProfile = (req, res) => {
             post.postReplies = replies.filter((reply) => reply.parent === post.postID);
             post.timePosted = ddmmmyyyy(post.timePosted);
           });
-
           res.render('profile', {
             pageTitle: `${userData.userName} - Profile`,
             profilepageCSS: true,
             userInfo: userData,
+            showDMButton,
             posts,
             topicList: [
               'php',
@@ -60,6 +61,13 @@ exports.editProfile = (req, res) => {
       data: userData,
       editProfileCSS: true,
     });
+  });
+};
+
+exports.addLike = (req, res) => {
+  const { id } = req.params;
+  userProfile.addLike(id).then(() => {
+    res.redirect(301, `/user/${id}`)
   });
 };
 

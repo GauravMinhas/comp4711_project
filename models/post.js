@@ -45,9 +45,9 @@ function addPost(post) {
 }
 
 // update user_post table with new post
-async function addUserPost(postData) {
+async function addUserPost(postData, postID) {
   return new Promise((resolve, reject) => {
-    resolve(db.execute(`INSERT INTO user_post (userID, postID) VALUES ('${postData.creatorID}', last_insert_id());`))
+    resolve(db.execute(`INSERT INTO user_post (userID, postID) VALUES ('${postData.creatorID}', '${postID}');`))
       .catch(() => {
         reject(new Error('user_post table update failure.'));
       });

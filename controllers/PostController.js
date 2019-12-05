@@ -19,8 +19,9 @@ exports.addPost = (req, res) => {
     creatorID: req.body.creatorID,
     tags: req.body.postTag,
   };
-  post.addPost(postData).then(() => {
-    post.addUserPost(postData).then(() => {
+  post.addPost(postData).then((resp) => {
+    const postID = resp[0].insertId;
+    post.addUserPost(postData, postID).then(() => {
       post.updateUserPostCount(postData).then(() => {
         res.redirect(301, '/main');
       });

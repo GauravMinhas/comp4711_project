@@ -14,8 +14,9 @@ exports.addReply = (req, res) => {
     parent: req.body.replyParent,
     creatorID: req.cookies.userID,
   };
-  reply.addReply(replyData).then(() => {
-    reply.addPostReply(replyData).then(() => {
+  reply.addReply(replyData).then((resp) => {
+    const replyID = resp[0].insertId;
+    reply.addPostReply(replyData, replyID).then(() => {
       reply.updatePostReplyCount(replyData).then(() => {
         res.redirect(301, '/main');
       });

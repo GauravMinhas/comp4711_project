@@ -17,7 +17,6 @@ function registerUserInfo(userData) {
 // put updated user's information into userinfo table
 function updateUserInfo(userData) {
   const sql = `UPDATE  userinfo SET userName = '${userData.name}', profileUrl = '${userData.profileurl}',statementOfIntent = '${userData.statement_of_intent}', country = '${userData.country}', dateOfBirth ='${userData.dateofbirth}' WHERE userInfoID = '${userData.userID}';`;
-  console.log(sql)
   return db.execute(sql);
 }
 

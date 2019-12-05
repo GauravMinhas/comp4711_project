@@ -10,4 +10,6 @@ router.get('/logout', (req, res) => {
 /* Working in progress */
 router.get('/main', mainPageController.getMain);
 
+router.get('/main/posts', mainPageController.getPosts);
+
 module.exports = router;

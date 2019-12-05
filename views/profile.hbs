@@ -16,15 +16,19 @@
             </div>
 
             <div id="rightOfmain">
+                {{#if showDMButton}}
                 <form method="GET" action='/direct-message/{{userInfo.userInfoID}}'>
                     <input type="submit" class="like-btn" value='Message'/>
                 </form>
+                {{/if}}
                 <div class="one-line">
                     <li class="list-inline-item">{{ userInfo.stars }}</li>
                     <li class="list-inline-item">Likes</li>
-                    <form method="GET" class="list-inline-item" action='/like/{{userInfo.userInfoID}}'>
+                    {{#if showDMButton}}
+                    <form method="POST" class="list-inline-item" action='/like/{{userInfo.userInfoID}}'>
                         <input type="submit"  class="plus like-btn" value='+'/>
                     </form>
+                    {{/if}}
                 </div>
                 <ul class="list-inline">
                     <li class="list-inline-item">{{userInfo.posts}}</li>
