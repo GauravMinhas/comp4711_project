@@ -28,9 +28,9 @@ function addReply(reply) {
   return db.query(sql, [r.parent, r.details, r.creator]);
 }
 
-function addPostReply(reply) {
+function addPostReply(reply, replyID) {
   return new Promise((resolve, reject) => {
-    resolve(db.execute(`INSERT INTO post_reply (postID, replyID) VALUES ('${reply.parent}', last_insert_id());`))
+    resolve(db.execute(`INSERT INTO post_reply (postID, replyID) VALUES ('${reply.parent}', '${replyID}');`))
       .catch(() => {
         reject(new Error('post_reply table update failure.'));
       });

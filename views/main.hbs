@@ -12,12 +12,20 @@
                 </div>
 
                 <div id="profileInfo">
-                    <ul class="list-inline">
-                        <li class="list-inline-item">Posts</li>
-                        <li class="list-inline-item">{{ userInfo.posts }}</li>
-                        {{!-- <script>console.log({{userInfo.posts}})</script>
-                        <script>console.log({{userInfo.userInfoID}})</script> --}}
-                    </ul>
+                    
+                    {{#if hasPosts}}
+                        <ul class="list-inline">
+                            <a href="/main/posts/">
+                                <li class="list-inline-item">Posts</li>
+                                <li class="list-inline-item">{{ userInfo.posts }}</li>
+                            </a>
+                        </ul>
+                    {{else}}
+                        <ul class="list-inline">
+                            <li class="list-inline-item">Posts</li>
+                            <li class="list-inline-item">{{ userInfo.posts }}</li>
+                        </ul>
+                    {{/if}}
                     {{#if hasMessages}}
                         <ul class="list-inline">
                             <a href="/threads">

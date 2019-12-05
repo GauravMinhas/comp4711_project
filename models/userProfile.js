@@ -25,10 +25,15 @@ function getIDAndProfileURL() {
   return db.execute(`SELECT userInfoID, profileURL FROM userinfo;`);
 }
 
+function addLike(userInfoID) {
+  return db.execute(`UPDATE userinfo SET stars = stars + 1 WHERE userInfoID = '${userInfoID}';`);
+}
+
 module.exports = {
   retrieveUserInfo: getUserInfoWithAuth,
   retrieveUserInfoWithInfoID: getUserInfoWithInfo,
   getUserPosts: getPostList,
   getNameAndPhoto,
   getIDAndProfileURL,
+  addLike,
 };

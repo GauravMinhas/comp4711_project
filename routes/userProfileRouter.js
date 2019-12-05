@@ -10,5 +10,6 @@ router.get('/edit-profile', profileController.editProfile);
 
 router.post('/edit-profile', profileController.saveEdit);
 
-// router.get('/like/:id', profileController.getUserLikes);
+router.post('/like/:id', profileController.addLike);
+
 module.exports = router;

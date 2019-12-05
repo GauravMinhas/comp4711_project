@@ -23,6 +23,7 @@ exports.getMain = (req, res) => {
   userProfile.retrieveUserInfoWithInfoID(userInfoID).then(([data]) => {
     const userData = data[0];
     const postData = [];
+    let myPostCount = 0;
     postModel.getAllPosts().then(([postResult]) => {
       replyModel.getAllReplies().then(([replies]) => {
         userProfile.getIDAndProfileURL().then(([photos]) => {
@@ -33,6 +34,7 @@ exports.getMain = (req, res) => {
             post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
           });
           postResult.forEach((elem) => {
+            if (elem.creatorID == userInfoID) myPostCount++;
             postData.push({
               ...elem,
               postReplies: replies.filter((reply) => reply.parent === elem.postID),
@@ -44,6 +46,7 @@ exports.getMain = (req, res) => {
             mainpageCSS: true,
             userInfo: userData,
             hasMessages: !!userData.threads,
+            hasPosts: myPostCount != 0,
             posts: postData,
             topicList: [
               'php',
@@ -58,3 +61,40 @@ exports.getMain = (req, res) => {
     });
   });
 };
+
+
+
+exports.getPosts = (req, res) => {
+  const userInfoID = req.cookies.userID;
+  userProfile.retrieveUserInfoWithInfoID(userInfoID).then(([data]) => {
+    const userData = data[0];
+    userProfile.getUserPosts(userInfoID).then((posts) => {
+      replyModel.getAllReplies().then(([replies]) => {
+        userProfile.getIDAndProfileURL().then(([photos]) => {
+          replies.forEach(reply => {
+            reply.creatorProfileURL = photos.find(photo => photo.userInfoID == reply.creatorID).profileURL;
+          });
+          posts.forEach((post) => {
+            post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
+            post.postReplies = replies.filter((reply) => reply.parent === post.postID);
+            post.timePosted = ddmmmyyyy(post.timePosted);
+          });
+          res.render('main-posts', {
+            pageTitle: 'Knowledge Base - Posts Page',
+            mainpageCSS: true,
+            userInfo: userData,
+            hasMessages: !!userData.threads,
+            posts,
+            topicList: [
+              'php',
+              'nodejs',
+              'java',
+              'sql',
+              'zend',
+            ],
+          });
+        });
+      });
+    });
+  });
+}

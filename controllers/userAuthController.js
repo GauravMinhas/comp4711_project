@@ -60,6 +60,9 @@ exports.login = (req, res) => {
   checkUser.then(([rows]) => {
     /* Set the session info here, with userAuth table rows. */
     // eslint-disable-next-line prefer-destructuring
+    if (rows.length == 0) {
+      res.redirect(301, '/');
+    }
     req.session.userAuth = rows[0];
     const userAuthID = rows[0].userAuthID;
 
