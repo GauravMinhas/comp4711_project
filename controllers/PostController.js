@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const post = require('../models/post');
+const userProfile = require('../models/userProfile');
 
 const app = express();
 
@@ -31,18 +32,28 @@ exports.addPost = (req, res) => {
 
 exports.getPostsByTopic = (req, res) => {
   post.searchByTopic(req.body.searchTopic).then(([postResult]) => {
-    res.render('searchoutput', {
-      posts: postResult,
-      searchoutputCSS: true,
+    userProfile.getIDAndProfileURL().then(([photos]) => {
+      postResult.forEach((postData) => {
+        postData.creatorProfileURL = photos.find((photo) => photo.userInfoID === postData.creatorID).profileURL;
+      });
+      res.render('searchoutput', {
+        posts: postResult,
+        searchoutputCSS: true,
+      });
     });
   });
 };
 
 exports.getPostsByTitle = (req, res) => {
   post.searchByTitle(req.body.searchTitle).then(([postResult]) => {
-    res.render('searchoutput', {
-      posts: postResult,
-      searchoutputCSS: true,
+    userProfile.getIDAndProfileURL().then(([photos]) => {
+      postResult.forEach((postData) => {
+        postData.creatorProfileURL = photos.find((photo) => photo.userInfoID === postData.creatorID).profileURL;
+      });
+      res.render('searchoutput', {
+        posts: postResult,
+        searchoutputCSS: true,
+      });
     });
   });
 };

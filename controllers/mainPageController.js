@@ -36,11 +36,11 @@ exports.getMain = (req, res) => {
       postModel.getAllPosts().then(([postResult]) => {
         replyModel.getAllReplies().then(([replies]) => {
           userProfile.getIDAndProfileURL().then(([photos]) => {
-            replies.forEach(reply => {
-              reply.creatorProfileURL = photos.find(photo => photo.userInfoID == reply.creatorID).profileURL;
-            })
+            replies.forEach((reply) => {
+              reply.creatorProfileURL = photos.find((photo) => photo.userInfoID == reply.creatorID).profileURL;
+            });
             postResult.forEach((post) => {
-              post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
+              post.creatorProfileURL = photos.find((photo) => photo.userInfoID == post.creatorID).profileURL;
             });
             postResult.forEach((elem) => {
               if (elem.creatorID == userInfoID) myPostCount++;
@@ -72,8 +72,6 @@ exports.getMain = (req, res) => {
   }
 };
 
-
-
 exports.getPosts = (req, res) => {
   if (checkValid(req, res)) {
     const userInfoID = req.cookies.userID;
@@ -82,11 +80,11 @@ exports.getPosts = (req, res) => {
       userProfile.getUserPosts(userInfoID).then((posts) => {
         replyModel.getAllReplies().then(([replies]) => {
           userProfile.getIDAndProfileURL().then(([photos]) => {
-            replies.forEach(reply => {
-              reply.creatorProfileURL = photos.find(photo => photo.userInfoID == reply.creatorID).profileURL;
+            replies.forEach((reply) => {
+              reply.creatorProfileURL = photos.find((photo) => photo.userInfoID == reply.creatorID).profileURL;
             });
             posts.forEach((post) => {
-              post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
+              post.creatorProfileURL = photos.find((photo) => photo.userInfoID == post.creatorID).profileURL;
               post.postReplies = replies.filter((reply) => reply.parent === post.postID);
               post.timePosted = ddmmmyyyy(post.timePosted);
             });

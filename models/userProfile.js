@@ -22,7 +22,7 @@ function getNameAndPhoto(userInfoID) {
 }
 
 function getIDAndProfileURL() {
-  return db.execute(`SELECT userInfoID, profileURL FROM userinfo;`);
+  return db.execute('SELECT userInfoID, profileURL FROM userinfo;');
 }
 
 function addLike(userInfoID) {
