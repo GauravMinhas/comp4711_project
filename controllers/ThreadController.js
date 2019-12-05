@@ -10,6 +10,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+function checkValid(req, res) {
+  if (!req.cookies.userID) {
+    res.redirect(301, '/');
+  }
+}
+
 function getMessagesForThreads(threadID) {
   if (!threadID) {
     // maybe an empty Promise ??
@@ -68,6 +74,7 @@ function getThreadsForUser(id) {
 }
 
 exports.getThreads = (req, res) => {
+  checkValid(req, res);
   const { userID } = req.cookies;
   getThreadsForUser(userID)
     .then((finalList) => {
@@ -107,6 +114,7 @@ function makeGroups(messages) {
 }
 
 exports.getThread = (req, res) => {
+  checkValid(req, res);
   const senderID = req.cookies.userID;
   const { id: threadID } = req.params;
   getThreadsForUser(senderID)
@@ -156,6 +164,7 @@ exports.getThread = (req, res) => {
 };
 
 exports.postdirectMessage = (req, res) => {
+  checkValid(req, res);
   const { id: recieverID } = req.params;
   senderID = req.cookies.userID;
   const message = req.body.subject + "\n" + req.body.message;

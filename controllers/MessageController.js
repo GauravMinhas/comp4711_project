@@ -10,7 +10,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+function checkValid(req, res) {
+  if (!req.cookies.userID) {
+    res.redirect(301, '/');
+  }
+}
+
 exports.getdirectMessage = (req, res) => {
+  checkValid(req, res);
   const { id: recieverID } = req.params;
   userProfile.retrieveUserInfoWithInfoID(recieverID).then(([data]) => {
     const userData = data[0];
@@ -23,6 +30,7 @@ exports.getdirectMessage = (req, res) => {
 };
 
 exports.postdirectMessage = (req, res) => {
+  checkValid(req, res);
   const { id: recieverID } = req.params;
   const senderID = req.cookies.userID;
   const message = `${req.body.subject}\n${req.body.message}`;
@@ -41,6 +49,7 @@ exports.postdirectMessage = (req, res) => {
 };
 
 exports.postThreadMessage = (req, res) => {
+  checkValid(req, res);
   const { id: recieverID } = req.params;
   const senderID = req.cookies.userID;
   const { message } = req.body;

@@ -15,9 +15,16 @@ function ddmmmyyyy(time) {
   return (new Date(time)).toLocaleDateString('default', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
+function checkValid(req, res) {
+  if (!req.cookies.userID) {
+    res.redirect(301, '/');
+  }
+}
+
 exports.getProfile = (req, res) => {
   /* Id from the param is the userInfoID, therefore made an update
   to the userProfile controller method. */
+  checkValid(req, res);
   const { id } = req.params;
   const showDMButton = req.cookies.userID != id;
   userProfile.retrieveUserInfoWithInfoID(id).then(([data]) => {
@@ -54,6 +61,7 @@ exports.getProfile = (req, res) => {
 };
 
 exports.editProfile = (req, res) => {
+  checkValid(req, res);
   const { userID } = req.cookies;
   userProfile.retrieveUserInfo(userID).then(([data]) => {
     const formattedData = {
@@ -72,6 +80,7 @@ exports.editProfile = (req, res) => {
 };
 
 exports.addLike = (req, res) => {
+  checkValid(req, res);
   const { id } = req.params;
   userProfile.addLike(id).then(() => {
     res.redirect(301, `/user/${id}`)
@@ -79,6 +88,7 @@ exports.addLike = (req, res) => {
 };
 
 exports.saveEdit = (req, res) => {
+  checkValid(req, res);
   const { userID } = req.cookies;
   const userInfoData = {
     userID,

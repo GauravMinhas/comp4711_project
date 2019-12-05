@@ -18,7 +18,14 @@ function ddmmmyyyy(time) {
 
 app.use(bodyParser.json());
 
+function checkValid(req, res) {
+  if (!req.cookies.userID) {
+    res.redirect(301, '/');
+  }
+}
+
 exports.getMain = (req, res) => {
+  checkValid(req, res);
   const userInfoID = req.cookies.userID;
   userProfile.retrieveUserInfoWithInfoID(userInfoID).then(([data]) => {
     const userData = data[0];
@@ -65,6 +72,7 @@ exports.getMain = (req, res) => {
 
 
 exports.getPosts = (req, res) => {
+  checkValid(req, res);
   const userInfoID = req.cookies.userID;
   userProfile.retrieveUserInfoWithInfoID(userInfoID).then(([data]) => {
     const userData = data[0];
