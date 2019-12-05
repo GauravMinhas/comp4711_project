@@ -1,16 +1,16 @@
-
 <div class="body">
     <div>
         {{>searchbar}}
     </div>
+    <div class='mainThreadDiv'>
         <div class="user-list" id="user-list">
-            {{#each threads}} 
+            {{#each threads}}
             <a href="/threads/{{threadID}}">
                 <div class="user" id="{{this.id}}">
-                    <div class="image"><img src="{{this.profileURL}}" alt={{this.userName}}></div>
-                    <div class="info">
-                        <div class="user-name">
-                            <p>{{this.userName}}</p>
+                    <div class="image"><img class="img" src="{{this.profileURL}}" alt={{this.userName}}></div>
+                    <div class="threadInfo">
+                        <div class="threaduser-name">
+                            <p class="threadUserName">{{this.userName}}</p>
                         </div>
                         <div class="latest-message-time">
                             {{this.latestMessageTime}}
@@ -23,31 +23,37 @@
         {{#if hasMessages}}
         <div class="message-block">
             <div class="message-list">
-                {{#each groups}} 
-                    <div class="message-group-header"><span>{{this.date}}</span></div>
-                    {{#each this.messages}}
-                        <div class="message" id="{{this.id}}">
-                            <div class="image"><img class="image-small" src="{{this.senderURL}}" alt={{this.senderID}}></div>
-                            <div class="info">
-                                <div class="user-name">
-                                   <p> {{this.userName}} </p> 
-                                </div>
-                                <div class="time">
-                                    {{this.timePosted}}
-                                </div>
-                                <div class="message-content">
-                                    <p>{{this.text}}</p>
-                                </div>
+                {{#each groups}}
+                <div class="message-group-header"><span>{{this.date}}</span></div>
+                {{#each this.messages}}
+                <div class="message" id="{{this.id}}">
+                    <div class="image"><img class="image-small" src="{{this.senderURL}}" alt={{this.senderID}}></div>
+                    <div class="messageInfo">
+                        <div class='messageUserTimeDiv'>
+                            <div class="user-name">
+                                <p> {{this.userName}} </p>
+                            </div>
+                            <div class="time">
+                                {{this.timePosted}}
                             </div>
                         </div>
-                    {{/each}}
+                        <div class="message-content">
+                            <p class='threadMessage'>{{this.text}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
                 {{/each}}
             </div>
-            <form id='MessageForm' method='POST' action='/message/{{recieverID}}'>
-                <textarea class='multilinetext lg' name='message' placeholder='message ...' rows='8' cols='44' required ></textarea>
-                <input type='submit' class='lg' id='btn' value='Message' />
-                <input type='hidden' name='senderID' value="{{senderID}}"/>
-            </form>
+            <div class='messageTextDiv'>
+                <form id='MessageForm' method='POST' action='/message/{{recieverID}}'>
+                    <textarea id='messageTextArea' class='multilinetext lg' name='message'
+                        placeholder='Write a message...' rows='4' cols='98' required></textarea>
+                    <input type='submit' class='messageSubmitButton' id='btn' value='Message' />
+                    <input type='hidden' name='senderID' value="{{senderID}}" />
+                </form>
+            </div>
         </div>
         {{/if}}
+    </div>
 </div>

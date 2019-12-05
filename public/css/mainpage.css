@@ -192,6 +192,7 @@ select {
 
 #replyTriggerButton {
     cursor: pointer;
+    float:right;
 }
 
 body {

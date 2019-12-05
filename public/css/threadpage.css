@@ -1,11 +1,16 @@
-h1, p, div, input {
+h1,
+p,
+div,
+input {
   font-family: Tahoma, sans-serif;
 }
-
+.mainThreadDiv {
+  
+}
 .user-list {
   display: inline-table;
-  width: 100%;
-  max-width: 500px;
+  margin-left: 5em;
+  width: 20em;
 }
 
 .image {
@@ -26,57 +31,72 @@ h1, p, div, input {
   color: black;
 }
 
-#btn, .btn {
-  color:white;
+#btn,
+.btn {
+  color: white;
   background-color: dodgerblue;
   border-style: none;
   padding: 0.5em;
 }
 
-
-img {
+.img {
   border-radius: 50%;
+  width: 5em;
+  height: 5em;
+  border: 1px solid;
+  margin-bottom: 2em;
 }
 
-.info {
+.threadInfo {
+  display: inline-flex;
+  justify-content: space-between;
   margin-right: 1em;
+  margin-top: 15px;
   width: 100%;
   text-align: left;
 }
 
+.messageInfo {
+  margin-right: 1em;
+  width: 100%;
+  text-align: left;
+}
 .user {
   display: flex;
   margin: 0 auto 0 auto;
-  border: 1px solid lightgray;
+  max-height: 10em;
 }
 
-.user-name p {
+.threaduser-name p {
+  font-size: 1.1em;
   margin-bottom: 0;
-  font-weight: bold;
+  color:black;
 }
 
 .user:hover {
   background-color: lightgray;
 }
 
-a, a:hover, a:active {
-  text-decoration: none;
+a,
+a:hover,
+a:active {
+  text-decoration: none !important;
 }
 
 .latest-message-time {
-  display: inline-block;
   color: darkgray;
+  float: right;
 }
 
 .message-list {
   width: 100%;
   display: inline-flex;
   flex-direction: column;
-  max-width: 500px;
   overflow: auto;
-  border: 1px solid darkgray;
-  padding: 1em;
+  border-bottom: none;
+  border-left: 1px solid lightgray;
   margin: 1em;
+  margin-bottom: 0;
   max-height: 400px;
 }
 
@@ -84,40 +104,61 @@ a, a:hover, a:active {
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-  max-width: 500px;
+  max-width: 50em;
+}
+.time {
+  margin-left: 1em;
+  margin-top: 0.2em;
+  font-size: 0.8em;
+  color:gray;
+}
+#messageTextArea {
+  margin: 1em;
+  margin-top: 0;
+  border-right: none;
+  border-top: none;
 }
 
-textarea {
-  max-width: 500px;
-  width:90%;
-  margin:1em;
+#messageTextDiv {
+  width: 40em;
+  margin: 1em;
 }
 
-.message-group-header{
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid darkgray;
-  margin-bottom: 1em;
+.messageSubmitButton {
+  float: right;
 }
 
 .message {
-    width: 100%;
-    display: flex;
-    margin: 0 auto 0 auto;
+  width: 100%;
+  display: flex;
+  margin: 0 auto 0 auto;
 }
-
+.messageUserTimeDiv {
+  display: flex;
+}
 .message-content p {
   margin-bottom: 0;
-  font-weight: bold;
 }
 
 body {
   padding: 1em;
 }
+
 a {
   text-decoration: none !important;
 }
 
 #searchBar {
   width: 60%;
+}
+
+.message-group-header {
+  text-align: center;
+  height: 0.75em;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 0.5em;
+  color:gray;
+}
+.message-group-header:first-line {
+  background-color: white;
 }

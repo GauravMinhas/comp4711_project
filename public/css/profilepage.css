@@ -188,7 +188,6 @@ select {
     width: 70%;
 }
 
-<<<<<<< HEAD
 body {
     padding: 1em;
 }
@@ -199,7 +198,6 @@ a {
 #searchBar {
     width: 60%;
 }
-=======
 
 
 /* Reply Partial CSS */
@@ -249,4 +247,3 @@ a {
 #replyTriggerButton {
     cursor: pointer;
 }
->>>>>>> 4c9055892a720947d5d9e2a278648b951d899d8f

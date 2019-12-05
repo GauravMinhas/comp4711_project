@@ -37,7 +37,10 @@ function getThreadsForUser(id) {
       data.forEach(({ threadID }, index) => {
         list[index] = threads.getThread(threadID)
           .then(([row]) => {
-            const other = (row[0].user1ID === id ? row[0].user2ID : row[0].user1ID);
+            /* This double equal comparison matters!!! Please do not apply
+              es-lint change to this ever! */
+            // eslint-disable-next-line eqeqeq
+            const other = (row[0].user1ID == id ? row[0].user2ID : row[0].user1ID);
             return { userID: other, threadID };
           });
       });
