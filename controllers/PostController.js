@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const post = require('../models/post');
 const userProfile = require('../models/userProfile');
+const replyModel = require('../models/reply');
 
 const app = express();
 
@@ -30,29 +31,64 @@ exports.addPost = (req, res) => {
   });
 };
 
+// get date in MON DD, YYYY format
+function ddmmmyyyy(time) {
+  return (new Date(time)).toLocaleDateString('default', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+}
+
 exports.getPostsByTopic = (req, res) => {
+  const postData = [];
   post.searchByTopic(req.body.searchTopic).then(([postResult]) => {
-    userProfile.getIDAndProfileURL().then(([photos]) => {
-      postResult.forEach((postData) => {
-        postData.creatorProfileURL = photos.find((photo) => photo.userInfoID === postData.creatorID).profileURL;
-      });
-      res.render('searchoutput', {
-        posts: postResult,
-        searchoutputCSS: true,
+    replyModel.getAllReplies().then(([replies]) => {
+      userProfile.getIDAndProfileURL().then(([photos]) => {
+        replies.forEach((reply) => {
+          reply.creatorProfileURL = photos.find((photo) => photo.userInfoID == reply.creatorID).profileURL;
+        });
+        postResult.forEach((postDataResult) => {
+          postDataResult.creatorProfileURL = photos.find((photo) => photo.userInfoID === postDataResult.creatorID).profileURL;
+        });
+        postResult.forEach((elem) => {
+          postData.push({
+            ...elem,
+            postReplies: replies.filter((reply) => reply.parent === elem.postID),
+            timePosted: ddmmmyyyy(elem.timePosted),
+          });
+        });
+        res.render('searchoutput', {
+          posts: postData,
+          searchoutputCSS: true,
+        });
       });
     });
   });
 };
 
 exports.getPostsByTitle = (req, res) => {
+  const postData = [];
   post.searchByTitle(req.body.searchTitle).then(([postResult]) => {
-    userProfile.getIDAndProfileURL().then(([photos]) => {
-      postResult.forEach((postData) => {
-        postData.creatorProfileURL = photos.find((photo) => photo.userInfoID === postData.creatorID).profileURL;
-      });
-      res.render('searchoutput', {
-        posts: postResult,
-        searchoutputCSS: true,
+    replyModel.getAllReplies().then(([replies]) => {
+      userProfile.getIDAndProfileURL().then(([photos]) => {
+        replies.forEach((reply) => {
+          reply.creatorProfileURL = photos.find((photo) => photo.userInfoID == reply.creatorID).profileURL;
+        });
+        postResult.forEach((postDataResult) => {
+          postDataResult.creatorProfileURL = photos.find((photo) => photo.userInfoID === postDataResult.creatorID).profileURL;
+        });
+        postResult.forEach((elem) => {
+          postData.push({
+            ...elem,
+            postReplies: replies.filter((reply) => reply.parent === elem.postID),
+            timePosted: ddmmmyyyy(elem.timePosted),
+          });
+        });
+        res.render('searchoutput', {
+          posts: postData,
+          searchoutputCSS: true,
+        });
       });
     });
   });

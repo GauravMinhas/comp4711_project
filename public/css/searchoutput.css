@@ -98,3 +98,29 @@ a {
 .postBody {
     margin-left: 10em;
 }
+
+
+/* Reply Partial CSS */
+
+#replyProfileImg {
+    border-radius: 50%;
+    width: 4em;
+    height: 4em;
+    border: 1px solid;
+    margin: 1em;
+}
+
+#replyMainDiv {
+    width: 15em;
+    border: none;
+    padding: 2em;
+}
+
+#replyProfileDiv {
+    vertical-align: middle;
+    margin: auto;
+}
+
+#replyText {
+    margin: auto;
+}
