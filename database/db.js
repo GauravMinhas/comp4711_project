@@ -12,6 +12,8 @@ const pool = mysql.createPool({
 
   //password: '',
   password: 'NKOM12u32y',
+
+  port: 3306,
 });
 
 module.exports = pool.promise();
