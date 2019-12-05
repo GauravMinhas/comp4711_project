@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userAuth = require('../models/userAuth');
+const userProfile = require('../models/userProfile');
 
 const app = express();
 
@@ -26,8 +27,8 @@ exports.signup = (req, res) => {
 };
 
 /* calls the api functions for registration, insert the data into userauth and userinfo
-   we should probably block invalid input in front-end, which is easier to handle */
-exports.register = (req, res) => {
+we should probably block invalid input in front-end, which is easier to handle */
+exports.signup = (req, res) => {
   const userAuthData = {
     password: req.body.password,
     email: req.body.email,
@@ -40,32 +41,52 @@ exports.register = (req, res) => {
     dateofbirth: req.body.dateofbirth,
   };
 
-  /* Inserts the user into userAuth, then into userInfo table. */
   userAuth.registerAuth(userAuthData).then(() => userAuth.registerInfo(userInfoData)).then(() => {
-    res.render('/main');
+    res.redirect('/');
   }).catch((error) => {
     console.log(error);
     userAuth.dropUserAuth(userAuthData);
-    res.redirect(304, '/register');
+    res.redirect(301, '/');
   });
 };
 
 // handles the login
-exports.login = async (req, res) => {
+exports.login = (req, res) => {
   const userAuthData = {
     email: req.body.email,
     password: req.body.password,
   };
   const checkUser = userAuth.login(userAuthData);
   checkUser.then(([rows]) => {
-    console.log(rows[0]);
-    const loginUserId = rows[0].id;
-    if (rows[0].password === userAuthData.password) {
-      console.log(`----------------Logged in as: ${loginUserId}----------------`);
-      res.render('main', { userId: loginUserId });
+    /* Set the session info here, with userAuth table rows. */
+    // eslint-disable-next-line prefer-destructuring
+    if (rows.length == 0) {
+      res.render('login', {
+        pageTitle: 'Knowledge Base - Login',
+        loginImageLink: 'images/vector-knowledge.jpg',
+        loginCSS: true,
+        loginFailed: false,
+        noExistingUser: true,
+      });
+    }
+    req.session.userAuth = rows[0];
+    const userAuthID = rows[0].userAuthID;
+
+    if (rows[0].userPassword === userAuthData.password) {
+      userProfile.retrieveUserInfo(userAuthID).then(([data]) => {
+        res.cookie('userID', data[0].userInfoID);
+        res.redirect(301, '/main');
+      });
     } else {
-      console.log('Password Mismatch!');
-      res.redirect(304, '/');
+      /* When we have session set up, we should actually re-render this page
+         with appropriate warning message on the front-end. */
+      res.render('login', {
+        pageTitle: 'Knowledge Base - Login',
+        loginImageLink: 'images/vector-knowledge.jpg',
+        loginCSS: true,
+        loginFailed: true,
+        noExistingUser: false,
+      });
     }
   }).catch((error) => {
     console.log(error);

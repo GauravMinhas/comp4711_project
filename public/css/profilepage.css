@@ -1,0 +1,275 @@
+h1,
+p,
+div,
+input {
+    font-family: Tahoma, sans-serif;
+}
+
+.question {
+    text-align: center;
+    display: inline;
+}
+
+input[type=detail] {
+    height: 30%
+}
+
+#color {
+    color: skyblue;
+}
+
+#logo {
+    font-size: 3em;
+    color: black;
+}
+
+/* Profile Image CSS Section */
+#profileImg {
+    border-radius: 50%;
+    width: 15em;
+    height: 15em;
+    border: 1px solid;
+    margin-bottom: 1em;
+}
+
+#profileUser {
+    text-align: center;
+}
+#profileDescription {
+    font-size: 1.3em;
+}
+
+#profileDescriptionCountry {
+    font-size: 1.3em;
+}
+#profileName {
+    font-size: 2em;
+}
+
+#profileMainDiv {
+    width: 30em;
+    padding: 2.5em;
+}
+
+#rightOfmain {
+    padding: 1em;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#mainText {
+    font-size: 2em;
+}
+
+#formStyle {
+    width: 10em;
+}
+
+.postSubject,
+.postDetail {
+    width: 100%;
+    margin: 0.5em;
+}
+
+.topicList {
+    width: 50%;
+    margin: 0.5em;
+}
+
+#btn,
+.btn {
+    color: white;
+    background-color: dodgerblue;
+    padding: 0.5em;
+}
+
+input,
+textarea,
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    font-family: inherit;
+    font-size: 100%;
+    border-style: solid;
+    border-color: lightgrey;
+    padding: 0.5em;
+}
+
+#btn {
+    margin-left: 4.5em;
+}
+
+#searchTopicSelect {
+    width: 70%;
+}
+#searchByTopic, #latestDiscussion {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+/* Post partial css section */
+.postMainDiv {
+    width: 30em;
+    max-height: 510px;
+    border: none;
+    padding: 1em;
+}
+
+#postProfileImg {
+    border-radius: 50%;
+    width: 6em;
+    height: 6em;
+    border: 1px solid;
+}
+
+#postProfileDiv {
+    vertical-align: middle;
+    height: 100%;
+}
+#postLabelDiv {
+    margin-left: 8em;
+}
+.postHeaderDiv {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tags {
+    width: 4em;
+    text-align: center;
+    color:lightblue;
+    padding: 1px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+/* Multi-line ellipsis. -webkit-line-clamp not supported in IE11, 
+   supported in all other major browsers. */
+.card-text {
+    display: block;
+    display: -webkit-box;
+    max-width: 20em;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.main {
+    display: flex;
+    width: 50%;
+    margin: auto;
+}
+
+.col {
+    flex-direction: column;
+}
+
+#profileMain {
+    margin: auto;
+    margin-left: 10em;
+}
+
+.main-actions {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.plus {
+    border-radius: 25%;
+    margin: 0;
+}
+
+.like-btn {
+    color: white;
+    background-color: dodgerblue;
+    padding: 0.5em;
+    width: 10em;
+}
+
+.plus-like-btn {
+    color: white;
+    background-color: dodgerblue;
+    padding: 0.5em;
+    width: 3em;
+    border-radius: 50%;
+}
+
+.one-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-list {
+    margin: 0 auto;
+    width: 70%;
+}
+
+.profilePostText {
+    color:dodgerblue;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+body {
+    padding: 1em;
+}
+a {
+    text-decoration: none !important;
+}
+
+.profilePostTextDiv {
+    text-align: left;
+}
+#searchBar {
+    width: 60%;
+}
+
+
+/* Reply Partial CSS */
+
+#replyProfileImg {
+    border-radius: 50%;
+    width: 4em;
+    height: 4em;
+    border: 1px solid;
+    margin: 1em;
+}
+
+#replyMainDiv {
+    width: 15em;
+    border: none;
+    padding: 2em;
+}
+
+#replyProfileDiv {
+    vertical-align: middle;
+    margin: auto;
+}
+
+#replyText {
+    margin: auto;
+}
+
+/* Add Reply post.hbs CSS */
+
+#addReplyDiv {
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+#replybtn {
+    color: white;
+    background-color: dodgerblue;
+    border-style: none;
+    padding: 0.5em;
+    float: right;
+}
+/* A static js function has been created to handle toggling. */
+.postReplyMainDiv {
+    display: none;
+}
+
+#replyTriggerButton {
+    cursor: pointer;
+}

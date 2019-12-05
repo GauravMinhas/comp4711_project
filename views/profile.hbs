@@ -1,0 +1,51 @@
+<div class="body">
+    <div>
+        {{>searchbar}}
+    </div>
+    <div id="profileMain" class="main col">
+        <div class="main-actions">
+            <div id='profileMainDiv'>
+                <div id="profileUser">
+                    <div>
+                        <img id="profileImg" src="{{ userInfo.profileUrl }}" alt="{{ userInfo.userName }}" />
+                        <p class="font-weight-light" id="profileName">{{ userInfo.userName }}</p>
+                        <p id="profileDescription">{{ userInfo.statementOfIntent }}</p>
+                        <p id="profileDescriptionCountry">{{ userInfo.country }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rightOfmain">
+                {{#if showDMButton}}
+                <form method="GET" action='/direct-message/{{userInfo.userInfoID}}'>
+                    <input type="submit" class="like-btn" value='Message'/>
+                </form>
+                {{/if}}
+                <div class="one-line">
+                    <span class="profilePostText">{{ userInfo.stars }} Likes</span>
+                    {{#if showDMButton}}
+                    <form method="POST" action='/like/{{userInfo.userInfoID}}'>
+                        <input type="submit" class="plus-like-btn" value='+'/>
+                    </form>
+                    {{/if}}
+                </div>
+                <div class='profilePostTextDiv'>
+                    <span class="profilePostText">{{userInfo.posts}} Posts</span>
+                </div>
+            </div> 
+        </div>
+        <div class="posts">
+            <div id='postLabelDiv'>
+                <label id='latestDiscussion'>All Posts by {{userInfo.userName}}:</label>
+            </div>
+            <div class="post-list" >
+              {{#each posts}}
+                {{>post}}
+              {{/each}}
+            </div>
+            {{#if userInfo.posts}}
+                {{>next}}  
+            {{/if}}
+        </div>
+    </div>
+</div>

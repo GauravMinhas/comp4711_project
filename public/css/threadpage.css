@@ -1,0 +1,164 @@
+h1,
+p,
+div,
+input {
+  font-family: Tahoma, sans-serif;
+}
+.mainThreadDiv {
+  
+}
+.user-list {
+  display: inline-table;
+  margin-left: 5em;
+  width: 20em;
+}
+
+.image {
+  margin: 1em;
+}
+
+.image-small {
+  height: 60px;
+  width: 60px;
+}
+
+#color {
+  color: skyblue;
+}
+
+#logo {
+  font-size: 3em;
+  color: black;
+}
+
+#btn,
+.btn {
+  color: white;
+  background-color: dodgerblue;
+  border-style: none;
+  padding: 0.5em;
+}
+
+.img {
+  border-radius: 50%;
+  width: 5em;
+  height: 5em;
+  border: 1px solid;
+  margin-bottom: 2em;
+}
+
+.threadInfo {
+  display: inline-flex;
+  justify-content: space-between;
+  margin-right: 1em;
+  margin-top: 15px;
+  width: 100%;
+  text-align: left;
+}
+
+.messageInfo {
+  margin-right: 1em;
+  width: 100%;
+  text-align: left;
+}
+.user {
+  display: flex;
+  margin: 0 auto 0 auto;
+  max-height: 10em;
+}
+
+.threaduser-name p {
+  font-size: 1.1em;
+  margin-bottom: 0;
+  color:black;
+}
+
+.user:hover {
+  background-color: lightgray;
+}
+
+a,
+a:hover,
+a:active {
+  text-decoration: none !important;
+}
+
+.latest-message-time {
+  color: darkgray;
+  float: right;
+}
+
+.message-list {
+  width: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  overflow: auto;
+  border-bottom: none;
+  border-left: 1px solid lightgray;
+  margin: 1em;
+  margin-bottom: 0;
+  max-height: 400px;
+}
+
+.message-block {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 50em;
+}
+.time {
+  margin-left: 1em;
+  margin-top: 0.2em;
+  font-size: 0.8em;
+  color:gray;
+}
+#messageTextArea {
+  margin: 1em;
+  margin-top: 0;
+  border-right: none;
+  border-top: none;
+}
+
+#messageTextDiv {
+  width: 40em;
+  margin: 1em;
+}
+
+.messageSubmitButton {
+  float: right;
+}
+
+.message {
+  width: 100%;
+  display: flex;
+  margin: 0 auto 0 auto;
+}
+.messageUserTimeDiv {
+  display: flex;
+}
+.message-content p {
+  margin-bottom: 0;
+}
+
+body {
+  padding: 1em;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+#searchBar {
+  width: 60%;
+}
+
+.message-group-header {
+  text-align: center;
+  height: 0.75em;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 0.5em;
+  color:gray;
+}
+.message-group-header:first-line {
+  background-color: white;
+}

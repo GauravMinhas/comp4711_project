@@ -1,0 +1,99 @@
+<div class="body">
+    <div>
+        {{>searchbar}}
+    </div>
+    <div id="main" class="main row">
+        <div id='profileMainDiv'>
+            <div id="profileUser">
+                <div>
+                    <img id="profileImg" src="{{ userInfo.profileUrl }}" alt="{{ userInfo.userName }}" />
+                    <p class="font-weight-light" id="profileName">{{ userInfo.userName }}</p>
+                    <p class="font-weight-light" id="mainPageprofileDescription">{{ userInfo.statementOfIntent }}</p>
+                </div>
+
+                <div id="profileInfo">
+                    {{#if hasPosts}}
+                        <div class="list-inline">
+                            <a href="/main/posts/">
+                                <li class="list-inline-item">Posts</li>
+                                <li class="list-inline-item">{{ userInfo.posts }}</li>
+                            </a>
+                        </div>
+                    {{else}}
+                        <div class="list-inline">
+                            <li class="list-inline-item">Posts</li>
+                            <li class="list-inline-item">{{ userInfo.posts }}</li>
+                        </div>
+                    {{/if}}
+                    {{#if hasMessages}}
+                        <div class="list-inline">
+                            <a href="/threads">
+                                <li class="list-inline-item">Messages</li>
+                                <li class="list-inline-item">{{ userInfo.threads }}</li>
+                            </a>
+                        </div>
+                    {{else}}
+                        <div class="list-inline">
+                            <li class="list-inline-item">Messages</li>
+                            <li class="list-inline-item">{{ userInfo.threads }}</li>
+                        </div>
+                    {{/if}}
+                    
+                    <ul class="list-inline">
+                        <li class="list-inline-item">Likes</li>
+                        <li class="list-inline-item">{{ userInfo.stars }}</li>
+                    </ul>
+                </div>
+                <a class="btn btn-link" href="/edit-profile">Edit Profile</a>
+            </div>
+        </div>
+
+        <div id="rightOfmain">
+            <div>
+                <p id='mainText'>What's your question today?</p>
+                <form method='POST' action='/addPost'>
+                    <div>
+                        <input class="postSubject" type="text" name='postSubject' placeholder="subject" required />
+                    </div>
+                    <div>
+                        <textarea class="postDetail" placeholder="explain in detail ....." rows='6'
+                            name='postDetail' required></textarea>
+                        <input type='hidden' name='creatorID' value='{{ userInfo.userInfoID }}'/>
+                    </div>
+                    <div>
+                        <select class="topicList" name='postTag' required>
+                            {{#each topicList}}
+                            <option value="{{ this }}">{{ this }}</option>
+                            {{/each}}
+                        </select>
+                        <input type="submit" id='btn' value='Post to Timeline' />
+                    </div>
+                </form>
+            </div>
+            <div class="searchTopic">
+                <form method='POST' action='/searchByTopic'>
+                    <div>
+                        <label id="searchByTopic">Search by topic</label>
+                    </div>
+                    <div>
+                         <select class="php" id='searchTopicSelect' name='searchTopic'>
+                            {{#each topicList}}
+                            <option value="{{ this }}">{{ this }}</option>
+                            {{/each}}
+                        </select>
+                        <input type="submit" id='btn' value='GO->'/>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <label id='latestDiscussion'>Latest discussions</label>
+            </div>
+            <div>
+              {{#each posts}}
+                {{>post id = @index }}
+              {{/each}}
+            </div>
+            {{>next}}
+        </div>
+    </div>
+</div>

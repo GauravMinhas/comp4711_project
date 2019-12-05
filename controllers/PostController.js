@@ -10,49 +10,39 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-// make a new post
+/* Inserts a new post into the post table, and also inserts a row into user-post table.
+   User post count is incremented by 1, and the user is redirected to the main page. */
 exports.addPost = (req, res) => {
   const postData = {
-    title: `${req.body.title}`,
-    details: `${req.body.details}`,
-    creator: `${req.body.creator}`,
-    tags: `${req.body.tags}`,
+    title: req.body.postSubject,
+    details: req.body.postDetail,
+    creatorID: req.body.creatorID,
+    tags: req.body.postTag,
   };
-
-  post.addPost(postData).then(() => {
-    post.newUserPost(postData);
-  }).then(() => {
-    post.incrementPostCount(postData);
-  }).then(() => {
-    res.redirect('/main');
-  })
-    .catch((error) => {
-      console.log(error);
+  post.addPost(postData).then((resp) => {
+    const postID = resp[0].insertId;
+    post.addUserPost(postData, postID).then(() => {
+      post.updateUserPostCount(postData).then(() => {
+        res.redirect(301, '/main');
+      });
     });
+  });
 };
 
-// load all of the posts
-exports.getAllPost = (req, res) => {
-  post.getAllPost().then((data) => {
-    const rawPostData = data[0];
-    const postData = [];
-    let index = 0;
-    rawPostData.forEach((elem) => {
-      const p = {
-        id: elem.id,
-        title: elem.title,
-        details: elem.details,
-        tags: elem.tags,
-        replycount: elem.replycount,
-        timeposted: elem.timeposted,
-        replyList: elem.replyList,
-      };
-      postData[index] = p;
-      index += 1;
+exports.getPostsByTopic = (req, res) => {
+  post.searchByTopic(req.body.searchTopic).then(([postResult]) => {
+    res.render('searchoutput', {
+      posts: postResult,
+      searchoutputCSS: true,
     });
-    console.log(postData);
-    res.render('postPartial', { postData });
-  }).catch((error) => {
-    console.log(error);
+  });
+};
+
+exports.getPostsByTitle = (req, res) => {
+  post.searchByTitle(req.body.searchTitle).then(([postResult]) => {
+    res.render('searchoutput', {
+      posts: postResult,
+      searchoutputCSS: true,
+    });
   });
 };

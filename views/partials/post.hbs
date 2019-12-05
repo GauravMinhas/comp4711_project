@@ -1,0 +1,37 @@
+<posts>
+    <div class="postMainDiv">
+        <div class="row">
+            <div class="col-md-3" id="postProfileDiv">
+                <a href="/user/{{ this.creatorID }}">
+                    <img src="{{ this.creatorProfileURL }}" id="postProfileImg">
+                </a>
+            </div>
+            <div class="col-md-9">
+                <div>
+                    <div class='postHeaderDiv'>
+                        <h5 class="card-title">{{ this.title }}</h5>
+                        <p class='tags'>{{ this.tags }}</p>
+                    </div>
+                    <p class="card-text">{{ this.details }}</p>
+                    <a class="card-link"><small class="text-muted">{{ this.timePosted }}</small></a>
+                    <span id='replyTriggerButton' class="card-link" onclick="toggleReplyDiv('post{{ this.id }}replyList')"><small class="text-muted">{{ this.replyCount }} replies</small></span>
+                </div>
+                <div id='post{{ this.id }}replyList' class="postReplyMainDiv">
+                    {{#each this.postReplies}}
+                    {{>reply}}
+                    {{/each}}
+                    <form method='POST' action='/addReply'>
+                        <div id='addReplyDiv'>
+                            <textarea class="replyDetail" placeholder="add your reply....." rows='2' cols='35'
+                                name='replyDetail' required></textarea>
+                            <input type='hidden' name='replyParent' value='{{ this.postID }}' />
+                        </div>
+                        <div>
+                            <input type="submit" id='replybtn' value='Comment' />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</posts>

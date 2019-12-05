@@ -2,37 +2,38 @@ const db = require('../database/db.js');
 const postModel = require('./post');
 
 // get user information with id.
-function getUserInfo(u) {
-  const data = db.execute(`SELECT * FROM userinfo WHERE id == '${u.id}';`);
-  if (data == null) {
-    return -1;
-  }
+function getUserInfoWithAuth(userAuthID) {
+  return db.execute(`SELECT * FROM userinfo WHERE userAuthID = '${userAuthID}';`);
+}
 
-  const user = {
-    id: data[0].id,
-    name: data[0].name,
-    picture: data[0].picture,
-    statement_of_intent: data[0].statement_of_intent,
-    posts: data[0].posts,
-    stars: data[0].stars,
-    threads: data[0].threads,
-    birthday: data[0].birthday,
-  };
-  return user;
+function getUserInfoWithInfo(userInfoID) {
+  return db.execute(`SELECT * FROM userinfo WHERE userInfoID = '${userInfoID}';`);
 }
 
 // get a list of all the posts from the user.
-function getPostList(u) {
-  const data = db.execute(`SELECT * FROM user_post WHERE user == '${u.id}';`);
-  const list = [];
-  let index = 0;
-  data.forEach((elem) => {
-    list[index] = postModel.getPost(elem.post);
-    index += 1;
+function getPostList(id) {
+  return (postModel.getPostsByUser(id)).then((res) => {
+    return Promise.all(res);
   });
 }
 
+function getNameAndPhoto(userInfoID) {
+  return db.execute(`SELECT userName, profileURL FROM userinfo WHERE userInfoID = '${userInfoID}';`);
+}
+
+function getIDAndProfileURL() {
+  return db.execute(`SELECT userInfoID, profileURL FROM userinfo;`);
+}
+
+function addLike(userInfoID) {
+  return db.execute(`UPDATE userinfo SET stars = stars + 1 WHERE userInfoID = '${userInfoID}';`);
+}
+
 module.exports = {
-  getInfo: getUserInfo,
-  getUserPost: getPostList,
+  retrieveUserInfo: getUserInfoWithAuth,
+  retrieveUserInfoWithInfoID: getUserInfoWithInfo,
+  getUserPosts: getPostList,
+  getNameAndPhoto,
+  getIDAndProfileURL,
+  addLike,
 };

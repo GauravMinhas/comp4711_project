@@ -1,0 +1,69 @@
+h1, p, div {
+    font-family: Tahoma, sans-serif;
+}
+
+img {
+    width: 25em;
+}
+
+input {
+    -webkit-appearance: none; 
+    appearance: none;
+    font-family: inherit;
+    font-size: 100%;
+    border-style: solid;
+    border-color: lightgrey;
+    padding: 0.5em;
+}
+
+.mid {
+    width: 11em;
+    margin: 0.5em;
+}
+.lg {
+    width: 23.5em;
+    margin: 0.5em;
+}
+.main {
+    display: flex;
+    padding: 2em;
+}
+.formDiv {
+    margin-left: 20em;
+}
+#logoBase {
+    color: skyblue;
+}
+
+#mainTitle, #mainBody {
+    font-size: 3em;
+}
+#mainBody {
+    width: 80%;
+}
+#btn, .btn {
+    color: white;
+    background-color:dodgerblue;
+    border-style: none;
+    padding: 0.5em;
+}
+
+#btn {
+    width: 23.5em;
+}
+
+body {
+    padding: 1em;
+}
+a {
+    text-decoration: none !important;
+}
+
+#searchBar {
+    width: 60%;
+}
+
+.errorMessage {
+    color:red;
+    font-weight: bold;
+}

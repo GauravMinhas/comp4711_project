@@ -1,0 +1,70 @@
+/* General CSS */
+h1,
+p,
+div,
+input {
+    font-family: Tahoma, sans-serif;
+}
+
+#btn,
+.btn {
+    color: white;
+    background-color: dodgerblue;
+    border-style: none;
+    padding: 0.5em;
+}
+
+/* Post partial related CSS */
+.postMainDiv {
+    width: 30em;
+    max-height: 510px;
+    border: none;
+    padding: 1em;
+    margin-left: 5em;
+}
+
+#postProfileImg {
+    border-radius: 50%;
+    width: 6em;
+    height: 6em;
+    border: 1px solid;
+}
+
+#postProfileDiv {
+    vertical-align: middle;
+    height: 100%;
+}
+
+.postHeaderDiv {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tags {
+    width: 4em;
+    text-align: center;
+    color:lightblue;
+    padding: 1px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+/* Search partial related CSS */
+#color {
+    color: skyblue;
+}
+
+#logo {
+    font-size: 3em;
+}
+
+body {
+    padding: 1em;
+}
+a {
+    text-decoration: none !important;
+}
+
+#searchBar {
+    width: 60%;
+}
