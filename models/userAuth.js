@@ -51,6 +51,12 @@ function dropUserAuth(userData) {
   db.execute(`DELETE FROM userauth WHERE email LIKE '${data.email}' AND userPassword LIKE '${data.password}';`);
 }
 
+function getEmailFromUserInfoID(userInfoID) {
+  const userAuthID = db.execute(`SELECT userAuthID from userinfo WHERE userInfoID = '${userInfoID}'`);
+  return userAuthID.then(([row]) => db.execute(`SELECT email from userauth where userAuthID = '${row[0].userAuthID}'`)
+    .then(([emails]) => emails[0].email));
+}
+
 
 module.exports = {
   registerAuth: registerUserAuth,
@@ -59,4 +65,5 @@ module.exports = {
   login: userLogin,
   dropUserAuth,
   updateUserInfo,
+  getEmailFromUserInfoID,
 };
