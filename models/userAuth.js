@@ -11,7 +11,7 @@ function registerUserAuth(userData) {
 function registerUserInfo(userData) {
   const sql = `INSERT INTO userinfo (userAuthID, userName, profileUrl, statementOfIntent, country, dateOfBirth) VALUES (last_insert_id(), '${userData.name}', '${userData.profileurl}',?, ?, '${userData.dateofbirth}');`;
   /* User's statement of intent is taken out as a query parameter to allow apostrophe inputs. */
-  return db.query(sql, userData.statement_of_intent, userData.country);
+  return db.query(sql, [userData.statement_of_intent, userData.country]);
 }
 
 // put updated user's information into userinfo table
@@ -45,7 +45,7 @@ function dropUserAuth(userData) {
     email: userData.email,
     password: userData.password,
   };
-  db.execute(`DELETE FROM userauth WHERE email LIKE '${data.email}' AND password LIKE '${data.password}';`);
+  db.execute(`DELETE FROM userauth WHERE email LIKE '${data.email}' AND userPassword LIKE '${data.password}';`);
 }
 
 

@@ -12,8 +12,7 @@ exports.addReply = (req, res) => {
   const replyData = {
     details: req.body.replyDetail,
     parent: req.body.replyParent,
-    creatorID: req.body.replyCreatorID,
-    creatorProfileUrl: req.body.creatorProfileUrl,
+    creatorID: req.cookies.userID,
   };
   reply.addReply(replyData).then(() => {
     reply.addPostReply(replyData).then(() => {

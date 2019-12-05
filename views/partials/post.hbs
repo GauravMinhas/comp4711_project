@@ -2,19 +2,19 @@
     <div class="postMainDiv">
         <div class="row">
             <div class="col-md-3" id="postProfileDiv">
-                <a href="/user/{{ this.post.creatorID }}">
-                    <img src="{{ this.post.creatorProfileUrl }}" id="postProfileImg">
+                <a href="/user/{{ this.creatorID }}">
+                    <img src="{{ this.creatorProfileURL }}" id="postProfileImg">
                 </a>
             </div>
             <div class="col-md-9">
                 <div>
                     <div class='postHeaderDiv'>
-                        <h5 class="card-title">{{ this.post.title }}</h5>
-                        <p class='tags'>{{ this.post.tags }}</p>
+                        <h5 class="card-title">{{ this.title }}</h5>
+                        <p class='tags'>{{ this.tags }}</p>
                     </div>
-                    <p class="card-text">{{ this.post.details }}</p>
-                    <a class="card-link"><small class="text-muted">{{ this.post.timePosted }}</small></a>
-                    <span id='replyTriggerButton' class="card-link" onclick="toggleReplyDiv('post{{ this.id }}replyList')"><small class="text-muted">{{ this.post.replyCount }} replies</small></span>
+                    <p class="card-text">{{ this.details }}</p>
+                    <a class="card-link"><small class="text-muted">{{ this.timePosted }}</small></a>
+                    <span id='replyTriggerButton' class="card-link" onclick="toggleReplyDiv('post{{ this.id }}replyList')"><small class="text-muted">{{ this.replyCount }} replies</small></span>
                 </div>
                 <div id='post{{ this.id }}replyList' class="postReplyMainDiv">
                     {{#each this.postReplies}}
@@ -24,9 +24,7 @@
                         <div id='addReplyDiv'>
                             <textarea class="replyDetail" placeholder="add your reply....." rows='2' cols='35'
                                 name='replyDetail' required></textarea>
-                            <input type='hidden' name='replyParent' value='{{ this.post.postID }}' />
-                            <input type='hidden' name='replyCreatorID' value='{{ this.currentUserID }}' />
-                            <input type='hidden' name='creatorProfileUrl' value='{{ this.currentUserProfileUrl }}' />
+                            <input type='hidden' name='replyParent' value='{{ this.postID }}' />
                         </div>
                         <div>
                             <input type="submit" id='replybtn' value='Comment' />

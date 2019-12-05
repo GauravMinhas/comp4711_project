@@ -23,10 +23,9 @@ function addReply(reply) {
     parent: reply.parent,
     details: reply.details,
     creator: reply.creatorID,
-    creatorProfileUrl: reply.creatorProfileUrl,
   };
-  const sql = 'INSERT INTO reply (parent, details, creatorID, creatorProfileUrl) VALUES (?, ?, ?, ?);';
-  return db.query(sql, [r.parent, r.details, r.creator, r.creatorProfileUrl]);
+  const sql = 'INSERT INTO reply (parent, details, creatorID) VALUES (?, ?, ?);';
+  return db.query(sql, [r.parent, r.details, r.creator]);
 }
 
 function addPostReply(reply) {

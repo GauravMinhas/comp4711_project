@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userAuth = require('../models/userAuth');
+const userProfile = require('../models/userProfile');
 
 const app = express();
 
@@ -60,9 +61,13 @@ exports.login = (req, res) => {
     /* Set the session info here, with userAuth table rows. */
     // eslint-disable-next-line prefer-destructuring
     req.session.userAuth = rows[0];
-    res.cookie('userID', rows[0].userAuthID);
+    const userAuthID = rows[0].userAuthID;
+
     if (rows[0].userPassword === userAuthData.password) {
-      res.redirect(301, '/main');
+      userProfile.retrieveUserInfo(userAuthID).then(([data]) => {
+        res.cookie('userID', data[0].userInfoID);
+        res.redirect(301, '/main');
+      });
     } else {
       /* When we have session set up, we should actually re-render this page
          with appropriate warning message on the front-end. */

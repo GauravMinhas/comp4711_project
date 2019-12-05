@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userProfile = require('../models/userProfile');
 const userAuth = require('../models/userAuth');
+const replyModel = require('../models/reply');
 
 const app = express();
 
@@ -9,26 +10,43 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+// get date in MON DD, YYYY format
+function ddmmmyyyy(time) {
+  return (new Date(time)).toLocaleDateString('default', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
 exports.getProfile = (req, res) => {
-/* Id from the param is the userInfoID, therefore made an update
-to the userProfile controller method. */
+  /* Id from the param is the userInfoID, therefore made an update
+  to the userProfile controller method. */
   const { id } = req.params;
   userProfile.retrieveUserInfoWithInfoID(id).then(([data]) => {
     const userData = data[0];
     userProfile.getUserPosts(id).then((posts) => {
-      res.render('profile', {
-        pageTitle: `${userData.userName} - Profile`,
-        profilepageCSS: true,
-        userInfo: userData,
-        posts,
-        latestPosts: '',
-        topicList: [
-          'php',
-          'nodejs',
-          'java',
-          'sql',
-          'zend',
-        ],
+      replyModel.getAllReplies().then(([replies]) => {
+        userProfile.getIDAndProfileURL().then(([photos]) => {
+          replies.forEach(reply => {
+            reply.creatorProfileURL = photos.find(photo => photo.userInfoID == reply.creatorID).profileURL;
+          });
+          posts.forEach((post) => {
+            post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
+            post.postReplies = replies.filter((reply) => reply.parent === post.postID);
+            post.timePosted = ddmmmyyyy(post.timePosted);
+          });
+
+          res.render('profile', {
+            pageTitle: `${userData.userName} - Profile`,
+            profilepageCSS: true,
+            userInfo: userData,
+            posts,
+            topicList: [
+              'php',
+              'nodejs',
+              'java',
+              'sql',
+              'zend',
+            ],
+          });
+        });
       });
     });
   });
@@ -36,9 +54,8 @@ to the userProfile controller method. */
 
 exports.editProfile = (req, res) => {
   const { userID } = req.cookies;
-  userProfile.retrieveUserInfo(userID).then(([data]) => {
+  userProfile.retrieveUserInfoWithInfoID(userID).then(([data]) => {
     const userData = data[0];
-    console.table(userData);
     res.render('edit-profile', {
       data: userData,
       editProfileCSS: true,

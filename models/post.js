@@ -8,14 +8,13 @@ function getPost(id) {
   return db.execute(`SELECT * FROM post WHERE postID = '${id}'`)
     .then(([data]) => {
       const post = {
-        id: data[0].postID,
+        postID: data[0].postID,
         title: data[0].title,
         details: data[0].details,
-        creator: data[0].creatorID,
-        creatorProfileUrl: data[0].creatorProfileUrl,
+        creatorID: data[0].creatorID,
         tags: data[0].tags,
         replyCount: data[0].replyCount,
-        timeposted: data[0].timePosted,
+        timePosted: data[0].timePosted,
         // replyList: replyModel.getReplyList(this),
       };
       return post;
@@ -39,10 +38,10 @@ function getPostId(post) {
 
 // make a new post
 function addPost(post) {
-  const sql = 'INSERT INTO post (title, details, creatorID, creatorProfileUrl, tags) VALUES (?, ?, ?, ?, ?);';
+  const sql = 'INSERT INTO post (title, details, creatorID, tags) VALUES (?, ?, ?, ?);';
   /* Replaced to db.query, to allow apostrophe input. */
   // eslint-disable-next-line max-len
-  return db.query(sql, [post.title, post.details, post.creatorID, post.creatorProfileUrl, post.tags]);
+  return db.query(sql, [post.title, post.details, post.creatorID, post.tags]);
 }
 
 // update user_post table with new post
