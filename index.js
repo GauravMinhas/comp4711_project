@@ -23,6 +23,14 @@ app.engine(
 );
 app.set('view engine', 'hbs');
 
+//We dont want anyone else to access the previous pages if they logout
+app.use(function noCachePlease(req, res, next) {
+  res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.header("Pragma", "no-cache");
+  res.header("Expires", 0);
+  next();
+});
+
 app.use(
   session({
     secret: 'secret',
