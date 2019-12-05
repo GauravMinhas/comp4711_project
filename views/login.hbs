@@ -13,6 +13,12 @@
             <input class='mid' type='password' name='password' placeholder='password' required />
             <input class='btn' type='submit' value='login'>
         </form>
+        {{#if loginFailed}}
+        <p class='errorMessage'>Invalid Credentials. Please enter the correct password.</p>
+        {{/if}}
+        {{#if noExistingUser}}
+        <p class='errorMessage'>Invalid Credentials. No matching email address found.</p>
+        {{/if}}
         <p id="mainBody">Join the world's largest community for knowledge sharing</p>
         <form action='/register' method='POST'>
             <div>

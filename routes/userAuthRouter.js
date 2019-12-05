@@ -9,6 +9,8 @@ router.get('/', (req, res) => {
     pageTitle: 'Knowledge Base - Login',
     loginImageLink: 'images/vector-knowledge.jpg',
     loginCSS: true,
+    loginFailed: false,
+    noExistingUser: false,
   });
 });
 /* Route for existing users to directly log in to the main page. */

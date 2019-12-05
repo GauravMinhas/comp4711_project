@@ -62,3 +62,8 @@ a {
 #searchBar {
     width: 60%;
 }
+
+.errorMessage {
+    color:red;
+    font-weight: bold;
+}

@@ -61,7 +61,13 @@ exports.login = (req, res) => {
     /* Set the session info here, with userAuth table rows. */
     // eslint-disable-next-line prefer-destructuring
     if (rows.length == 0) {
-      res.redirect(301, '/');
+      res.render('login', {
+        pageTitle: 'Knowledge Base - Login',
+        loginImageLink: 'images/vector-knowledge.jpg',
+        loginCSS: true,
+        loginFailed: false,
+        noExistingUser: true,
+      });
     }
     req.session.userAuth = rows[0];
     const userAuthID = rows[0].userAuthID;
@@ -74,7 +80,13 @@ exports.login = (req, res) => {
     } else {
       /* When we have session set up, we should actually re-render this page
          with appropriate warning message on the front-end. */
-      res.redirect(301, '/');
+      res.render('login', {
+        pageTitle: 'Knowledge Base - Login',
+        loginImageLink: 'images/vector-knowledge.jpg',
+        loginCSS: true,
+        loginFailed: true,
+        noExistingUser: false,
+      });
     }
   });
 };
