@@ -17,7 +17,6 @@ exports.addPost = (req, res) => {
     title: req.body.postSubject,
     details: req.body.postDetail,
     creatorID: req.body.creatorID,
-    creatorProfileUrl: req.body.creatorProfileUrl,
     tags: req.body.postTag,
   };
   post.addPost(postData).then(() => {

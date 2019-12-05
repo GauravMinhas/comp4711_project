@@ -18,12 +18,20 @@
                         {{!-- <script>console.log({{userInfo.posts}})</script>
                         <script>console.log({{userInfo.userInfoID}})</script> --}}
                     </ul>
-                    <ul class="list-inline">
-                        <a href="/threads">
+                    {{#if hasMessages}}
+                        <ul class="list-inline">
+                            <a href="/threads">
+                                <li class="list-inline-item">Messages</li>
+                                <li class="list-inline-item">{{ userInfo.threads }}</li>
+                            </a>
+                        </ul>
+                    {{else}}
+                        <ul class="list-inline">
                             <li class="list-inline-item">Messages</li>
                             <li class="list-inline-item">{{ userInfo.threads }}</li>
-                        </a>
-                    </ul>
+                        </ul>
+                    {{/if}}
+                    
                     <ul class="list-inline">
                         <li class="list-inline-item">Likes</li>
                         <li class="list-inline-item">{{ userInfo.stars }}</li>
@@ -44,7 +52,6 @@
                         <textarea class="postDetail" placeholder="explain in detail ....." rows='6'
                             name='postDetail' required></textarea>
                         <input type='hidden' name='creatorID' value='{{ userInfo.userInfoID }}'/>
-                        <input type='hidden' name='creatorProfileUrl' value='{{ userInfo.profileUrl }}'>
                     </div>
                     <div>
                         <select class="topicList" name='postTag' required>

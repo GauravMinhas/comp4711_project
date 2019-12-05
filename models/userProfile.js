@@ -17,8 +17,12 @@ function getPostList(id) {
   });
 }
 
-function getNameAndPhoto(userAuthID) {
-  return db.execute(`SELECT userName, profileURL FROM userinfo WHERE userAuthID = '${userAuthID}';`);
+function getNameAndPhoto(userInfoID) {
+  return db.execute(`SELECT userName, profileURL FROM userinfo WHERE userInfoID = '${userInfoID}';`);
+}
+
+function getIDAndProfileURL() {
+  return db.execute(`SELECT userInfoID, profileURL FROM userinfo;`);
 }
 
 module.exports = {
@@ -26,4 +30,5 @@ module.exports = {
   retrieveUserInfoWithInfoID: getUserInfoWithInfo,
   getUserPosts: getPostList,
   getNameAndPhoto,
+  getIDAndProfileURL,
 };
