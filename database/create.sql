@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS userauth (
 CREATE TABLE IF NOT EXISTS userinfo (
 	userInfoID int auto_increment NOT NULL,
     userAuthID int NOT NULL UNIQUE,
-    userName varchar(20),
+    userName varchar(40),
     profileUrl varchar(150),
     statementOfIntent varchar(150) DEFAULT " ",
     country varchar(30) DEFAULT "Canada",
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS userinfo (
 CREATE TABLE IF NOT EXISTS post (
 	postID int auto_increment NOT NULL,
     title varchar(150) NOT NULL,
-    details varchar(60000) NOT NULL,
+    details varchar(20000) NOT NULL,
     creatorID int NOT NULL,
     tags varchar(150) DEFAULT "none",
     replyCount int DEFAULT 0,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS post (
 CREATE TABLE IF NOT EXISTS reply (
 	replyID int auto_increment NOT NULL,
     parent int NOT NULL,
-    details varchar(60000) NOT NULL,
+    details varchar(20000) NOT NULL,
     creatorID int NOT NULL,
     timePosted timestamp DEFAULT current_timestamp,
     PRIMARY KEY(replyID),
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS reply (
 CREATE TABLE IF NOT EXISTS message (
 	messageID int auto_increment NOT NULL,
     senderID int NOT NULL,
-    details varchar(60000) NOT NULL,
+    details varchar(20000) NOT NULL,
     timePosted timestamp DEFAULT current_timestamp,
     PRIMARY KEY(messageID),
     FOREIGN KEY(senderID) REFERENCES userinfo(userInfoID)
