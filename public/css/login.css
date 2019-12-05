@@ -51,3 +51,14 @@ input {
 #btn {
     width: 23.5em;
 }
+
+body {
+    padding: 1em;
+}
+a {
+    text-decoration: none !important;
+}
+
+#searchBar {
+    width: 60%;
+}

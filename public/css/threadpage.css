@@ -1,3 +1,7 @@
+h1, p, div, input {
+  font-family: Tahoma, sans-serif;
+}
+
 .user-list {
   display: inline-table;
   width: 100%;
@@ -11,6 +15,22 @@
 .image-small {
   height: 60px;
   width: 60px;
+}
+
+#color {
+  color: skyblue;
+}
+
+#logo {
+  font-size: 3em;
+  color: black;
+}
+
+#btn, .btn {
+  color:white;
+  background-color: dodgerblue;
+  border-style: none;
+  padding: 0.5em;
 }
 
 
@@ -89,4 +109,15 @@ textarea {
 .message-content p {
   margin-bottom: 0;
   font-weight: bold;
+}
+
+body {
+  padding: 1em;
+}
+a {
+  text-decoration: none !important;
+}
+
+#searchBar {
+  width: 60%;
 }

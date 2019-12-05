@@ -20,6 +20,7 @@ input[type=detail] {
 
 #logo {
     font-size: 3em;
+    color: black;
 }
 
 /* Profile Image CSS Section */
@@ -185,4 +186,15 @@ select {
 .post-list {
     margin: 0 auto;
     width: 70%;
+}
+
+body {
+    padding: 1em;
+}
+a {
+    text-decoration: none !important;
+}
+
+#searchBar {
+    width: 60%;
 }

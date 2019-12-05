@@ -60,6 +60,7 @@ textarea {
 
 #logo {
     font-size: 3em;
+    color: black;
 }
 
 #profileImg {
@@ -67,4 +68,15 @@ textarea {
     width: 6em;
     height: 6em;
     border: 1px solid;
+}
+
+body {
+    padding: 1em;
+}
+a {
+    text-decoration: none !important;
+}
+
+#searchBar {
+    width: 60%;
 }

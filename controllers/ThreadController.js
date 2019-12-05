@@ -21,14 +21,13 @@ function getMessagesForThreads(threadID) {
       data.forEach(({ messageID }, index) => {
         list[index] = messages.getMessage(messageID)
           .then(([row]) => {
-
+            // eslint-disable-next-line max-len
             const message = { senderID: row[0].senderID, text: row[0].details, timePosted: row[0].timePosted };
             return message;
           });
       });
-      return Promise.all(list)
+      return Promise.all(list);
     });
-
 }
 
 function getThreadsForUser(id) {
@@ -38,19 +37,24 @@ function getThreadsForUser(id) {
       data.forEach(({ threadID }, index) => {
         list[index] = threads.getThread(threadID)
           .then(([row]) => {
-            const other = (row[0].user1ID == id ? row[0].user2ID : row[0].user1ID);
+            const other = (row[0].user1ID === id ? row[0].user2ID : row[0].user1ID);
             return { userID: other, threadID };
           });
       });
       list = [{ userID: id, threadID: 0 }, ...list];
-      return Promise.all(list).then(userList => {
-        const nameAndPhoto = []
+      return Promise.all(list).then((userList) => {
+        const nameAndPhoto = [];
         userList.forEach((user, index) => {
-          nameAndPhoto[index] = userProfile.getNameAndPhoto(user.userID).then(([data]) => {
-            const person = { userName: data[0].userName, profileURL: data[0].profileURL, threadID: user.threadID, userID: user.userID };
+          nameAndPhoto[index] = userProfile.getNameAndPhoto(user.userID).then(([namePhoto]) => {
+            const person = {
+              userName: namePhoto[0].userName,
+              profileURL: namePhoto[0].profileURL,
+              threadID: user.threadID,
+              userID: user.userID,
+            };
             return getMessagesForThreads(user.threadID)
-              .then(messages => {
-                person.messages = messages;
+              .then((messageData) => {
+                person.messages = messageData;
                 return person;
               })
           });
@@ -61,22 +65,22 @@ function getThreadsForUser(id) {
 }
 
 exports.getThreads = (req, res) => {
-  userID = req.cookies.userID;
-
+  const { userID } = req.cookies;
   getThreadsForUser(userID)
-    .then(finalList => {
+    .then((finalList) => {
       const [currentUser, ...users] = finalList;
-      users.forEach(user => {
+      users.forEach((user) => {
         // sort by latest
         user.messages.sort((a, b) => ((new Date(b.timePosted)) - (new Date(a.timePosted))));
         const latest = new Date(user.messages[0].timePosted);
+        // eslint-disable-next-line no-param-reassign
         user.latestMessageTime = `${latest.toLocaleString('default', { month: 'short' })} ${latest.getDate()}`;
-      })
+      });
       res.render('threads', {
         pageTitle: 'Threads',
         threadpageCSS: true,
         threads: users,
-        hasMessages: false
+        hasMessages: false,
       });
     });
 };
@@ -132,7 +136,7 @@ exports.getThread = (req, res) => {
         senderID,
         groups,
         hasMessages: true,
-        recieverID: other.userID
+        recieverID: other.userID,
       });
     });
 
@@ -147,9 +151,6 @@ exports.getThread = (req, res) => {
   //     });
   // });
 };
-
-
-
 
 exports.postdirectMessage = (req, res) => {
   const { id: recieverID } = req.params;

@@ -12,7 +12,6 @@ app.use(bodyParser.json());
 
 exports.getdirectMessage = (req, res) => {
   const { id: recieverID } = req.params;
-  const senderID = req.cookies.userID;
   userProfile.retrieveUserInfoWithInfoID(recieverID).then(([data]) => {
     const userData = data[0];
     res.render('direct-message', {
@@ -22,7 +21,6 @@ exports.getdirectMessage = (req, res) => {
     });
   });
 };
-
 
 exports.postdirectMessage = (req, res) => {
   const { id: recieverID } = req.params;
@@ -39,8 +37,7 @@ exports.postdirectMessage = (req, res) => {
       messages.insertMessage(data[0].threadID, senderID, message)
         .then(() => res.redirect(301, `/user/${recieverID}`));
     }
-
-  })
+  });
 };
 
 exports.postThreadMessage = (req, res) => {
@@ -59,5 +56,5 @@ exports.postThreadMessage = (req, res) => {
       messages.insertMessage(threadID, senderID, message)
         .then(() => res.redirect(301, `/threads/${threadID}`));
     }
-  })
+  });
 };

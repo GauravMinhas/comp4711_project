@@ -37,10 +37,16 @@ to the userProfile controller method. */
 exports.editProfile = (req, res) => {
   const { userID } = req.cookies;
   userProfile.retrieveUserInfo(userID).then(([data]) => {
-    const userData = data[0];
-    console.table(userData);
+    const formattedData = {
+      userName: data[0].userName.trim(),
+      profileUrl: data[0].profileUrl.trim(),
+      statementOfIntent: data[0].statementOfIntent.trim(),
+      country: data[0].country.trim(),
+      dateOfBirth: data[0].dateOfBirth,
+    };
     res.render('edit-profile', {
-      data: userData,
+      pageTitle: `${formattedData.userName} - Edit Profile`,
+      data: formattedData,
       editProfileCSS: true,
     });
   });

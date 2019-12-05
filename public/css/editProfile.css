@@ -1,4 +1,4 @@
-h1, p, div {
+h1, p, div, input {
   font-family: Tahoma, sans-serif;
 }
 img {
@@ -13,23 +13,14 @@ input, textarea {
   border-color: lightgrey;
   padding: 0.5em;
 }
-textarea {
-  margin: 0.5em;
-}
-.lg {
-  width: 22.5em;
-  margin: 0.5em;
-}
-.main {
-  display: flex;
-  padding: 2em;
-}
-.formDiv {
-  width: 50%;
+
+#color {
+  color: skyblue;
 }
 
-#logoBase {
-  color: skyblue;
+#logo {
+  font-size: 3em;
+  color: black;
 }
 
 #mainTitle, #mainBody {
@@ -38,17 +29,35 @@ textarea {
 #mainBody {
   width: 80%;
 }
-#btn, .btn {
-  color:dodgerblue;
-  background-color: white;
-  border: 2px solid dodgerblue;
-  padding: 0.5em;
+
+.formDiv {
+  width: 40%;
+  margin: auto;
 }
-#btn {
-  width: 22.5em;
+#btn, .btn {
+  color:white;
+  background-color: dodgerblue;
+  border-style: none;
+  padding: 0.5em;
 }
 
 #registrationForm {
   display: flex;
   flex-direction: column;
+}
+
+.editInput {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+body {
+  padding: 1em;
+}
+a {
+  text-decoration: none !important;
+}
+
+#searchBar {
+  width: 60%;
 }

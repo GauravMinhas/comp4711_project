@@ -9,16 +9,20 @@ function registerUserAuth(userData) {
 
 // put user's information into userinfo table
 function registerUserInfo(userData) {
-  const sql = `INSERT INTO userinfo (userAuthID, userName, profileUrl, statementOfIntent, country, dateOfBirth) VALUES (last_insert_id(), '${userData.name}', '${userData.profileurl}',?, ?, '${userData.dateofbirth}');`;
-  /* User's statement of intent is taken out as a query parameter to allow apostrophe inputs. */
-  return db.query(sql, userData.statement_of_intent, userData.country);
+  const sql = `INSERT INTO userinfo (userAuthID, userName, profileUrl, statementOfIntent, country, dateOfBirth) VALUES (last_insert_id(), '${userData.name}', '${userData.profileurl}', ?, ?, '${userData.dateofbirth}');`;
+  /* User's statement of intent is taken out as a query parameter to allow apostrophe inputs.
+     (Peter) */
+  return db.query(sql, [userData.statement_of_intent, userData.country]);
 }
 
-// put updated user's information into userinfo table
+/* put updated user's information into userinfo table.
+   Again, to allow apostrophe inputs, I've updated the db.execute to
+   db.query with parameters. (Peter)
+*/
 function updateUserInfo(userData) {
-  const sql = `UPDATE  userinfo SET userName = '${userData.name}', profileUrl = '${userData.profileurl}',statementOfIntent = '${userData.statement_of_intent}', country = '${userData.country}', dateOfBirth ='${userData.dateofbirth}' WHERE userInfoID = '${userData.userID}';`;
-  console.log(sql)
-  return db.execute(sql);
+  const sql = 'UPDATE userinfo SET userName = ?, profileUrl = ?, statementOfIntent = ?, country = ?, dateOfBirth = ? WHERE userAuthID = ?;';
+  return db.query(sql, [userData.name, userData.profileurl, userData.statement_of_intent,
+    userData.country, userData.dateofbirth, userData.userID]);
 }
 
 // get a user's id from userauth table with email
@@ -55,5 +59,5 @@ module.exports = {
   getId: getUserId,
   login: userLogin,
   dropUserAuth,
-  updateUserInfo
+  updateUserInfo,
 };

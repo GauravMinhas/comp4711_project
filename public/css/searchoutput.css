@@ -58,8 +58,13 @@ input {
     font-size: 3em;
 }
 
-/* searchoutput hbs specific CSS */
+body {
+    padding: 1em;
+}
+a {
+    text-decoration: none !important;
+}
 
-.postBody {
-    
+#searchBar {
+    width: 60%;
 }

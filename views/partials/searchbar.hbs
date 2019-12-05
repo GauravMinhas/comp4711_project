@@ -1,15 +1,23 @@
 <searchbar>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <nav class="navbar navbar-light">
-        <form class="form-inline" method='POST' action='/searchByTitle'>
-            <a class="navbar-brand" href="/main">
-                <p id='logo'>k<span id='color'>b</span></p>
-            </a>
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name='searchTitle'>
-            <input type='submit' hidden/>
-        </form>
-        <form method="GET" action='/'>
-            <input type="submit" id="btn" value='Logout'/>
-        </form>
-    </nav>
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-sm-1">
+                <a href="/main">
+                    <p id='logo'>k<span id='color'>b</span></p>
+                </a>
+            </div>
+            <div class="col-sm-10 align-self-center">
+                <form method='POST' action='/searchByTitle'>
+                    <input  id="searchBar" class="form-control" type="text" placeholder="Search" aria-label="Search" name='searchTitle'>
+                    <input type='submit' hidden />
+                </form>
+            </div>
+            <div class="col-sm-1 align-self-center">
+                <form method="GET" action='/'>
+                    <input type="submit" id="btn" value='Logout' />
+                </form>
+            </div>
+        </div>
+    </div>
 </searchbar>
