@@ -165,11 +165,12 @@ exports.postdirectMessage = (req, res) => {
     const message = req.body.subject + "\n" + req.body.message;
     threads.getThreadIDFromUsersID(senderID, recieverID).then(([data]) => {
       if (!data.length) {
-        threads.insertThread(senderID, recieverID)
-          .then(threadID => {
-            messages.insertMessage(threadID, senderID, message)
-              .then(() => res.redirect(301, `/user/${recieverID}`))
-          });
+        threads.insertThread(senderID, recieverID).then(()=>{
+          threads.incrementThreads(senderID, recieverID)
+        }).then(threadID => {
+          messages.insertMessage(threadID, senderID, message)
+            .then(() => res.redirect(301, `/user/${recieverID}`));
+        });
       } else {
         messages.insertMessage(data[0].threadID, senderID, message)
           .then(() => res.redirect(301, `/user/${recieverID}`))

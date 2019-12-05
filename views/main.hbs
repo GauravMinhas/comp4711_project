@@ -29,13 +29,15 @@
                         <div class="list-inline">
                             <a href="/threads">
                                 <li class="list-inline-item">Messages</li>
-                                <li class="list-inline-item">{{ userInfo.threads }}</li>
+                                {{!-- <li class="list-inline-item">{{ userInfo.threads }}</li> --}}
                             </a>
                         </div>
                     {{else}}
                         <div class="list-inline">
+                            <a href="/threads">
                             <li class="list-inline-item">Messages</li>
-                            <li class="list-inline-item">{{ userInfo.threads }}</li>
+                            {{!-- <li class="list-inline-item">{{ userInfo.threads }}</li> --}}
+                            </a>
                         </div>
                     {{/if}}
                     

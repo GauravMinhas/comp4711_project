@@ -56,15 +56,71 @@ input {
 
 #logo {
     font-size: 3em;
+    color: black;
 }
 
 body {
     padding: 1em;
 }
+
 a {
     text-decoration: none !important;
 }
 
 #searchBar {
     width: 60%;
+}
+
+/* Add Reply post.hbs CSS */
+
+#addReplyDiv {
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+#replybtn {
+    color: white;
+    background-color: dodgerblue;
+    border-style: none;
+    padding: 0.5em;
+    float: right;
+}
+/* A static js function has been created to handle toggling. */
+.postReplyMainDiv {
+    display: none;
+}
+
+#replyTriggerButton {
+    cursor: pointer;
+    float:right;
+}
+
+.postBody {
+    margin-left: 10em;
+}
+
+
+/* Reply Partial CSS */
+
+#replyProfileImg {
+    border-radius: 50%;
+    width: 4em;
+    height: 4em;
+    border: 1px solid;
+    margin: 1em;
+}
+
+#replyMainDiv {
+    width: 15em;
+    border: none;
+    padding: 2em;
+}
+
+#replyProfileDiv {
+    vertical-align: middle;
+    margin: auto;
+}
+
+#replyText {
+    margin: auto;
 }
