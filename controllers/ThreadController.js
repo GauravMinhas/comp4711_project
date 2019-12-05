@@ -12,8 +12,10 @@ app.use(bodyParser.json());
 
 function checkValid(req, res) {
   if (!req.cookies.userID) {
-    res.redirect(301, '/');
+    res.redirect(302, '/');
+    return false;
   }
+  return true;
 }
 
 function getMessagesForThreads(threadID) {
@@ -74,25 +76,26 @@ function getThreadsForUser(id) {
 }
 
 exports.getThreads = (req, res) => {
-  checkValid(req, res);
-  const { userID } = req.cookies;
-  getThreadsForUser(userID)
-    .then((finalList) => {
-      const [currentUser, ...users] = finalList;
-      users.forEach((user) => {
-        // sort by latest
-        user.messages.sort((a, b) => ((new Date(b.timePosted)) - (new Date(a.timePosted))));
-        const latest = new Date(user.messages[0].timePosted);
-        // eslint-disable-next-line no-param-reassign
-        user.latestMessageTime = `${latest.toLocaleString('default', { month: 'short' })} ${latest.getDate()}`;
+  if (checkValid(req, res)) {
+    const { userID } = req.cookies;
+    getThreadsForUser(userID)
+      .then((finalList) => {
+        const [currentUser, ...users] = finalList;
+        users.forEach((user) => {
+          // sort by latest
+          user.messages.sort((a, b) => ((new Date(b.timePosted)) - (new Date(a.timePosted))));
+          const latest = new Date(user.messages[0].timePosted);
+          // eslint-disable-next-line no-param-reassign
+          user.latestMessageTime = `${latest.toLocaleString('default', { month: 'short' })} ${latest.getDate()}`;
+        });
+        res.render('threads', {
+          pageTitle: 'Threads',
+          threadpageCSS: true,
+          threads: users,
+          hasMessages: false,
+        });
       });
-      res.render('threads', {
-        pageTitle: 'Threads',
-        threadpageCSS: true,
-        threads: users,
-        hasMessages: false,
-      });
-    });
+  }
 };
 
 function hhmmxm(time) {
@@ -114,70 +117,63 @@ function makeGroups(messages) {
 }
 
 exports.getThread = (req, res) => {
-  checkValid(req, res);
-  const senderID = req.cookies.userID;
-  const { id: threadID } = req.params;
-  getThreadsForUser(senderID)
-    .then(finalList => {
-      const [currentUser, ...users] = finalList;
-      users.forEach(user => {
-        // sort by latest
-        // user.messages.sort((a, b) => ((new Date(b.timePosted)) - (new Date(a.timePosted))));
-        const latest = new Date(user.messages[user.messages.length - 1].timePosted);
-        user.latestMessageTime = `${latest.toLocaleString('default', { month: 'short' })} ${latest.getDate()}`;
-        user.latestMessageSubject = user.messages[user.messages.length - 1].text.split('\n')[0];
-      });
-      const other = users.find(user => user.threadID == threadID);
-      const messages = other.messages;
-      messages.forEach(message => {
-        if (message.senderID == senderID) {
-          message.senderURL = currentUser.profileURL;
-          message.userName = currentUser.userName;
-        } else {
-          message.senderURL = other.profileURL;
-          message.userName = other.userName;
-        }
-      })
+  if (checkValid(req, res)) {
+    const senderID = req.cookies.userID;
+    const { id: threadID } = req.params;
+    getThreadsForUser(senderID)
+      .then(finalList => {
+        const [currentUser, ...users] = finalList;
+        users.forEach(user => {
+          // sort by latest
+          // user.messages.sort((a, b) => ((new Date(b.timePosted)) - (new Date(a.timePosted))));
+          const latest = new Date(user.messages[user.messages.length - 1].timePosted);
+          user.latestMessageTime = `${latest.toLocaleString('default', { month: 'short' })} ${latest.getDate()}`;
+          user.latestMessageSubject = user.messages[user.messages.length - 1].text.split('\n')[0];
+        });
+        const other = users.find(user => user.threadID == threadID);
+        const messages = other.messages;
+        messages.forEach(message => {
+          if (message.senderID == senderID) {
+            message.senderURL = currentUser.profileURL;
+            message.userName = currentUser.userName;
+          } else {
+            message.senderURL = other.profileURL;
+            message.userName = other.userName;
+          }
+        })
 
-      const groups = makeGroups(messages);
-      res.render('threads', {
-        pageTitle: 'Threads',
-        threadpageCSS: true,
-        threads: users,
-        senderID,
-        groups,
-        hasMessages: true,
-        recieverID: other.userID,
+        const groups = makeGroups(messages);
+        res.render('threads', {
+          pageTitle: 'Threads',
+          threadpageCSS: true,
+          threads: users,
+          senderID,
+          groups,
+          hasMessages: true,
+          recieverID: other.userID,
+        });
       });
-    });
 
-  // const { id: recieverID } = req.params;
-  // senderID = req.cookies.userID;
-  // userProfile.retrieveUserInfo(recieverID).then(([data]) => {
-  //     const userData = data[0];
-  //     res.render('direct-message', {
-  //         pageTitle: `Message ${userData.userName}`,
-  //         dmpageCSS: true,
-  //         userInfo: userData,
-  //     });
-  // });
+
+  }
 };
 
 exports.postdirectMessage = (req, res) => {
-  checkValid(req, res);
-  const { id: recieverID } = req.params;
-  senderID = req.cookies.userID;
-  const message = req.body.subject + "\n" + req.body.message;
-  threads.getThreadIDFromUsersID(senderID, recieverID).then(([data]) => {
-    if (!data.length) {
-      threads.insertThread(senderID, recieverID)
-        .then(threadID => {
-          messages.insertMessage(threadID, senderID, message)
-            .then(() => res.redirect(301, `/user/${recieverID}`))
-        });
-    } else {
-      messages.insertMessage(data[0].threadID, senderID, message)
-        .then(() => res.redirect(301, `/user/${recieverID}`))
-    }
-  })
+  if (checkValid(req, res)) {
+    const { id: recieverID } = req.params;
+    senderID = req.cookies.userID;
+    const message = req.body.subject + "\n" + req.body.message;
+    threads.getThreadIDFromUsersID(senderID, recieverID).then(([data]) => {
+      if (!data.length) {
+        threads.insertThread(senderID, recieverID)
+          .then(threadID => {
+            messages.insertMessage(threadID, senderID, message)
+              .then(() => res.redirect(301, `/user/${recieverID}`))
+          });
+      } else {
+        messages.insertMessage(data[0].threadID, senderID, message)
+          .then(() => res.redirect(301, `/user/${recieverID}`))
+      }
+    })
+  }
 };

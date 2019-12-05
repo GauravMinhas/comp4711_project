@@ -27,7 +27,7 @@ exports.register = (req, res) => {
 };
 
 /* calls the api functions for registration, insert the data into userauth and userinfo
-   we should probably block invalid input in front-end, which is easier to handle */
+we should probably block invalid input in front-end, which is easier to handle */
 exports.signup = (req, res) => {
   const userAuthData = {
     password: req.body.password,

@@ -20,89 +20,93 @@ app.use(bodyParser.json());
 
 function checkValid(req, res) {
   if (!req.cookies.userID) {
-    res.redirect(301, '/');
+    res.redirect(302, '/');
+    return false;
   }
+  return true;
 }
 
 exports.getMain = (req, res) => {
-  checkValid(req, res);
-  const userInfoID = req.cookies.userID;
-  userProfile.retrieveUserInfoWithInfoID(userInfoID).then(([data]) => {
-    const userData = data[0];
-    const postData = [];
-    let myPostCount = 0;
-    postModel.getAllPosts().then(([postResult]) => {
-      replyModel.getAllReplies().then(([replies]) => {
-        userProfile.getIDAndProfileURL().then(([photos]) => {
-          replies.forEach(reply => {
-            reply.creatorProfileURL = photos.find(photo => photo.userInfoID == reply.creatorID).profileURL;
-          })
-          postResult.forEach((post) => {
-            post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
-          });
-          postResult.forEach((elem) => {
-            if (elem.creatorID == userInfoID) myPostCount++;
-            postData.push({
-              ...elem,
-              postReplies: replies.filter((reply) => reply.parent === elem.postID),
-              timePosted: ddmmmyyyy(elem.timePosted),
+  if (checkValid(req, res)) {
+    const userInfoID = req.cookies.userID;
+    userProfile.retrieveUserInfoWithInfoID(userInfoID).then(([data]) => {
+      const userData = data[0];
+      const postData = [];
+      let myPostCount = 0;
+      postModel.getAllPosts().then(([postResult]) => {
+        replyModel.getAllReplies().then(([replies]) => {
+          userProfile.getIDAndProfileURL().then(([photos]) => {
+            replies.forEach(reply => {
+              reply.creatorProfileURL = photos.find(photo => photo.userInfoID == reply.creatorID).profileURL;
+            })
+            postResult.forEach((post) => {
+              post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
             });
-          });
-          res.render('main', {
-            pageTitle: 'Knowledge Base - Main Page',
-            mainpageCSS: true,
-            userInfo: userData,
-            hasMessages: !!userData.threads,
-            hasPosts: myPostCount != 0,
-            posts: postData,
-            topicList: [
-              'php',
-              'nodejs',
-              'java',
-              'sql',
-              'zend',
-            ],
+            postResult.forEach((elem) => {
+              if (elem.creatorID == userInfoID) myPostCount++;
+              postData.push({
+                ...elem,
+                postReplies: replies.filter((reply) => reply.parent === elem.postID),
+                timePosted: ddmmmyyyy(elem.timePosted),
+              });
+            });
+            res.render('main', {
+              pageTitle: 'Knowledge Base - Main Page',
+              mainpageCSS: true,
+              userInfo: userData,
+              hasMessages: !!(userData && userData.threads),
+              hasPosts: myPostCount != 0,
+              posts: postData,
+              topicList: [
+                'php',
+                'nodejs',
+                'java',
+                'sql',
+                'zend',
+              ],
+            });
           });
         });
       });
     });
-  });
+  }
 };
 
 
 
 exports.getPosts = (req, res) => {
-  checkValid(req, res);
-  const userInfoID = req.cookies.userID;
-  userProfile.retrieveUserInfoWithInfoID(userInfoID).then(([data]) => {
-    const userData = data[0];
-    userProfile.getUserPosts(userInfoID).then((posts) => {
-      replyModel.getAllReplies().then(([replies]) => {
-        userProfile.getIDAndProfileURL().then(([photos]) => {
-          replies.forEach(reply => {
-            reply.creatorProfileURL = photos.find(photo => photo.userInfoID == reply.creatorID).profileURL;
-          });
-          posts.forEach((post) => {
-            post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
-            post.postReplies = replies.filter((reply) => reply.parent === post.postID);
-            post.timePosted = ddmmmyyyy(post.timePosted);
-          });
-          res.render('main-posts', {
-            pageTitle: 'Knowledge Base - Posts Page',
-            mainpageCSS: true,
-            userInfo: userData,
-            hasMessages: !!userData.threads,
-            posts,
-            topicList: [
-              'php',
-              'nodejs',
-              'java',
-              'sql',
-              'zend',
-            ],
+  if (checkValid(req, res)) {
+    const userInfoID = req.cookies.userID;
+    userProfile.retrieveUserInfoWithInfoID(userInfoID).then(([data]) => {
+      const userData = data[0];
+      userProfile.getUserPosts(userInfoID).then((posts) => {
+        replyModel.getAllReplies().then(([replies]) => {
+          userProfile.getIDAndProfileURL().then(([photos]) => {
+            replies.forEach(reply => {
+              reply.creatorProfileURL = photos.find(photo => photo.userInfoID == reply.creatorID).profileURL;
+            });
+            posts.forEach((post) => {
+              post.creatorProfileURL = photos.find(photo => photo.userInfoID == post.creatorID).profileURL;
+              post.postReplies = replies.filter((reply) => reply.parent === post.postID);
+              post.timePosted = ddmmmyyyy(post.timePosted);
+            });
+            res.render('main-posts', {
+              pageTitle: 'Knowledge Base - Posts Page',
+              mainpageCSS: true,
+              userInfo: userData,
+              hasMessages: !!(userData && userData.threads),
+              posts,
+              topicList: [
+                'php',
+                'nodejs',
+                'java',
+                'sql',
+                'zend',
+              ],
+            });
           });
         });
       });
     });
-  });
+  }
 }

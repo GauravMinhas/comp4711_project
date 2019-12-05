@@ -5,7 +5,7 @@ const router = express.Router();
 /* Logs the user out, and redirects to the login page. */
 router.post('/logout', (req, res) => {
   res.clearCookie('userID')
-  res.redirect(301, '/');
+  res.redirect(302, '/');
 });
 
 /* Working in progress */
