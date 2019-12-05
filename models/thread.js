@@ -14,9 +14,13 @@ function insertThread(user1ID, user2ID) {
     .then((resp) => {
       const threadID = resp[0].insertId;
       return db.execute(`INSERT INTO user_thread (userID, threadID) VALUES ('${user1ID}', '${threadID}'), ('${user2ID}', '${threadID}');`)
-        .then(() => db.execute(`INSERT INTO userinfo (userInfoID, userAuthID) VALUES ('${user1ID}', ${user1ID}), ('${user2ID}', ${user2ID}) ON DUPLICATE KEY UPDATE threads = threads + 1;`)
-          .then(() => threadID));
+        .then(() => threadID);
     });
+}
+
+function incrementThreads(user1ID, user2ID) {
+  return db.execute(`UPDATE userinfo SET threads = threads + 1 WHERE userInfoID LIKE '${user1ID}' OR userInfoID LIKE '${user2ID}';`)
+
 }
 
 function insertMessageID(threadID, messageID) {
@@ -35,4 +39,5 @@ module.exports = {
   insertMessageID,
   getThread,
   getThreadIDFromUsersID,
+  incrementThreads,
 };
