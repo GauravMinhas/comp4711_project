@@ -33,9 +33,15 @@ input[type=detail] {
 }
 
 #profileUser {
-    text-align: center;
+    margin-left: 10em;
 }
-
+ul {
+    margin: 0;
+    padding: 0;
+}
+#mainPageprofileDescription {
+    color:gray;
+}
 #profileName {
     font-size: 2em;
 }

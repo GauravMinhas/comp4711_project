@@ -2,15 +2,15 @@
     <div>
         {{>searchbar}}
     </div>
-    <div id="main" class="main col">
+    <div id="profileMain" class="main col">
         <div class="main-actions">
             <div id='profileMainDiv'>
                 <div id="profileUser">
                     <div>
                         <img id="profileImg" src="{{ userInfo.profileUrl }}" alt="{{ userInfo.userName }}" />
                         <p class="font-weight-light" id="profileName">{{ userInfo.userName }}</p>
-                        <p class="font-weight-light" id="profileDescribtion">{{ userInfo.statementOfIntent }}</p>
-                        <p class="font-weight-light" id="profileDescribtion">{{ userInfo.country }}</p>
+                        <p id="profileDescription">{{ userInfo.statementOfIntent }}</p>
+                        <p id="profileDescriptionCountry">{{ userInfo.country }}</p>
                     </div>
                 </div>
             </div>
@@ -22,23 +22,21 @@
                 </form>
                 {{/if}}
                 <div class="one-line">
-                    <li class="list-inline-item">{{ userInfo.stars }}</li>
-                    <li class="list-inline-item">Likes</li>
+                    <span class="profilePostText">{{ userInfo.stars }} Likes</span>
                     {{#if showDMButton}}
-                    <form method="POST" class="list-inline-item" action='/like/{{userInfo.userInfoID}}'>
-                        <input type="submit"  class="plus like-btn" value='+'/>
+                    <form method="POST" action='/like/{{userInfo.userInfoID}}'>
+                        <input type="submit" class="plus-like-btn" value='+'/>
                     </form>
                     {{/if}}
                 </div>
-                <ul class="list-inline">
-                    <li class="list-inline-item">{{userInfo.posts}}</li>
-                    <li class="list-inline-item">Posts</li>
-                </ul>
+                <div class='profilePostTextDiv'>
+                    <span class="profilePostText">{{userInfo.posts}} Posts</span>
+                </div>
             </div> 
         </div>
         <div class="posts">
-            <div>
-                <label id='latestDiscussion'>Posts by {{userInfo.userName}}</label>
+            <div id='postLabelDiv'>
+                <label id='latestDiscussion'>All Posts by {{userInfo.userName}}:</label>
             </div>
             <div class="post-list" >
               {{#each posts}}

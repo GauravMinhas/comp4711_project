@@ -26,16 +26,22 @@ input[type=detail] {
 /* Profile Image CSS Section */
 #profileImg {
     border-radius: 50%;
-    width: 10em;
-    height: 10em;
+    width: 15em;
+    height: 15em;
     border: 1px solid;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 #profileUser {
     text-align: center;
 }
+#profileDescription {
+    font-size: 1.3em;
+}
 
+#profileDescriptionCountry {
+    font-size: 1.3em;
+}
 #profileName {
     font-size: 2em;
 }
@@ -100,6 +106,7 @@ select {
 }
 #searchByTopic, #latestDiscussion {
     font-size: 1.5em;
+    font-weight: bold;
 }
 /* Post partial css section */
 .postMainDiv {
@@ -120,7 +127,9 @@ select {
     vertical-align: middle;
     height: 100%;
 }
-
+#postLabelDiv {
+    margin-left: 8em;
+}
 .postHeaderDiv {
     display: flex;
     justify-content: space-between;
@@ -156,9 +165,9 @@ select {
     flex-direction: column;
 }
 
-#main {
+#profileMain {
     margin: auto;
-    width: 50%;
+    margin-left: 10em;
 }
 
 .main-actions {
@@ -176,11 +185,21 @@ select {
     color: white;
     background-color: dodgerblue;
     padding: 0.5em;
+    width: 10em;
+}
+
+.plus-like-btn {
+    color: white;
+    background-color: dodgerblue;
+    padding: 0.5em;
+    width: 3em;
+    border-radius: 50%;
 }
 
 .one-line {
     display: flex;
-    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: -1.5em;
 }
 
 .post-list {
@@ -188,6 +207,11 @@ select {
     width: 70%;
 }
 
+.profilePostText {
+    color:dodgerblue;
+    font-weight: bold;
+    font-size: 1.3em;
+}
 body {
     padding: 1em;
 }
@@ -195,6 +219,9 @@ a {
     text-decoration: none !important;
 }
 
+.profilePostTextDiv {
+    text-align: left;
+}
 #searchBar {
     width: 60%;
 }
